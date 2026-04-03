@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 · Clase 2 — Introducción a Arduino</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul:       #1A56DB;
+    --azul-claro: #3B82F6;
+    --azul-bg:    #EFF6FF;
+    --verde:      #059669;
+    --verde-bg:   #ECFDF5;
+    --naranja:    #D97706;
+    --naranja-bg: #FFFBEB;
+    --rojo:       #DC2626;
+    --rojo-bg:    #FEF2F2;
+    --gris-900:   #111827;
+    --gris-800:   #1F2937;
+    --gris-700:   #374151;
+    --gris-400:   #9CA3AF;
+    --gris-200:   #E5E7EB;
+    --gris-100:   #F3F4F6;
+    --gris-50:    #F9FAFB;
+    --blanco:     #FFFFFF;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--blanco);
+    color: var(--gris-800);
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--gris-900);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 32px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--gris-400);
+    margin-bottom: 16px;
+    font-family: var(--mono);
+    letter-spacing: .5px;
+  }
+  .breadcrumb-sep { color: #4B5563; }
+  .breadcrumb-current { color: #60A5FA; }
+  .header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 10px;
+  }
+  .header h1 .highlight { color: #60A5FA; }
+  .header-sub {
+    font-size: 16px;
+    color: #9CA3AF;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .header-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.12);
+    color: #D1D5DB;
+    background: rgba(255,255,255,.05);
+    font-family: var(--mono);
+  }
+  .pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #34D399;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+  /* progress */
+  .progress-strip {
+    background: rgba(255,255,255,.06);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .progress-label { font-size: 12px; color: #6B7280; font-family: var(--mono); white-space: nowrap; }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,.08);
+    border-radius: 2px;
+    display: flex;
+    gap: 3px;
+  }
+  .progress-seg {
+    flex: 1; height: 100%; border-radius: 2px;
+    background: rgba(255,255,255,.1);
+  }
+  .progress-seg.done { background: #34D399; }
+  .progress-seg.now  { background: #60A5FA; }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { margin-top: 52px; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--azul);
+    background: var(--azul-bg);
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(59,130,246,.2);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gris-200);
+  }
+  h2 {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 800;
+    letter-spacing: -.8px;
+    color: var(--gris-900);
+    margin-bottom: 16px;
+  }
+
+  /* ── OBJETIVO CARD ── */
+  .objetivo-card {
+    background: var(--azul-bg);
+    border: 1px solid rgba(59,130,246,.3);
+    border-left: 4px solid var(--azul);
+    padding: 22px 24px;
+    border-radius: 0 8px 8px 0;
+  }
+  .objetivo-card p {
+    font-size: 15px;
+    color: #1e40af;
+    line-height: 1.7;
+  }
+  .objetivo-card strong { font-weight: 700; }
+
+  /* ── TEORIA BLOCK ── */
+  .teoria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .teoria-card {
+    background: var(--gris-50);
+    border: 1px solid var(--gris-200);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .teoria-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    transform: translateY(-2px);
+  }
+  .teoria-card-num {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gris-200);
+    line-height: 1;
+  }
+  .teoria-card-icon { font-size: 28px; margin-bottom: 10px; }
+  .teoria-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gris-900);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  .teoria-card-body {
+    font-size: 13.5px;
+    color: var(--gris-700);
+    line-height: 1.65;
+  }
+  .teoria-card-body code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: white;
+    border: 1px solid var(--gris-200);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--azul);
+  }
+
+  /* ── ARDUINO UNO DIAGRAM ── */
+  .arduino-section {
+    background: var(--gris-50);
+    border: 1px solid var(--gris-200);
+    border-radius: 10px;
+    padding: 28px;
+  }
+  .arduino-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gris-400);
+    margin-bottom: 20px;
+    font-family: var(--mono);
+  }
+  .arduino-parts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .part-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: white;
+    border: 1px solid var(--gris-200);
+    border-radius: 6px;
+  }
+  .part-icon {
+    width: 32px; height: 32px;
+    background: var(--azul-bg);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .part-name { font-size: 13px; font-weight: 600; color: var(--gris-900); margin-bottom: 2px; }
+  .part-desc { font-size: 12px; color: var(--gris-400); line-height: 1.4; }
+
+  /* ── CODE BLOCK ── */
+  .code-wrap {
+    border: 1px solid var(--gris-200);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .code-header {
+    background: var(--gris-800);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .code-filename {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #9CA3AF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .code-filename::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: #34D399;
+    border-radius: 50%;
+  }
+  .code-dots { display: flex; gap: 5px; }
+  .code-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .code-dot.red   { background: #EF4444; }
+  .code-dot.yellow{ background: #F59E0B; }
+  .code-dot.green { background: #10B981; }
+  .code-body {
+    background: #0D1117;
+    padding: 20px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+  .co  { color: #6B7280; font-style: italic; }
+  .kw  { color: #FF7B72; }
+  .fn  { color: #D2A8FF; }
+  .nm  { color: #79C0FF; }
+  .st  { color: #A5D6FF; }
+
+  /* ── EXPERIMENTS ── */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+  }
+  .exp-card {
+    border: 1px solid var(--gris-200);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .exp-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .exp-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .exp-1 .exp-header { background: #EFF6FF; }
+  .exp-1 .exp-num { background: var(--azul); color: white; }
+  .exp-1 .exp-title { color: #1e40af; }
+  .exp-2 .exp-header { background: #ECFDF5; }
+  .exp-2 .exp-num { background: var(--verde); color: white; }
+  .exp-2 .exp-title { color: #065f46; }
+  .exp-3 .exp-header { background: #FFFBEB; }
+  .exp-3 .exp-num { background: var(--naranja); color: white; }
+  .exp-3 .exp-title { color: #92400e; }
+  .exp-title { font-size: 14px; font-weight: 700; }
+  .exp-body { padding: 16px 18px; background: white; }
+  .exp-desc { font-size: 13px; color: var(--gris-700); line-height: 1.6; margin-bottom: 14px; }
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    color: var(--gris-700);
+  }
+  .step-list li::before {
+    content: attr(data-n);
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gris-200);
+    color: var(--gris-700);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── PROYECTO ── */
+  .proyecto-banner {
+    background: linear-gradient(135deg, var(--gris-900) 0%, #1e3a8a 100%);
+    border-radius: 10px;
+    padding: 28px 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .proyecto-icon { font-size: 48px; flex-shrink: 0; }
+  .proyecto-content { flex: 1; min-width: 200px; }
+  .proyecto-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #93C5FD;
+    margin-bottom: 6px;
+  }
+  .proyecto-title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    margin-bottom: 8px;
+  }
+  .proyecto-desc {
+    font-size: 14px;
+    color: #9CA3AF;
+    line-height: 1.6;
+  }
+  .proyecto-steps {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 16px 20px;
+    min-width: 240px;
+  }
+  .proyecto-steps-title {
+    font-size: 11px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+    margin-bottom: 12px;
+  }
+  .proyecto-step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #D1D5DB;
+    margin-bottom: 8px;
+  }
+  .proyecto-step-item::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #60A5FA;
+    flex-shrink: 0;
+  }
+
+  /* ── DISEÑO 3D ── */
+  .diseno-card {
+    background: var(--naranja-bg);
+    border: 1px solid rgba(217,119,6,.2);
+    border-left: 4px solid var(--naranja);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .diseno-icon { font-size: 36px; flex-shrink: 0; }
+  .diseno-content h3 { font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 4px; }
+  .diseno-content p  { font-size: 13px; color: #78350f; line-height: 1.6; }
+
+  /* ── TIPS ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .tip-card {
+    background: white;
+    border: 1px solid var(--gris-200);
+    border-radius: 8px;
+    padding: 16px;
+    border-top: 3px solid;
+  }
+  .tip-card.azul   { border-top-color: var(--azul-claro); }
+  .tip-card.verde  { border-top-color: var(--verde); }
+  .tip-card.naranja{ border-top-color: var(--naranja); }
+  .tip-card.rojo   { border-top-color: var(--rojo); }
+  .tip-icon { font-size: 20px; margin-bottom: 8px; }
+  .tip-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--gris-700); margin-bottom: 4px; }
+  .tip-body { font-size: 13px; color: var(--gris-400); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--gris-100);
+    border-top: 1px solid var(--gris-200);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 12px;
+    margin-top: 60px;
+    font-size: 12px;
+    color: var(--gris-400);
+    font-family: var(--mono);
+  }
+  .footer strong { color: var(--gris-700); }
+
+  .divider {
+    height: 1px;
+    background: var(--gris-200);
+    margin: 28px 0;
+  }
+
+  .alert-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+  .alert-box.info   { background: var(--azul-bg);    border-color: rgba(59,130,246,.3); color: #1e40af; }
+  .alert-box.warn   { background: var(--naranja-bg); border-color: rgba(217,119,6,.3); color: #92400e; }
+  .alert-box.danger { background: var(--rojo-bg);    border-color: rgba(220,38,38,.3); color: #7f1d1d; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-inner">
+    <div class="breadcrumb">
+      <span>CodeCrack/span>
+      <span class="breadcrumb-sep">›</span>
+      <span>Módulo 1: Fundamentos con Arduino</span>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Clase 2</span>
+    </div>
+    <h1>Introducción a<br><span class="highlight">Arduino</span></h1>
+    <p class="header-sub">Plataforma Arduino · Partes del UNO · Programación por bloques · Blink LED</p>
+    <div class="header-pills">
+      <span class="pill"><span class="pill-dot"></span> Clase 2 de 16</span>
+      <span class="pill">Módulo 1</span>
+      <span class="pill">Teoría + Práctica</span>
+      <span class="pill">Proyecto: Semáforo doble</span>
+    </div>
+  </div>
+  <div class="progress-strip">
+    <span class="progress-label">PROGRESO M1:</span>
+    <div class="progress-track">
+      <div class="progress-seg done" title="Clase 1 ✓"></div>
+      <div class="progress-seg now"  title="Clase 2 ← HOY"></div>
+      <div class="progress-seg" title="Clase 3"></div>
+      <div class="progress-seg" title="Clase 4"></div>
+      <div class="progress-seg" title="Clase 5"></div>
+      <div class="progress-seg" title="Clase 6"></div>
+      <div class="progress-seg" title="Clase 7"></div>
+      <div class="progress-seg" title="Clase 8"></div>
+      <div class="progress-seg" title="Clase 9"></div>
+      <div class="progress-seg" title="Clase 10"></div>
+      <div class="progress-seg" title="Clase 11"></div>
+      <div class="progress-seg" title="Clase 12"></div>
+      <div class="progress-seg" title="Clase 13"></div>
+      <div class="progress-seg" title="Clase 14"></div>
+      <div class="progress-seg" title="Clase 15"></div>
+      <div class="progress-seg" title="Clase 16"></div>
+    </div>
+    <span class="progress-label">2/16</span>
+  </div>
+</header>
+
+<!-- ══ MAIN ══════════════════════════════════════════ -->
+<main class="container">
+
+  <!-- OBJETIVO -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">objetivo</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>¿Qué aprenderemos hoy?</h2>
+    <div class="objetivo-card">
+      <p>Conocer la <strong>plataforma Arduino</strong>, identificar los tipos de placas y las <strong>partes del Arduino UNO</strong>. Aprender a programar usando <strong>bloques visuales</strong> y dar los primeros pasos en la programación por texto con el experimento <strong>Blink LED</strong>. Al final construiremos los experimentos <strong>Sirena de policía</strong> y <strong>Semáforo</strong> que son la base del proyecto <strong>Semáforo doble</strong>.</p>
+    </div>
+  </section>
+
+  <!-- TEORIA -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">teoría</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>¿Qué es Arduino?</h2>
+
+    <div class="teoria-grid">
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">01</div>
+        <div class="teoria-card-icon">🤖</div>
+        <div class="teoria-card-title">La Plataforma Arduino</div>
+        <div class="teoria-card-body">
+          Arduino es una plataforma de <strong>electrónica abierta</strong> que combina hardware (una placa con microcontrolador) y software (el IDE Arduino) para crear proyectos interactivos. Es usada por millones de personas en todo el mundo: desde estudiantes hasta ingenieros.
+        </div>
+      </div>
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">02</div>
+        <div class="teoria-card-icon">📋</div>
+        <div class="teoria-card-title">Tipos de Arduino</div>
+        <div class="teoria-card-body">
+          Existen muchos modelos: <strong>UNO</strong> (el más usado para aprender), Nano (pequeño), Mega (más pines), Leonardo, etc. En el Maker Lab trabajamos con el <strong>UNO</strong> porque tiene el tamaño ideal para aprender y tiene todos los pines necesarios para nuestros proyectos.
+        </div>
+      </div>
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">03</div>
+        <div class="teoria-card-icon">🔌</div>
+        <div class="teoria-card-title">Partes del Arduino UNO</div>
+        <div class="teoria-card-body">
+          Las partes principales son: <strong>microcontrolador ATmega328P</strong> (el cerebro), <strong>pines digitales</strong> (0–13), <strong>pines analógicos</strong> (A0–A5), <strong>pines de alimentación</strong> (3.3V, 5V, GND), conector <strong>USB</strong> y conector de <strong>alimentación externa</strong>.
+        </div>
+      </div>
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">04</div>
+        <div class="teoria-card-icon">⚡</div>
+        <div class="teoria-card-title">Pines Digitales</div>
+        <div class="teoria-card-body">
+          Los pines digitales (0–13) pueden ser <strong>entradas</strong> o <strong>salidas</strong>. En modo salida envían 5V (HIGH) o 0V (LOW). El pin 13 tiene un LED integrado en la placa. Siempre se deben configurar en <code>setup()</code> con <code>pinMode()</code>.
+        </div>
+      </div>
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">05</div>
+        <div class="teoria-card-icon">💻</div>
+        <div class="teoria-card-title">Programación por Bloques</div>
+        <div class="teoria-card-body">
+          Usamos <strong>Tinkercad</strong> o <strong>mBlock</strong> para programar con bloques visuales. Cada bloque representa una instrucción. Es la manera más visual de entender la lógica antes de escribir código. Los bloques se convierten automáticamente en código Arduino.
+        </div>
+      </div>
+
+      <div class="teoria-card">
+        <div class="teoria-card-num">06</div>
+        <div class="teoria-card-icon">📝</div>
+        <div class="teoria-card-title">Estructura de un Programa</div>
+        <div class="teoria-card-body">
+          Todo programa Arduino tiene dos funciones obligatorias: <code>setup()</code> que se ejecuta <strong>una sola vez</strong> al inicio (para configurar pines, inicializar componentes), y <code>loop()</code> que se ejecuta <strong>indefinidamente</strong> (toda la lógica del proyecto va aquí).
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PARTES DEL UNO -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">hardware</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Partes del Arduino UNO</h2>
+
+    <div class="arduino-section">
+      <div class="arduino-section-title">Identificar cada parte en tu placa</div>
+      <div class="arduino-parts-grid">
+
+        <div class="part-item">
+          <div class="part-icon">🧠</div>
+          <div>
+            <div class="part-name">Microcontrolador ATmega328P</div>
+            <div class="part-desc">El "cerebro" — ejecuta el programa y controla todos los pines</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">🔢</div>
+          <div>
+            <div class="part-name">Pines Digitales (0–13)</div>
+            <div class="part-desc">14 pines para entradas/salidas digitales. El pin 13 tiene LED integrado</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">〰️</div>
+          <div>
+            <div class="part-name">Pines Analógicos (A0–A5)</div>
+            <div class="part-desc">Leen valores continuos de sensores (0 a 1023)</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">⚡</div>
+          <div>
+            <div class="part-name">Pines de Alimentación</div>
+            <div class="part-desc">3.3V, 5V y GND para alimentar componentes externos</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">🔗</div>
+          <div>
+            <div class="part-name">Puerto USB</div>
+            <div class="part-desc">Conecta al computador para programar y alimentar la placa</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">🔘</div>
+          <div>
+            <div class="part-name">Botón Reset</div>
+            <div class="part-desc">Reinicia el programa desde el inicio</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">💡</div>
+          <div>
+            <div class="part-name">LED integrado (pin 13)</div>
+            <div class="part-desc">LED naranja en la placa, útil para pruebas sin circuito externo</div>
+          </div>
+        </div>
+
+        <div class="part-item">
+          <div class="part-icon">🔌</div>
+          <div>
+            <div class="part-name">Conector de alimentación</div>
+            <div class="part-desc">Permite alimentar con batería de 7–12V de forma independiente</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CODIGO BASICO -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">código base</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Estructura básica de Arduino</h2>
+
+    <div class="alert-box info">
+      <span class="alert-icon">💡</span>
+      <div>El código Arduino siempre tiene <strong>dos funciones</strong>: <code style="font-family:var(--mono);font-size:12px;background:rgba(59,130,246,.15);padding:1px 5px;border-radius:3px">setup()</code> para configurar y <code style="font-family:var(--mono);font-size:12px;background:rgba(59,130,246,.15);padding:1px 5px;border-radius:3px">loop()</code> para ejecutar continuamente. Sin estas dos funciones, el programa no funciona.</div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-header">
+        <div class="code-dots">
+          <div class="code-dot red"></div>
+          <div class="code-dot yellow"></div>
+          <div class="code-dot green"></div>
+        </div>
+        <div class="code-filename">blink_basico.ino</div>
+        <div></div>
+      </div>
+      <div class="code-body"><span class="co">// ─── Módulo 1 · Clase 2 · Blink LED ────────────────────────</span>
+<span class="co">// El programa más simple: hacer parpadear el LED del pin 13</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="co">// setup() se ejecuta UNA VEZ al encender</span>
+  <span class="fn">pinMode</span>(<span class="nm">13</span>, OUTPUT);   <span class="co">// pin 13 como SALIDA</span>
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="co">// loop() se repite PARA SIEMPRE</span>
+  <span class="fn">digitalWrite</span>(<span class="nm">13</span>, HIGH);  <span class="co">// encender LED</span>
+  <span class="fn">delay</span>(<span class="nm">1000</span>);              <span class="co">// esperar 1 segundo</span>
+  <span class="fn">digitalWrite</span>(<span class="nm">13</span>, LOW);   <span class="co">// apagar LED</span>
+  <span class="fn">delay</span>(<span class="nm">1000</span>);              <span class="co">// esperar 1 segundo</span>
+}</div>
+    </div>
+
+    <div class="alert-box warn">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Importante:</strong> El delay se mide en <strong>milisegundos</strong>. 1000ms = 1 segundo. 500ms = medio segundo. Si pones delay(50) el LED parpadea tan rápido que parece siempre encendido.</div>
+    </div>
+  </section>
+
+  <!-- EXPERIMENTOS -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">experimentos</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Los 3 experimentos de la clase</h2>
+
+    <div class="exp-grid">
+
+      <!-- EXP 1: BLINK LED -->
+      <div class="exp-card exp-1">
+        <div class="exp-header">
+          <div class="exp-num">1</div>
+          <div class="exp-title">Blink LED</div>
+        </div>
+        <div class="exp-body">
+          <p class="exp-desc">El experimento clásico de Arduino. Hacemos parpadear el LED interno de la placa (pin 13) usando <code style="font-family:var(--mono);font-size:11px;background:#EFF6FF;padding:1px 4px;border-radius:3px">digitalWrite()</code> y <code style="font-family:var(--mono);font-size:11px;background:#EFF6FF;padding:1px 4px;border-radius:3px">delay()</code>.</p>
+          <ul class="step-list">
+            <li data-n="1">Conectar el Arduino al computador con USB</li>
+            <li data-n="2">Abrir el IDE de Arduino (o Tinkercad)</li>
+            <li data-n="3">Escribir o cargar el código blink básico</li>
+            <li data-n="4">Hacer clic en <strong>Subir</strong> (flecha →)</li>
+            <li data-n="5">Observar el LED naranja parpadeando</li>
+            <li data-n="6">Cambiar el valor del delay y subir de nuevo</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- EXP 2: SIRENA -->
+      <div class="exp-card exp-2">
+        <div class="exp-header">
+          <div class="exp-num">2</div>
+          <div class="exp-title">Sirena de policía</div>
+        </div>
+        <div class="exp-body">
+          <p class="exp-desc">Simulamos una sirena usando <strong>dos LEDs</strong> (rojo y azul) que parpadean en alternancia. Aprendemos a controlar varios pines y a crear patrones con delays diferentes.</p>
+          <ul class="step-list">
+            <li data-n="1">Conectar LED rojo en pin 12 (con resistencia 220Ω)</li>
+            <li data-n="2">Conectar LED azul en pin 11 (con resistencia 220Ω)</li>
+            <li data-n="3">Configurar ambos pines como OUTPUT en setup()</li>
+            <li data-n="4">Alternar los LEDs en loop() con delays de 200ms</li>
+            <li data-n="5">Experimentar con diferentes velocidades</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- EXP 3: SEMAFORO -->
+      <div class="exp-card exp-3">
+        <div class="exp-header">
+          <div class="exp-num">3</div>
+          <div class="exp-title">Semáforo</div>
+        </div>
+        <div class="exp-body">
+          <p class="exp-desc">Recreamos un semáforo con <strong>3 LEDs</strong> (rojo, amarillo, verde). Es la base del proyecto principal de la clase: el <strong>Semáforo doble</strong>. Practicamos la secuencia de estados y los tiempos reales.</p>
+          <ul class="step-list">
+            <li data-n="1">Conectar LED rojo, amarillo y verde en pines 13, 12, 11</li>
+            <li data-n="2">Configurar los 3 pines como OUTPUT</li>
+            <li data-n="3">Encender verde 3s → amarillo 1s → rojo 3s</li>
+            <li data-n="4">Apagar todos antes de cambiar de color</li>
+            <li data-n="5">Ajustar los tiempos para que sea realista</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CODIGO SEMAFORO -->
+    <h2 style="font-size:18px; margin-bottom:14px;">Código: Semáforo completo</h2>
+    <div class="code-wrap">
+      <div class="code-header">
+        <div class="code-dots">
+          <div class="code-dot red"></div>
+          <div class="code-dot yellow"></div>
+          <div class="code-dot green"></div>
+        </div>
+        <div class="code-filename">semaforo.ino</div>
+        <div></div>
+      </div>
+      <div class="code-body"><span class="co">// ─── Módulo 1 · Clase 2 · Semáforo ─────────────────────────</span>
+
+<span class="co">// Definir los pines de cada LED</span>
+<span class="kw">int</span> rojo    = <span class="nm">13</span>;
+<span class="kw">int</span> amarillo = <span class="nm">12</span>;
+<span class="kw">int</span> verde   = <span class="nm">11</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(rojo,    OUTPUT);
+  <span class="fn">pinMode</span>(amarillo, OUTPUT);
+  <span class="fn">pinMode</span>(verde,   OUTPUT);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="co">// ── VERDE: circular ──────────────────────</span>
+  <span class="fn">digitalWrite</span>(verde, HIGH);
+  <span class="fn">delay</span>(<span class="nm">3000</span>);              <span class="co">// 3 segundos</span>
+  <span class="fn">digitalWrite</span>(verde, LOW);
+
+  <span class="co">// ── AMARILLO: precaución ─────────────────</span>
+  <span class="fn">digitalWrite</span>(amarillo, HIGH);
+  <span class="fn">delay</span>(<span class="nm">1000</span>);              <span class="co">// 1 segundo</span>
+  <span class="fn">digitalWrite</span>(amarillo, LOW);
+
+  <span class="co">// ── ROJO: alto ───────────────────────────</span>
+  <span class="fn">digitalWrite</span>(rojo, HIGH);
+  <span class="fn">delay</span>(<span class="nm">3000</span>);              <span class="co">// 3 segundos</span>
+  <span class="fn">digitalWrite</span>(rojo, LOW);
+}</div>
+    </div>
+  </section>
+
+  <!-- PROYECTO -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">proyecto de la clase</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Proyecto: Semáforo doble</h2>
+
+    <div class="proyecto-banner">
+      <div class="proyecto-icon">🚦</div>
+      <div class="proyecto-content">
+        <div class="proyecto-tag">PROYECTO CLASE 2</div>
+        <div class="proyecto-title">Semáforo doble</div>
+        <p class="proyecto-desc">Construir un sistema de dos semáforos que funcionen de manera <strong>coordinada y sincronizada</strong>: cuando uno está en verde, el otro está en rojo. Simula la intersección real de una ciudad.</p>
+      </div>
+      <div class="proyecto-steps">
+        <div class="proyecto-steps-title">Pasos del proyecto</div>
+        <div class="proyecto-step-item">Dominar el semáforo simple (exp. 3)</div>
+        <div class="proyecto-step-item">Agregar 3 LEDs más para el segundo semáforo</div>
+        <div class="proyecto-step-item">Sincronizar ambos semáforos en el código</div>
+        <div class="proyecto-step-item">Cuando S1=verde → S2=rojo (y viceversa)</div>
+        <div class="proyecto-step-item">Añadir el amarillo de transición a los dos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISEÑO 3D -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">diseño 3D</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="diseno-card">
+      <div class="diseno-icon">🏙️</div>
+      <div class="diseno-content">
+        <h3>Ciudad (composición)</h3>
+        <p>Esta clase acompañamos el proyecto electrónico con un diseño 3D en <strong>Tinkercad CAD</strong>. El reto es crear una <strong>ciudad en composición</strong>: combinar varias figuras geométricas básicas (cubos, cilindros, pirámides) para construir edificios, calles y la estructura donde montaremos nuestro semáforo doble. Se practica el concepto de <strong>composición de formas</strong> y diseño espacial.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-tag">tips para la clase</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Claves para el éxito</h2>
+    <div class="tips-grid">
+      <div class="tip-card azul">
+        <div class="tip-icon">🔌</div>
+        <div class="tip-title">Resistencia siempre</div>
+        <div class="tip-body">Usar resistencia de 220Ω entre el pin y el LED. Sin ella el LED se daña en segundos.</div>
+      </div>
+      <div class="tip-card verde">
+        <div class="tip-icon">📏</div>
+        <div class="tip-title">Polaridad del LED</div>
+        <div class="tip-body">Pata larga = ánodo (+) va al pin. Pata corta = cátodo (−) va a GND.</div>
+      </div>
+      <div class="tip-card naranja">
+        <div class="tip-icon">⏱️</div>
+        <div class="tip-title">Delay en milisegundos</div>
+        <div class="tip-body">1000 = 1 segundo. 500 = medio segundo. 100 = muy rápido. Practica con varios valores.</div>
+      </div>
+      <div class="tip-card rojo">
+        <div class="tip-icon">💾</div>
+        <div class="tip-title">Guardar siempre</div>
+        <div class="tip-body">Guardar el sketch antes de subir. Usar Ctrl+S. Nombrar el archivo con algo descriptivo.</div>
+      </div>
+      <div class="tip-card azul">
+        <div class="tip-icon">🐛</div>
+        <div class="tip-title">El LED no enciende</div>
+        <div class="tip-body">Verificar: ¿el número de pin coincide en el código? ¿La resistencia está conectada? ¿El GND está conectado?</div>
+      </div>
+      <div class="tip-card verde">
+        <div class="tip-icon">🧠</div>
+        <div class="tip-title">Programar por bloques</div>
+        <div class="tip-body">Si es tu primera vez, usa Tinkercad con bloques. Cada bloque muestra el código equivalente abajo.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span><strong>Maker Lab</strong> — Material del Coach · Módulo 1 · Clase 2</span>
+  <span>Proyecto: Semáforo doble · Diseño 3D: Ciudad (composición)</span>
+</footer>
+
+</body>
+</html>
