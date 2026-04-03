@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Trabajo · Clase 2 · Introducción a Arduino</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #F8FAFC;
+  --white:  #FFFFFF;
+  --blue:   #1A56DB;
+  --blue-l: #3B82F6;
+  --blue-bg:#EFF6FF;
+  --green:  #059669;
+  --grn-bg: #ECFDF5;
+  --orange: #D97706;
+  --org-bg: #FFFBEB;
+  --red:    #DC2626;
+  --red-bg: #FEF2F2;
+  --purple: #7C3AED;
+  --pur-bg: #F5F3FF;
+  --g900:   #111827;
+  --g800:   #1F2937;
+  --g700:   #374151;
+  --g500:   #6B7280;
+  --g300:   #D1D5DB;
+  --g200:   #E5E7EB;
+  --g100:   #F3F4F6;
+  --g50:    #F9FAFB;
+  --mono:   'JetBrains Mono', monospace;
+  --sans:   'Inter', sans-serif;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--g800); }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: white;
+  border-bottom: 1px solid var(--g200);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+  box-shadow: var(--shadow);
+}
+.nav-left  { display:flex; align-items:center; gap:16px; }
+.nav-logo  { font-weight:800; font-size:15px; color:var(--blue); }
+.nav-sep   { color:var(--g300); font-size:20px; }
+.nav-title { font-size:14px; color:var(--g500); font-weight:500; }
+.nav-timer { font-family:var(--mono); font-size:13px; color:var(--blue); font-weight:600; }
+.nav-steps { display:flex; gap:4px; }
+.ns {
+  width:28px; height:28px; border-radius:50%;
+  border:2px solid var(--g200); background:white;
+  font-size:11px; font-family:var(--mono); font-weight:600;
+  color:var(--g500); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:.2s; flex-shrink:0;
+}
+.ns:hover  { border-color:var(--blue-l); color:var(--blue-l); }
+.ns.active { border-color:var(--blue); background:var(--blue); color:white; }
+.ns.done   { border-color:var(--green); background:var(--green); color:white; }
+
+/* ── WRAP ── */
+.wrap { max-width:860px; margin:0 auto; padding:0 24px 80px; }
+
+/* ── PAGES ── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── STEP HEADER ── */
+.step-hdr {
+  padding: 40px 0 28px;
+  border-bottom: 1px solid var(--g200);
+  margin-bottom: 32px;
+}
+.step-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:12px; font-family:var(--mono); font-weight:600;
+  color:var(--blue); margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;
+}
+.badge-circle {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--blue); color:white;
+  font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.step-hdr h1 { font-size:clamp(22px,4vw,34px); font-weight:800; letter-spacing:-1px; margin-bottom:6px; }
+.step-hdr p  { font-size:15px; color:var(--g500); }
+.time-badge  {
+  display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+  background:var(--org-bg); border:1px solid rgba(217,119,6,.2);
+  color:var(--orange); font-size:12px; font-family:var(--mono);
+  padding:4px 12px; border-radius:20px;
+}
+
+/* ── CARDS ── */
+.card {
+  background:white; border:1px solid var(--g200);
+  border-radius:var(--radius); padding:20px 22px;
+  box-shadow:var(--shadow);
+  margin-bottom:14px;
+}
+.card-title {
+  font-size:13px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.5px; color:var(--g500); margin-bottom:10px;
+}
+.card p { font-size:14px; line-height:1.65; color:var(--g700); }
+.card p + p { margin-top:8px; }
+.card p strong { color:var(--g900); }
+
+/* ── THEORY GRID ── */
+.theory-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;
+}
+.t-card {
+  background:white; border:1px solid var(--g200);
+  border-radius:var(--radius); padding:18px 20px;
+  border-top:3px solid; box-shadow:var(--shadow);
+}
+.t-card.b  { border-top-color:var(--blue); }
+.t-card.g  { border-top-color:var(--green); }
+.t-card.o  { border-top-color:var(--orange); }
+.t-card.p  { border-top-color:var(--purple); }
+.t-card.r  { border-top-color:var(--red); }
+.t-ico     { font-size:22px; margin-bottom:8px; }
+.t-label   { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--g500); margin-bottom:5px; }
+.t-body    { font-size:13.5px; line-height:1.6; color:var(--g700); }
+.t-body code { font-family:var(--mono); font-size:12px; background:var(--g100); padding:1px 5px; border-radius:3px; color:var(--blue); }
+
+/* ── PARTS TABLE ── */
+.parts-table {
+  width:100%; border-collapse:collapse; font-size:14px;
+  border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden;
+}
+.parts-table th {
+  background:var(--blue); color:white; text-align:left;
+  padding:10px 14px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.5px;
+}
+.parts-table td { padding:10px 14px; border-bottom:1px solid var(--g200); vertical-align:top; }
+.parts-table tr:last-child td { border-bottom:none; }
+.parts-table tr:nth-child(even) td { background:var(--g50); }
+.part-name  { font-weight:600; color:var(--g900); }
+.part-loc   { font-size:12px; font-family:var(--mono); color:var(--blue); }
+.part-desc  { font-size:13px; color:var(--g700); line-height:1.5; }
+
+/* ── CODE BLOCK ── */
+.code-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden; margin:16px 0; }
+.code-hdr  { background:var(--g800); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
+.code-name { font-family:var(--mono); font-size:12px; color:#9CA3AF; }
+.copy-btn  {
+  font-family:var(--mono); font-size:11px; color:#60A5FA;
+  background:none; border:1px solid #374151; padding:3px 10px; cursor:pointer;
+  border-radius:3px; transition:.2s;
+}
+.copy-btn:hover { background:#374151; }
+.code-body {
+  background:#0D1117; padding:18px 20px;
+  font-family:var(--mono); font-size:13px; line-height:1.9;
+  overflow-x:auto; color:#c9d1d9;
+}
+.co { color:#6E7681; font-style:italic; }
+.kw { color:#FF7B72; }
+.fn { color:#D2A8FF; }
+.nm { color:#79C0FF; }
+.vr { color:#FFA657; }
+
+/* ── SIMULATOR ── */
+.sim-box {
+  background:var(--g900); border-radius:var(--radius);
+  padding:24px; margin:16px 0;
+}
+.sim-label { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--g500); margin-bottom:16px; }
+.traffic-row { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:20px; }
+.traffic-light {
+  background:#1F2937; border:2px solid #374151; border-radius:10px;
+  padding:16px 14px; display:flex; flex-direction:column; gap:10px; align-items:center;
+  min-width:80px;
+}
+.tl-label { font-size:10px; font-family:var(--mono); color:var(--g500); text-align:center; }
+.led-circle {
+  width:36px; height:36px; border-radius:50%;
+  background:#111827; border:2px solid #374151;
+  transition:all .2s; position:relative;
+}
+.led-circle.on-red    { background:#EF4444; border-color:#EF4444; box-shadow:0 0 14px rgba(239,68,68,.6); }
+.led-circle.on-yellow { background:#F59E0B; border-color:#F59E0B; box-shadow:0 0 14px rgba(245,158,11,.6); }
+.led-circle.on-green  { background:#10B981; border-color:#10B981; box-shadow:0 0 14px rgba(16,185,129,.6); }
+.sim-controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.sim-btn {
+  font-family:var(--mono); font-size:12px; padding:8px 16px;
+  background:var(--g800); border:1px solid var(--g700); color:var(--g300);
+  cursor:pointer; border-radius:4px; transition:.2s;
+}
+.sim-btn:hover  { border-color:var(--blue-l); color:var(--blue-l); }
+.sim-btn.on     { background:var(--blue); border-color:var(--blue); color:white; }
+.state-display { text-align:center; font-family:var(--mono); font-size:12px; color:var(--g500); margin-top:10px; min-height:20px; }
+
+/* ── STEPS LIST ── */
+.steps-list  { list-style:none; }
+.steps-list li {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:10px 14px; margin-bottom:6px;
+  background:white; border:1px solid var(--g200); border-radius:6px;
+  font-size:14px; line-height:1.5; cursor:pointer; transition:.2s;
+}
+.steps-list li:hover  { border-color:var(--g300); }
+.steps-list li.done   { background:var(--grn-bg); border-color:rgba(5,150,105,.3); }
+.step-cb {
+  width:22px; height:22px; border-radius:50%; border:2px solid var(--g300);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  font-size:12px; transition:.2s; margin-top:1px;
+}
+.steps-list li.done .step-cb { background:var(--green); border-color:var(--green); color:white; }
+.step-txt { flex:1; }
+.step-txt code { font-family:var(--mono); font-size:12px; background:var(--g100); padding:1px 5px; border-radius:3px; color:var(--blue); }
+.steps-list li.done .step-txt { color:var(--g500); text-decoration:line-through; }
+
+/* ── PROGRESS BAR ── */
+.prog-wrap   { margin:8px 0 16px; }
+.prog-info   { display:flex; justify-content:space-between; font-size:12px; font-family:var(--mono); color:var(--g500); margin-bottom:6px; }
+.prog-track  { height:5px; background:var(--g200); border-radius:3px; overflow:hidden; }
+.prog-fill   { height:100%; background:var(--green); transition:width .4s; border-radius:3px; }
+
+/* ── QUIZ ── */
+.q-card  { background:white; border:1px solid var(--g200); border-radius:var(--radius); padding:22px; margin-bottom:14px; box-shadow:var(--shadow); }
+.q-text  { font-size:15px; font-weight:600; margin-bottom:16px; line-height:1.5; color:var(--g900); }
+.q-opts  { display:flex; flex-direction:column; gap:8px; }
+.q-opt   {
+  background:var(--g50); border:1px solid var(--g200); border-radius:6px;
+  padding:11px 16px; font-size:14px; text-align:left; cursor:pointer; font-family:var(--sans); color:var(--g700);
+  transition:.15s; display:flex; align-items:center; gap:10px;
+}
+.q-opt:hover:not(:disabled)  { border-color:var(--blue-l); background:var(--blue-bg); color:var(--blue); }
+.q-opt.correct { background:var(--grn-bg); border-color:var(--green); color:var(--green); font-weight:600; }
+.q-opt.wrong   { background:var(--red-bg);  border-color:var(--red);   color:var(--red); }
+.q-opt:disabled { cursor:default; }
+.q-icon  { font-size:16px; flex-shrink:0; }
+.q-fb    { display:none; margin-top:12px; padding:10px 14px; border-radius:6px; font-size:13.5px; }
+.q-fb.ok { display:block; background:var(--grn-bg); border:1px solid rgba(5,150,105,.3); color:var(--green); }
+.q-fb.no { display:block; background:var(--red-bg);  border:1px solid rgba(220,38,38,.3);  color:var(--red); }
+.score-bar { background:white; border:1px solid var(--g200); border-radius:var(--radius); padding:16px 20px; margin-bottom:16px; display:none; }
+.score-num { font-size:28px; font-weight:800; color:var(--blue); font-family:var(--mono); }
+.score-txt { font-size:14px; color:var(--g500); }
+
+/* ── NAV BUTTONS ── */
+.nav-btns {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:48px; padding-top:24px; border-top:1px solid var(--g200);
+}
+.btn {
+  font-family:var(--sans); font-size:14px; font-weight:600;
+  padding:10px 24px; border-radius:6px; cursor:pointer;
+  display:flex; align-items:center; gap:8px; transition:.2s;
+}
+.btn-ghost { background:white; border:1px solid var(--g200); color:var(--g700); }
+.btn-ghost:hover { border-color:var(--blue-l); color:var(--blue); }
+.btn-blue  { background:var(--blue); border:none; color:white; }
+.btn-blue:hover { background:var(--blue-l); transform:translateY(-1px); box-shadow:var(--shadow-md); }
+.btn-green { background:var(--green); border:none; color:white; }
+.step-ind  { font-family:var(--mono); font-size:12px; color:var(--g500); }
+
+/* ── INFO BOX ── */
+.info { display:flex; gap:12px; padding:14px 16px; border-radius:6px; margin:14px 0; font-size:13.5px; line-height:1.6; }
+.info.blue  { background:var(--blue-bg);  border:1px solid rgba(59,130,246,.25); color:#1e40af; }
+.info.green { background:var(--grn-bg);   border:1px solid rgba(5,150,105,.25);  color:#065f46; }
+.info.warn  { background:var(--org-bg);   border:1px solid rgba(217,119,6,.25);  color:#92400e; }
+.info.red   { background:var(--red-bg);   border:1px solid rgba(220,38,38,.25);  color:#7f1d1d; }
+.info-ico   { font-size:18px; flex-shrink:0; margin-top:1px; }
+
+/* ── HERO PAGE ── */
+.hero-wrap { text-align:center; padding:56px 0 40px; }
+.hero-emoji{ font-size:56px; margin-bottom:20px; animation:float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.hero-pre  { font-family:var(--mono); font-size:12px; color:var(--blue); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px; }
+.hero h1   { font-size:clamp(30px,6vw,52px); font-weight:800; letter-spacing:-2px; color:var(--g900); margin-bottom:10px; }
+.hero h1 span { color:var(--blue); }
+.hero p    { font-size:16px; color:var(--g500); max-width:500px; margin:0 auto 36px; line-height:1.6; }
+.hero-start{
+  background:var(--blue); color:white; border:none; border-radius:8px;
+  padding:16px 40px; font-size:16px; font-weight:700; cursor:pointer;
+  font-family:var(--sans); transition:.2s;
+  display:inline-flex; align-items:center; gap:10px;
+}
+.hero-start:hover { background:var(--blue-l); transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,86,219,.35); }
+.hero-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:44px; text-align:left; }
+.hero-stat { background:white; border:1px solid var(--g200); border-radius:var(--radius); padding:16px; }
+.hs-k  { font-size:11px; font-family:var(--mono); color:var(--g500); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.hs-v  { font-size:18px; font-weight:800; color:var(--g900); }
+
+/* ── FINISH PAGE ── */
+.finish { text-align:center; padding:60px 20px; }
+.fin-ico{ font-size:64px; margin-bottom:20px; animation:spin .8s ease-out; }
+@keyframes spin { from{transform:rotate(-10deg)scale(.5);opacity:0} to{transform:rotate(0)scale(1);opacity:1} }
+.finish h2 { font-size:36px; font-weight:800; letter-spacing:-1.5px; color:var(--g900); margin-bottom:10px; }
+.finish p  { font-size:15px; color:var(--g500); max-width:420px; margin:0 auto 32px; }
+.next-card {
+  background:linear-gradient(135deg, var(--g900), #1e3a8a);
+  color:white; border-radius:var(--radius); padding:22px 28px;
+  display:inline-block; text-align:left; margin:0 auto;
+}
+.next-label{ font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:2px; color:#60A5FA; margin-bottom:6px; }
+.next-text { font-size:16px; font-weight:700; }
+.fin-btns  { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:32px; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-left">
+    <span class="nav-logo">Maker Lab</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Módulo 1 · Clase 2</span>
+  </div>
+  <div id="navSteps" class="nav-steps"></div>
+  <span id="timer" class="nav-timer">00:00</span>
+</nav>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 0 — PORTADA
+══════════════════════════════════════════════════════════════════ -->
+<div class="page active" id="p0">
+  <div class="hero-wrap">
+    <div class="hero-emoji">🤖</div>
+    <div class="hero-pre">Módulo 1 · Clase 2 · Guía de Trabajo</div>
+    <div class="hero">
+      <h1>Introducción<br>a <span>Arduino</span></h1>
+      <p>Conoce la plataforma, identifica las partes del UNO y da tus primeros pasos programando con bloques y texto.</p>
+    </div>
+    <button class="hero-start" onclick="goTo(1)">
+      Comenzar guía
+      <span>→</span>
+    </button>
+    <div class="hero-grid">
+      <div class="hero-stat"><div class="hs-k">Pasos</div><div class="hs-v">5</div></div>
+      <div class="hero-stat"><div class="hs-k">Experimentos</div><div class="hs-v">3</div></div>
+      <div class="hero-stat"><div class="hs-k">Proyecto</div><div class="hs-v">Semáforo doble</div></div>
+      <div class="hero-stat"><div class="hs-k">Diseño 3D</div><div class="hs-v">Ciudad</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 1 — TEORIA
+══════════════════════════════════════════════════════════════════ -->
+<div class="page" id="p1">
+  <div class="step-hdr">
+    <div class="step-badge"><div class="badge-circle">1</div>TEORÍA</div>
+    <h1>¿Qué es Arduino?</h1>
+    <p>Lee cada concepto y asegúrate de entenderlo antes de conectar</p>
+    <div class="time-badge">⏱ 15 min aprox.</div>
+  </div>
+
+  <div class="theory-grid">
+    <div class="t-card b">
+      <div class="t-ico">🤖</div>
+      <div class="t-label">La Plataforma</div>
+      <div class="t-body">Arduino es una plataforma de <strong>electrónica abierta</strong> que combina una placa con microcontrolador y el software IDE. Permite crear proyectos interactivos que leen sensores, controlan LEDs, motores y más.</div>
+    </div>
+    <div class="t-card g">
+      <div class="t-ico">📋</div>
+      <div class="t-label">Tipos de Arduino</div>
+      <div class="t-body">Hay muchos modelos: <strong>UNO</strong> (el más usado para aprender), Nano (pequeño), Mega (muchos pines). En el Maker Lab usamos el <strong>UNO</strong> porque tiene el tamaño perfecto para empezar.</div>
+    </div>
+    <div class="t-card o">
+      <div class="t-ico">💻</div>
+      <div class="t-label">Programación por bloques</div>
+      <div class="t-body">Con <strong>Tinkercad</strong> o <strong>mBlock</strong> programamos arrastrando bloques visuales. Es la forma más fácil de entender la lógica. Cada bloque se convierte en código Arduino automáticamente.</div>
+    </div>
+    <div class="t-card p">
+      <div class="t-ico">📝</div>
+      <div class="t-label">Estructura de un programa</div>
+      <div class="t-body">Todo programa tiene <strong>dos funciones obligatorias</strong>: <code>setup()</code> que corre una sola vez al encender (para configurar pines), y <code>loop()</code> que se repite para siempre (donde va la lógica del proyecto).</div>
+    </div>
+    <div class="t-card r">
+      <div class="t-ico">⚡</div>
+      <div class="t-label">Pines digitales</div>
+      <div class="t-body">Los pines 0–13 son <strong>digitales</strong>: solo tienen dos estados, <code>HIGH</code> (5V = encendido) o <code>LOW</code> (0V = apagado). Se configuran con <code>pinMode()</code> y se controlan con <code>digitalWrite()</code>.</div>
+    </div>
+    <div class="t-card b">
+      <div class="t-ico">⏱️</div>
+      <div class="t-label">Función delay()</div>
+      <div class="t-body">Pausa el programa por N <strong>milisegundos</strong>. <code>delay(1000)</code> = 1 segundo. <code>delay(500)</code> = medio segundo. Es la base del tiempo en Arduino.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px">
+    <h3 style="font-size:17px;font-weight:700;margin-bottom:16px;color:var(--g900)">Partes del Arduino UNO — identifícalas en tu placa</h3>
+    <table class="parts-table">
+      <thead>
+        <tr><th>Parte</th><th>Dónde está</th><th>¿Para qué sirve?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><div class="part-name">🧠 Microcontrolador ATmega328P</div></td><td><div class="part-loc">Chip grande del centro</div></td><td class="part-desc">El "cerebro": ejecuta el programa y controla todos los pines</td></tr>
+        <tr><td><div class="part-name">🔢 Pines digitales 0–13</div></td><td><div class="part-loc">Fila superior</div></td><td class="part-desc">Controlan componentes digitales (LEDs, zumbadores, relés)</td></tr>
+        <tr><td><div class="part-name">〰️ Pines analógicos A0–A5</div></td><td><div class="part-loc">Fila inferior</div></td><td class="part-desc">Leen valores continuos de sensores (0–1023)</td></tr>
+        <tr><td><div class="part-name">⚡ Pines 5V / 3.3V / GND</div></td><td><div class="part-loc">Fila inferior</div></td><td class="part-desc">Alimentan componentes externos con voltaje fijo</td></tr>
+        <tr><td><div class="part-name">🔗 Puerto USB tipo B</div></td><td><div class="part-loc">Lateral izquierdo</div></td><td class="part-desc">Conecta al computador para programar y alimentar</td></tr>
+        <tr><td><div class="part-name">💡 LED integrado (pin 13)</div></td><td><div class="part-loc">Junto al pin 13</div></td><td class="part-desc">LED naranja útil para pruebas sin componentes externos</td></tr>
+        <tr><td><div class="part-name">🔘 Botón Reset</div></td><td><div class="part-loc">Borde superior</div></td><td class="part-desc">Reinicia el programa desde el inicio</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="goTo(0)">← Inicio</button>
+    <span class="step-ind">Paso 1 de 5</span>
+    <button class="btn btn-blue" onclick="goTo(2)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 2 — EXPERIMENTOS
+══════════════════════════════════════════════════════════════════ -->
+<div class="page" id="p2">
+  <div class="step-hdr">
+    <div class="step-badge"><div class="badge-circle">2</div>EXPERIMENTOS</div>
+    <h1>Manos a la obra</h1>
+    <p>Realiza los 3 experimentos en orden. Marca cada paso al completarlo.</p>
+    <div class="time-badge">⏱ 40–50 min aprox.</div>
+  </div>
+
+  <!-- ─ EXP 1: BLINK ─────────────────────────────────────────── -->
+  <div class="card" style="border-top:3px solid var(--blue)">
+    <div class="card-title" style="color:var(--blue)">🔵 Experimento 1 — Blink LED</div>
+    <p>El experimento clásico de Arduino. Vamos a hacer parpadear el <strong>LED integrado</strong> en el pin 13 sin necesidad de componentes externos.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-hdr">
+      <span class="code-name">blink_led.ino</span>
+      <button class="copy-btn" onclick="copyCode('blink')">📋 Copiar</button>
+    </div>
+    <div class="code-body" id="blink-code"><span class="co">// ── Experimento 1: Blink LED ─────────────────────</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(<span class="nm">13</span>, OUTPUT);   <span class="co">// pin 13 como SALIDA</span>
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="fn">digitalWrite</span>(<span class="nm">13</span>, HIGH);  <span class="co">// encender</span>
+  <span class="fn">delay</span>(<span class="nm">1000</span>);              <span class="co">// 1 segundo</span>
+  <span class="fn">digitalWrite</span>(<span class="nm">13</span>, LOW);   <span class="co">// apagar</span>
+  <span class="fn">delay</span>(<span class="nm">1000</span>);              <span class="co">// 1 segundo</span>
+}</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-info"><span>Progreso Experimento 1</span><span id="blink-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="blink-fill" style="width:0"></div></div>
+  </div>
+
+  <ul class="steps-list" id="blink-steps">
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Conecté el Arduino al computador con el cable USB</div></li>
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Abrí el IDE de Arduino (o Tinkercad)</div></li>
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Escribí (o copié) el código de arriba en el editor</div></li>
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Hice clic en <strong>Verificar</strong> ✓ — sin errores</div></li>
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Hice clic en <strong>Subir</strong> → y el LED parpadeó</div></li>
+    <li onclick="checkStep(this,'blink')"><div class="step-cb">✓</div><div class="step-txt">Cambié el <code>delay(1000)</code> a otro valor y subí de nuevo</div></li>
+  </ul>
+
+  <div class="info warn" style="margin-top:8px">
+    <span class="info-ico">⚠️</span>
+    <span><strong>delay = milisegundos:</strong> 1000 = 1 segundo. Con delay(50) el LED parpadea tan rápido que parece siempre encendido. ¡Pruébalo!</span>
+  </div>
+
+  <div style="border-top:1px solid var(--g200); margin:28px 0; padding-top:28px">
+
+  <!-- ─ EXP 2: SIRENA ─────────────────────────────────────────── -->
+  <div class="card" style="border-top:3px solid var(--green)">
+    <div class="card-title" style="color:var(--green)">🟢 Experimento 2 — Sirena de policía</div>
+    <p>Dos LEDs (rojo y azul/otro color) alternándose rápidamente simulan la sirena de una patrulla. <strong>Materiales: 2 LEDs + 2 resistencias 220Ω + cables.</strong></p>
+  </div>
+
+  <div class="info blue" style="margin-bottom:12px">
+    <span class="info-ico">📌</span>
+    <span><strong>Conexión:</strong>  Pin 12 → Resistencia 220Ω → LED ROJO → GND  |  Pin 11 → Resistencia 220Ω → LED AZUL → GND</span>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-hdr">
+      <span class="code-name">sirena.ino</span>
+      <button class="copy-btn" onclick="copyCode('sirena')">📋 Copiar</button>
+    </div>
+    <div class="code-body" id="sirena-code"><span class="co">// ── Experimento 2: Sirena de policía ─────────────</span>
+
+<span class="vr">int</span> rojo = <span class="nm">12</span>;
+<span class="vr">int</span> azul = <span class="nm">11</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(rojo, OUTPUT);
+  <span class="fn">pinMode</span>(azul, OUTPUT);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="fn">digitalWrite</span>(rojo, HIGH);   <span class="co">// rojo ON</span>
+  <span class="fn">digitalWrite</span>(azul, LOW);    <span class="co">// azul OFF</span>
+  <span class="fn">delay</span>(<span class="nm">200</span>);
+
+  <span class="fn">digitalWrite</span>(rojo, LOW);    <span class="co">// rojo OFF</span>
+  <span class="fn">digitalWrite</span>(azul, HIGH);   <span class="co">// azul ON</span>
+  <span class="fn">delay</span>(<span class="nm">200</span>);
+}</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-info"><span>Progreso Experimento 2</span><span id="sirena-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="sirena-fill" style="width:0"></div></div>
+  </div>
+
+  <ul class="steps-list" id="sirena-steps">
+    <li onclick="checkStep(this,'sirena')"><div class="step-cb">✓</div><div class="step-txt">Conecté el LED rojo en pin 12 con resistencia 220Ω</div></li>
+    <li onclick="checkStep(this,'sirena')"><div class="step-cb">✓</div><div class="step-txt">Conecté el LED azul (o verde) en pin 11 con resistencia 220Ω</div></li>
+    <li onclick="checkStep(this,'sirena')"><div class="step-cb">✓</div><div class="step-txt">Escribí el código y verifiqué sin errores</div></li>
+    <li onclick="checkStep(this,'sirena')"><div class="step-cb">✓</div><div class="step-txt">Los LEDs se alternan — ¡parece una sirena!</div></li>
+    <li onclick="checkStep(this,'sirena')"><div class="step-cb">✓</div><div class="step-txt">Cambié el delay a 100ms — ¿se ve más rápida?</div></li>
+  </ul>
+
+  </div>
+
+  <div style="border-top:1px solid var(--g200); margin:28px 0; padding-top:28px">
+
+  <!-- ─ EXP 3: SEMAFORO ─────────────────────────────────────────── -->
+  <div class="card" style="border-top:3px solid var(--orange)">
+    <div class="card-title" style="color:var(--orange)">🟠 Experimento 3 — Semáforo</div>
+    <p>El semáforo clásico con 3 LEDs y tiempos reales. Este experimento es la <strong>base directa del proyecto Semáforo doble</strong>. <strong>Materiales: LED rojo + amarillo + verde + 3 resistencias 220Ω.</strong></p>
+  </div>
+
+  <!-- SIMULADOR -->
+  <div class="sim-box">
+    <div class="sim-label">Simulador — Visualiza el semáforo antes de conectar</div>
+    <div class="traffic-row">
+      <div class="traffic-light">
+        <div class="tl-label">Semáforo 1</div>
+        <div class="led-circle" id="s1r" title="Rojo"></div>
+        <div class="led-circle" id="s1y" title="Amarillo"></div>
+        <div class="led-circle" id="s1g" title="Verde"></div>
+      </div>
+      <div class="traffic-light">
+        <div class="tl-label">Semáforo 2<br>(proyecto)</div>
+        <div class="led-circle" id="s2r" title="Rojo"></div>
+        <div class="led-circle" id="s2y" title="Amarillo"></div>
+        <div class="led-circle" id="s2g" title="Verde"></div>
+      </div>
+    </div>
+    <div class="sim-controls">
+      <button class="sim-btn" onclick="simPlay()">▶ Play</button>
+      <button class="sim-btn" onclick="simStop()">⏹ Stop</button>
+      <button class="sim-btn" onclick="simStep()">→ Paso a paso</button>
+    </div>
+    <div class="state-display" id="stateDisp">Haz clic en ▶ Play para simular</div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-hdr">
+      <span class="code-name">semaforo.ino</span>
+      <button class="copy-btn" onclick="copyCode('sem')">📋 Copiar</button>
+    </div>
+    <div class="code-body" id="sem-code"><span class="co">// ── Experimento 3: Semáforo ──────────────────────</span>
+
+<span class="vr">int</span> rojo    = <span class="nm">13</span>;
+<span class="vr">int</span> amarillo = <span class="nm">12</span>;
+<span class="vr">int</span> verde   = <span class="nm">11</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(rojo,    OUTPUT);
+  <span class="fn">pinMode</span>(amarillo, OUTPUT);
+  <span class="fn">pinMode</span>(verde,   OUTPUT);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="co">// VERDE — circular</span>
+  <span class="fn">digitalWrite</span>(verde, HIGH);
+  <span class="fn">delay</span>(<span class="nm">3000</span>);
+  <span class="fn">digitalWrite</span>(verde, LOW);
+
+  <span class="co">// AMARILLO — precaución</span>
+  <span class="fn">digitalWrite</span>(amarillo, HIGH);
+  <span class="fn">delay</span>(<span class="nm">1000</span>);
+  <span class="fn">digitalWrite</span>(amarillo, LOW);
+
+  <span class="co">// ROJO — alto</span>
+  <span class="fn">digitalWrite</span>(rojo, HIGH);
+  <span class="fn">delay</span>(<span class="nm">3000</span>);
+  <span class="fn">digitalWrite</span>(rojo, LOW);
+}</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-info"><span>Progreso Experimento 3</span><span id="sem-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="sem-fill" style="width:0"></div></div>
+  </div>
+
+  <ul class="steps-list" id="sem-steps">
+    <li onclick="checkStep(this,'sem')"><div class="step-cb">✓</div><div class="step-txt">Conecté LED rojo (pin 13), amarillo (pin 12), verde (pin 11) con resistencias</div></li>
+    <li onclick="checkStep(this,'sem')"><div class="step-cb">✓</div><div class="step-txt">Configuré los 3 pines como OUTPUT en setup()</div></li>
+    <li onclick="checkStep(this,'sem')"><div class="step-cb">✓</div><div class="step-txt">El semáforo sigue la secuencia: verde → amarillo → rojo</div></li>
+    <li onclick="checkStep(this,'sem')"><div class="step-cb">✓</div><div class="step-txt">Ajusté los tiempos para que se vea realista</div></li>
+    <li onclick="checkStep(this,'sem')"><div class="step-cb">✓</div><div class="step-txt">Entiendo cómo este código se convierte en el Semáforo doble</div></li>
+  </ul>
+
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="goTo(1)">← Atrás</button>
+    <span class="step-ind">Paso 2 de 5</span>
+    <button class="btn btn-blue" onclick="goTo(3)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 3 — PROYECTO
+══════════════════════════════════════════════════════════════════ -->
+<div class="page" id="p3">
+  <div class="step-hdr">
+    <div class="step-badge"><div class="badge-circle">3</div>PROYECTO</div>
+    <h1>Semáforo doble 🚦</h1>
+    <p>Sincroniza dos semáforos para que funcionen como una intersección real</p>
+    <div class="time-badge">⏱ 20–30 min aprox.</div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#1e3a8a,#1e40af);color:white;border:none">
+    <div class="card-title" style="color:#93C5FD">RETO DEL PROYECTO</div>
+    <p style="color:#E0E7FF;font-size:15px;line-height:1.7">Cuando el <strong style="color:white">Semáforo 1 está en verde</strong>, el <strong style="color:white">Semáforo 2 debe estar en rojo</strong>, y viceversa. Los dos pasan por amarillo antes de cambiar. Así funciona una intersección real.</p>
+  </div>
+
+  <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">Pasos del proyecto</h3>
+
+  <div class="prog-wrap">
+    <div class="prog-info"><span>Progreso del proyecto</span><span id="proj-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="proj-fill" style="width:0"></div></div>
+  </div>
+
+  <ul class="steps-list" id="proj-steps">
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Tengo el Experimento 3 (Semáforo simple) funcionando</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Agregué 3 pines más para el segundo semáforo (pines 10, 9, 8 para R/A/V)</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Configuré los 6 pines como OUTPUT en setup()</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Cuando S1 = verde, S2 = rojo al mismo tiempo</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Cuando S1 = rojo, S2 = verde al mismo tiempo</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">Ambos semáforos pasan por amarillo antes de cambiar</div></li>
+    <li onclick="checkStep(this,'proj')"><div class="step-cb">✓</div><div class="step-txt">El ciclo completo funciona sin interrupciones</div></li>
+  </ul>
+
+  <div class="info green" style="margin-top:16px">
+    <span class="info-ico">💡</span>
+    <span><strong>Tip:</strong> Define variables para los 6 pines al inicio. En el loop(), cuando enciendas verde de S1, en el mismo bloque apaga el rojo de S2 y enciende el rojo del S2. ¡Usan el mismo delay!</span>
+  </div>
+
+  <h3 style="font-size:16px;font-weight:700;margin:24px 0 12px">Diseño 3D — Ciudad (composición) 🏙️</h3>
+  <div class="card" style="border-left:4px solid var(--orange); border-top:1px solid var(--g200)">
+    <div class="card-title" style="color:var(--orange)">TAREA DE DISEÑO</div>
+    <p>En Tinkercad CAD, construye una <strong>ciudad en composición</strong>: usa formas geométricas básicas (cubos, cilindros, conos) para crear edificios, una calle y el poste del semáforo. El reto es componer al menos 5 elementos diferentes.</p>
+  </div>
+
+  <div class="prog-wrap" style="margin-top:16px">
+    <div class="prog-info"><span>Progreso Diseño 3D</span><span id="d3d-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="d3d-fill" style="width:0"></div></div>
+  </div>
+  <ul class="steps-list" id="d3d-steps">
+    <li onclick="checkStep(this,'d3d')"><div class="step-cb">✓</div><div class="step-txt">Abrí Tinkercad CAD y creé un nuevo diseño</div></li>
+    <li onclick="checkStep(this,'d3d')"><div class="step-cb">✓</div><div class="step-txt">Construí al menos 3 edificios con figuras geométricas</div></li>
+    <li onclick="checkStep(this,'d3d')"><div class="step-cb">✓</div><div class="step-txt">Diseñé el poste del semáforo (cilindro + caja)</div></li>
+    <li onclick="checkStep(this,'d3d')"><div class="step-cb">✓</div><div class="step-txt">Organicé los elementos para formar una calle</div></li>
+    <li onclick="checkStep(this,'d3d')"><div class="step-cb">✓</div><div class="step-txt">Guardé y exporté o compartí el diseño</div></li>
+  </ul>
+
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="goTo(2)">← Atrás</button>
+    <span class="step-ind">Paso 3 de 5</span>
+    <button class="btn btn-blue" onclick="goTo(4)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 4 — QUIZ
+══════════════════════════════════════════════════════════════════ -->
+<div class="page" id="p4">
+  <div class="step-hdr">
+    <div class="step-badge"><div class="badge-circle">4</div>QUIZ</div>
+    <h1>¿Cuánto aprendiste?</h1>
+    <p>6 preguntas sobre los temas de la clase. ¡Sin trampa!</p>
+  </div>
+
+  <div class="score-bar" id="scoreBar">
+    <div class="score-num" id="scoreNum">–</div>
+    <div class="score-txt" id="scoreTxt"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-text">1. ¿Cuáles son las dos funciones obligatorias de todo programa Arduino?</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,false,'q1')"><span class="q-icon">○</span>start() y run()</button>
+      <button class="q-opt" onclick="ans(this,true,'q1')"><span class="q-icon">○</span>setup() y loop()</button>
+      <button class="q-opt" onclick="ans(this,false,'q1')"><span class="q-icon">○</span>begin() y execute()</button>
+      <button class="q-opt" onclick="ans(this,false,'q1')"><span class="q-icon">○</span>init() y repeat()</button>
+    </div>
+    <div class="q-fb" id="q1-fb"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-text">2. ¿Qué hace <code style="background:var(--g100);padding:2px 6px;border-radius:3px;font-family:var(--mono);font-size:13px">delay(500)</code>?</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,false,'q2')"><span class="q-icon">○</span>Espera 5 segundos</button>
+      <button class="q-opt" onclick="ans(this,false,'q2')"><span class="q-icon">○</span>Espera 5 minutos</button>
+      <button class="q-opt" onclick="ans(this,true,'q2')"><span class="q-icon">○</span>Espera medio segundo (500 ms)</button>
+      <button class="q-opt" onclick="ans(this,false,'q2')"><span class="q-icon">○</span>Detiene el programa definitivamente</button>
+    </div>
+    <div class="q-fb" id="q2-fb"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-text">3. Para encender un LED en el pin 7, ¿qué instrucción usas?</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,false,'q3')"><span class="q-icon">○</span>ledOn(7)</button>
+      <button class="q-opt" onclick="ans(this,false,'q3')"><span class="q-icon">○</span>pinWrite(7, ON)</button>
+      <button class="q-opt" onclick="ans(this,true,'q3')"><span class="q-icon">○</span>digitalWrite(7, HIGH)</button>
+      <button class="q-opt" onclick="ans(this,false,'q3')"><span class="q-icon">○</span>setPin(7, 1)</button>
+    </div>
+    <div class="q-fb" id="q3-fb"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-text">4. ¿Qué pasa si conectas un LED al Arduino SIN resistencia?</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,false,'q4')"><span class="q-icon">○</span>El LED brilla más fuerte</button>
+      <button class="q-opt" onclick="ans(this,false,'q4')"><span class="q-icon">○</span>No pasa nada diferente</button>
+      <button class="q-opt" onclick="ans(this,true,'q4')"><span class="q-icon">○</span>El LED se quema y puede dañar el pin del Arduino</button>
+      <button class="q-opt" onclick="ans(this,false,'q4')"><span class="q-icon">○</span>El LED parpadea más rápido</button>
+    </div>
+    <div class="q-fb" id="q4-fb"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-text">5. En el Semáforo doble, cuando S1 está en verde, S2 debe estar en:</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,false,'q5')"><span class="q-icon">○</span>Verde también</button>
+      <button class="q-opt" onclick="ans(this,false,'q5')"><span class="q-icon">○</span>Amarillo</button>
+      <button class="q-opt" onclick="ans(this,true,'q5')"><span class="q-icon">○</span>Rojo</button>
+      <button class="q-opt" onclick="ans(this,false,'q5')"><span class="q-icon">○</span>Apagado</button>
+    </div>
+    <div class="q-fb" id="q5-fb"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-text">6. ¿En qué función de Arduino se configura el <code style="background:var(--g100);padding:2px 6px;border-radius:3px;font-family:var(--mono);font-size:13px">pinMode()</code>?</div>
+    <div class="q-opts">
+      <button class="q-opt" onclick="ans(this,true,'q6')"><span class="q-icon">○</span>En setup(), porque se configura una sola vez</button>
+      <button class="q-opt" onclick="ans(this,false,'q6')"><span class="q-icon">○</span>En loop(), para que se configure siempre</button>
+      <button class="q-opt" onclick="ans(this,false,'q6')"><span class="q-icon">○</span>En cualquier parte del código</button>
+      <button class="q-opt" onclick="ans(this,false,'q6')"><span class="q-icon">○</span>No es necesario configurarlo</button>
+    </div>
+    <div class="q-fb" id="q6-fb"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="goTo(3)">← Atrás</button>
+    <span class="step-ind">Paso 4 de 5</span>
+    <button class="btn btn-blue" onclick="goTo(5)">Finalizar →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 5 — FINISH
+══════════════════════════════════════════════════════════════════ -->
+<div class="page" id="p5">
+  <div class="finish">
+    <div class="fin-ico">🎉</div>
+    <h2>¡Clase 2 completada!</h2>
+    <p>Conoces Arduino, programas el Blink, la Sirena y el Semáforo. Ya tienes la base para construir el Semáforo doble.</p>
+    <div class="next-card">
+      <div class="next-label">📚 Próxima clase (Clase 3)</div>
+      <div class="next-text">Tipos de circuitos: serie, paralelo, multímetro y protoboard → Proyecto: Secuenciador de LEDs</div>
+    </div>
+    <div class="fin-btns">
+      <button class="btn btn-ghost" onclick="goTo(4)">← Revisar quiz</button>
+      <button class="btn btn-green" onclick="goTo(0);resetAll()">🔁 Reiniciar</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ─── State ──────────────────────────────────────────────────────────────────
+let cur = 0, total = 6;
+let quizScore = 0, quizDone = {};
+let timerStart = Date.now(), timerTick;
+let simInt, simState = 0, simRunning = false;
+
+// ─── Navigation ─────────────────────────────────────────────────────────────
+function goTo(n) {
+  document.getElementById(`p${cur}`).classList.remove('active');
+  cur = n;
+  document.getElementById(`p${n}`).classList.add('active');
+  buildNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildNav() {
+  const c = document.getElementById('navSteps');
+  c.innerHTML = '';
+  for (let i = 1; i <= total - 1; i++) {
+    const d = document.createElement('div');
+    d.className = 'ns' + (i === cur ? ' active' : i < cur ? ' done' : '');
+    d.textContent = i < cur ? '✓' : i;
+    d.onclick = () => goTo(i);
+    c.appendChild(d);
+  }
+}
+
+// ─── Timer ───────────────────────────────────────────────────────────────────
+timerTick = setInterval(() => {
+  const s = Math.floor((Date.now() - timerStart) / 1000);
+  document.getElementById('timer').textContent =
+    `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}, 1000);
+
+// ─── Checklist ───────────────────────────────────────────────────────────────
+const counts = { blink: 0, sirena: 0, sem: 0, proj: 0, d3d: 0 };
+const totals = { blink: 6, sirena: 5, sem: 5, proj: 7, d3d: 5 };
+
+function checkStep(el, key) {
+  el.classList.toggle('done');
+  counts[key] = document.querySelectorAll(`#${key}-steps li.done`).length;
+  const pct = Math.round(counts[key] / totals[key] * 100);
+  document.getElementById(`${key}-pct`).textContent = pct + '%';
+  document.getElementById(`${key}-fill`).style.width = pct + '%';
+}
+
+// ─── Quiz ────────────────────────────────────────────────────────────────────
+function ans(btn, correct, qid) {
+  if (quizDone[qid]) return;
+  quizDone[qid] = true;
+  const opts = btn.closest('.q-opts').querySelectorAll('.q-opt');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  if (correct) quizScore++;
+  const fb = document.getElementById(`${qid}-fb`);
+  fb.className = `q-fb ${correct ? 'ok' : 'no'}`;
+  fb.textContent = correct ? '✓ ¡Correcto!' : '✗ Incorrecto. La respuesta correcta está marcada en verde.';
+  if (Object.keys(quizDone).length === 6) showScore();
+}
+
+function showScore() {
+  const bar = document.getElementById('scoreBar');
+  const emojis = ['😅', '🙂', '👍', '🌟', '🏆', '🏆', '🏆'];
+  bar.style.display = 'block';
+  document.getElementById('scoreNum').textContent = `${quizScore} / 6  ${emojis[quizScore]}`;
+  document.getElementById('scoreTxt').textContent =
+    quizScore >= 5 ? '¡Excelente dominio del tema!' :
+    quizScore >= 4 ? '¡Muy bien! Repasa los temas donde fallaste.' :
+    quizScore >= 3 ? 'Buen intento. Revisa la teoría y vuelve a intentarlo.' :
+    'Necesitas repasar la teoría antes de seguir.';
+  bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── Traffic Light Simulator ──────────────────────────────────────────────────
+const STATES = [
+  { name:'S1=VERDE / S2=ROJO',   s1:'g', s2:'r', t:2000 },
+  { name:'S1=AMARILLO / S2=ROJO',s1:'y', s2:'r', t:700  },
+  { name:'S1=ROJO / S2=VERDE',   s1:'r', s2:'g', t:2000 },
+  { name:'S1=ROJO / S2=AMARILLO',s1:'r', s2:'y', t:700  },
+];
+
+function applyState(st) {
+  const leds = ['s1r','s1y','s1g','s2r','s2y','s2g'];
+  leds.forEach(id => {
+    const el = document.getElementById(id);
+    el.className = 'led-circle';
+  });
+  const map = { r:'on-red', y:'on-yellow', g:'on-green' };
+  document.getElementById('s1r').classList.add(st.s1 === 'r' ? map.r : '');
+  document.getElementById('s1y').classList.add(st.s1 === 'y' ? map.y : '');
+  document.getElementById('s1g').classList.add(st.s1 === 'g' ? map.g : '');
+  document.getElementById('s2r').classList.add(st.s2 === 'r' ? map.r : '');
+  document.getElementById('s2y').classList.add(st.s2 === 'y' ? map.y : '');
+  document.getElementById('s2g').classList.add(st.s2 === 'g' ? map.g : '');
+  // clean empty classes
+  leds.forEach(id => {
+    const el = document.getElementById(id);
+    el.className = el.className.trim().replace(/\s+/g, ' ').replace('led-circle ','led-circle');
+  });
+  document.getElementById('stateDisp').textContent = `Estado: ${st.name}`;
+}
+
+function simPlay() {
+  if (simRunning) return;
+  simRunning = true;
+  document.querySelector('.sim-btn').classList.add('on');
+  function tick() {
+    const st = STATES[simState % STATES.length];
+    applyState(st);
+    simState++;
+    if (simRunning) simInt = setTimeout(tick, st.t);
+  }
+  tick();
+}
+
+function simStop() {
+  simRunning = false;
+  clearTimeout(simInt);
+  document.querySelector('.sim-btn').classList.remove('on');
+  ['s1r','s1y','s1g','s2r','s2y','s2g'].forEach(id =>
+    document.getElementById(id).className = 'led-circle'
+  );
+  document.getElementById('stateDisp').textContent = 'Simulador detenido';
+  simState = 0;
+}
+
+function simStep() {
+  simStop();
+  const st = STATES[simState % STATES.length];
+  applyState(st);
+  simState++;
+}
+
+// ─── Copy Code ───────────────────────────────────────────────────────────────
+const codes = {
+  blink: `void setup() {\n  pinMode(13, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(1000);\n  digitalWrite(13, LOW);\n  delay(1000);\n}`,
+  sirena:`int rojo = 12;\nint azul = 11;\n\nvoid setup() {\n  pinMode(rojo, OUTPUT);\n  pinMode(azul, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(rojo, HIGH);\n  digitalWrite(azul, LOW);\n  delay(200);\n  digitalWrite(rojo, LOW);\n  digitalWrite(azul, HIGH);\n  delay(200);\n}`,
+  sem:   `int rojo = 13;\nint amarillo = 12;\nint verde = 11;\n\nvoid setup() {\n  pinMode(rojo, OUTPUT);\n  pinMode(amarillo, OUTPUT);\n  pinMode(verde, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(verde, HIGH);\n  delay(3000);\n  digitalWrite(verde, LOW);\n\n  digitalWrite(amarillo, HIGH);\n  delay(1000);\n  digitalWrite(amarillo, LOW);\n\n  digitalWrite(rojo, HIGH);\n  delay(3000);\n  digitalWrite(rojo, LOW);\n}`,
+};
+
+function copyCode(key) {
+  navigator.clipboard.writeText(codes[key]).then(() => {
+    const btns = document.querySelectorAll('.copy-btn');
+    btns.forEach(b => {
+      if (b.getAttribute('onclick').includes(key)) {
+        b.textContent = '✓ Copiado';
+        setTimeout(() => b.textContent = '📋 Copiar', 2000);
+      }
+    });
+  });
+}
+
+// ─── Reset ───────────────────────────────────────────────────────────────────
+function resetAll() {
+  quizScore = 0; quizDone = {};
+  document.querySelectorAll('.q-opt').forEach(o => { o.disabled=false; o.className='q-opt'; });
+  document.querySelectorAll('.q-fb').forEach(f => f.className='q-fb');
+  document.getElementById('scoreBar').style.display='none';
+  document.querySelectorAll('.steps-list li').forEach(l => l.classList.remove('done'));
+  Object.keys(counts).forEach(k => {
+    counts[k] = 0;
+    const pEl = document.getElementById(`${k}-pct`);
+    const fEl = document.getElementById(`${k}-fill`);
+    if (pEl) pEl.textContent = '0%';
+    if (fEl) fEl.style.width = '0';
+  });
+  timerStart = Date.now();
+  simStop();
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+buildNav();
+</script>
+</body>
+</html>
