@@ -170,36 +170,40 @@ section.topic{
   position:relative;border-radius:12px;overflow:hidden;
   margin-bottom:24px;cursor:pointer;background:#000;
   border:1px solid var(--border);
+  display:block;text-decoration:none;
 }
 .video-card img{
-  width:100%;display:block;
-  aspect-ratio:16/9;object-fit:cover;
-  transition:opacity .3s,transform .3s;
+  width:100%;display:block;aspect-ratio:16/9;object-fit:cover;
+  transition:opacity .3s,transform .4s;
 }
-.video-card:hover img{opacity:.7;transform:scale(1.02)}
+.video-card:hover img{opacity:.65;transform:scale(1.03)}
 .video-overlay{
   position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;
+  align-items:center;justify-content:center;gap:12px;
+  pointer-events:none;
 }
 .play-btn{
-  width:68px;height:68px;border-radius:50%;
-  background:rgba(255,0,0,.9);border:none;cursor:pointer;
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,0,0,.92);
   display:flex;align-items:center;justify-content:center;
-  transition:transform .2s,background .2s;box-shadow:0 4px 20px rgba(0,0,0,.5);
+  transition:transform .2s,background .2s;
+  box-shadow:0 4px 24px rgba(0,0,0,.6);
+  pointer-events:none;
 }
-.play-btn:hover{transform:scale(1.1);background:rgba(255,0,0,1)}
-.play-btn svg{width:26px;height:26px;fill:white;margin-left:4px}
+.video-card:hover .play-btn{transform:scale(1.12);background:#ff0000}
+.play-btn svg{width:28px;height:28px;fill:white;margin-left:5px}
 .video-label{
-  font-family:'DM Mono',monospace;font-size:12px;color:rgba(255,255,255,.85);
-  background:rgba(0,0,0,.6);padding:6px 14px;border-radius:20px;
-  letter-spacing:.5px;
+  font-family:'DM Mono',monospace;font-size:12px;
+  color:rgba(255,255,255,.9);
+  background:rgba(0,0,0,.65);padding:7px 16px;
+  border-radius:20px;letter-spacing:.5px;max-width:80%;text-align:center;
 }
-.video-card iframe{
-  position:absolute;inset:0;width:100%;height:100%;border:0;
-  display:none;
+.video-yt-badge{
+  position:absolute;bottom:12px;right:14px;
+  background:rgba(0,0,0,.75);border-radius:6px;
+  padding:4px 10px;font-family:'DM Mono',monospace;
+  font-size:10px;color:rgba(255,255,255,.7);letter-spacing:1px;
 }
-.video-card.playing iframe{display:block}
-.video-card.playing img,.video-card.playing .video-overlay{display:none}
 
 /* ── INTERACTIVE OHM CALCULATOR ── */
 .calculator{
@@ -334,6 +338,45 @@ section.topic{
   #sidebar{display:none}
   main{margin-left:0}
 }
+
+.video-yt-badge{
+  position:absolute;bottom:12px;right:14px;
+  background:rgba(0,0,0,.75);border-radius:6px;
+  padding:4px 10px;font-family:'DM Mono',monospace;
+  font-size:10px;color:rgba(255,255,255,.7);letter-spacing:1px;
+}
+.video-card{
+  position:relative;border-radius:12px;overflow:hidden;
+  margin-bottom:24px;cursor:pointer;background:#000;
+  border:1px solid var(--border);
+  display:block;text-decoration:none;
+}
+.video-card img{
+  width:100%;display:block;aspect-ratio:16/9;object-fit:cover;
+  transition:opacity .3s,transform .4s;
+}
+.video-card:hover img{opacity:.65;transform:scale(1.03)}
+.video-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  pointer-events:none;
+}
+.play-btn{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,0,0,.92);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;
+  box-shadow:0 4px 24px rgba(0,0,0,.6);
+  pointer-events:none;
+}
+.video-card:hover .play-btn{transform:scale(1.12)}
+.play-btn svg{width:28px;height:28px;fill:white;margin-left:5px}
+.video-label{
+  font-family:'DM Mono',monospace;font-size:12px;
+  color:rgba(255,255,255,.9);
+  background:rgba(0,0,0,.65);padding:7px 16px;
+  border-radius:20px;letter-spacing:.5px;max-width:80%;text-align:center;
+}
 </style>
 </head>
 <body>
@@ -447,17 +490,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-0" onclick="playVideo(0,'ru032Mfsfig')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=ru032Mfsfig" target="_blank" rel="noopener" aria-label="Ver video: Corriente eléctrica">
     <img src="https://img.youtube.com/vi/ru032Mfsfig/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/ru032Mfsfig/hqdefault.jpg'"
-         alt="Corriente eléctrica — CrashCourse en Español" loading="lazy">
+         alt="Corriente eléctrica" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
-      <span class="video-label">▶  Corriente eléctrica — CrashCourse en Español</span>
+      </div>
+      <span class="video-label">▶  Corriente eléctrica</span>
     </div>
-    <iframe title="Corriente eléctrica — CrashCourse en Español" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 
   <div class="quiz-box">
@@ -469,7 +513,7 @@ section.topic{
         <button class="quiz-opt" onclick="checkQuiz(this,'correct','¡Correcto! I = Q/t = 6C / 2s = 3 Amperios')">3 A</button>
         <button class="quiz-opt" onclick="checkQuiz(this,'wrong','La corriente es I = Q/t = 6/2 = 3A, no 0.33A')">0.33 A</button>
       </div>
-      <div class="quiz-feedback"></div>
+      <div class="quiz-feedback" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -526,17 +570,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-1" onclick="playVideo(1,'w82aSjLuD_8')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=w82aSjLuD_8" target="_blank" rel="noopener" aria-label="Ver video: Voltaje y diferencia de potencial">
     <img src="https://img.youtube.com/vi/w82aSjLuD_8/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/w82aSjLuD_8/hqdefault.jpg'"
          alt="Voltaje y diferencia de potencial" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Voltaje y diferencia de potencial</span>
     </div>
-    <iframe title="Voltaje y diferencia de potencial" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 </section>
 
@@ -594,17 +639,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-2" onclick="playVideo(2,'o9AsOOkF0S8')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=o9AsOOkF0S8" target="_blank" rel="noopener" aria-label="Ver video: Resistencia eléctrica y resistores">
     <img src="https://img.youtube.com/vi/o9AsOOkF0S8/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/o9AsOOkF0S8/hqdefault.jpg'"
          alt="Resistencia eléctrica y resistores" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Resistencia eléctrica y resistores</span>
     </div>
-    <iframe title="Resistencia eléctrica y resistores" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 
   <div class="quiz-box">
@@ -616,7 +662,7 @@ section.topic{
         <button class="quiz-opt" onclick="checkQuiz(this,'wrong','El plástico es aislante — tiene altísima resistencia')">Plástico</button>
         <button class="quiz-opt" onclick="checkQuiz(this,'wrong','La goma es aislante — se usa para cubrir cables')">Goma</button>
       </div>
-      <div class="quiz-feedback"></div>
+      <div class="quiz-feedback" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -703,17 +749,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-3" onclick="playVideo(3,'VnnpLaKsqGU')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=VnnpLaKsqGU" target="_blank" rel="noopener" aria-label="Ver video: Circuito eléctrico y sus elementos">
     <img src="https://img.youtube.com/vi/VnnpLaKsqGU/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/VnnpLaKsqGU/hqdefault.jpg'"
          alt="Circuito eléctrico y sus elementos" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Circuito eléctrico y sus elementos</span>
     </div>
-    <iframe title="Circuito eléctrico y sus elementos" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 </section>
 
@@ -779,17 +826,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-4" onclick="playVideo(4,'4yk3HiVgbWk')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=4yk3HiVgbWk" target="_blank" rel="noopener" aria-label="Ver video: Circuitos en serie">
     <img src="https://img.youtube.com/vi/4yk3HiVgbWk/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/4yk3HiVgbWk/hqdefault.jpg'"
-         alt="Circuitos en serie — paso a paso" loading="lazy">
+         alt="Circuitos en serie" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
-      <span class="video-label">▶  Circuitos en serie — paso a paso</span>
+      </div>
+      <span class="video-label">▶  Circuitos en serie</span>
     </div>
-    <iframe title="Circuitos en serie — paso a paso" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 </section>
 
@@ -878,17 +926,18 @@ section.topic{
     </tbody>
   </table>
 
-  <div class="video-card" id="vc-5" onclick="playVideo(5,'ZRLXDiiUv8Q')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=ZRLXDiiUv8Q" target="_blank" rel="noopener" aria-label="Ver video: Circuitos en paralelo">
     <img src="https://img.youtube.com/vi/ZRLXDiiUv8Q/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/ZRLXDiiUv8Q/hqdefault.jpg'"
          alt="Circuitos en paralelo" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Circuitos en paralelo</span>
     </div>
-    <iframe title="Circuitos en paralelo" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 </section>
 
@@ -942,7 +991,7 @@ section.topic{
       <button class="calc-btn" style="background:rgba(239,68,68,.2);color:var(--red);"    onclick="calcOhm('r')">Calcular R</button>
       <button class="calc-btn" style="background:rgba(255,255,255,.06);color:var(--muted);" onclick="resetCalc()">Limpiar</button>
     </div>
-    <div class="calc-result" id="calc-result"></div>
+    <div class="calc-result" id="calc-result" style="display:none"></div>
   </div>
 
   <div class="analogy">
@@ -950,17 +999,18 @@ section.topic{
     <p><strong>Ejemplo práctico:</strong> Tienes una batería de <strong>9V</strong> y una resistencia de <strong>470Ω</strong>. ¿Cuánta corriente fluye? <br>I = V/R = 9/470 = <strong>0.019 A = 19 mA</strong> — perfecto para un LED.</p>
   </div>
 
-  <div class="video-card" id="vc-6" onclick="playVideo(6,'8jB6hDUqN0Y')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=8jB6hDUqN0Y" target="_blank" rel="noopener" aria-label="Ver video: Ley de Ohm — explicación completa">
     <img src="https://img.youtube.com/vi/8jB6hDUqN0Y/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/8jB6hDUqN0Y/hqdefault.jpg'"
          alt="Ley de Ohm — explicación completa" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Ley de Ohm — explicación completa</span>
     </div>
-    <iframe title="Ley de Ohm — explicación completa" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 
   <div class="quiz-box">
@@ -972,7 +1022,7 @@ section.topic{
         <button class="quiz-opt" onclick="checkQuiz(this,'wrong','I = V/R = 5/330 ≈ 0.0152A, no 1.65A')">1.65 A</button>
         <button class="quiz-opt" onclick="checkQuiz(this,'correct','¡Correcto! I = 5V / 330Ω = 0.0152A = 15.2 mA')">15.2 mA</button>
       </div>
-      <div class="quiz-feedback"></div>
+      <div class="quiz-feedback" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -1069,17 +1119,18 @@ section.topic{
     </div>
   </div>
 
-  <div class="video-card" id="vc-7" onclick="playVideo(7,'E0N5X6eFGMc')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=E0N5X6eFGMc" target="_blank" rel="noopener" aria-label="Ver video: Leyes de Kirchhoff KCL y KVL">
     <img src="https://img.youtube.com/vi/E0N5X6eFGMc/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/E0N5X6eFGMc/hqdefault.jpg'"
          alt="Leyes de Kirchhoff KCL y KVL" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Leyes de Kirchhoff KCL y KVL</span>
     </div>
-    <iframe title="Leyes de Kirchhoff KCL y KVL" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 
   <div class="quiz-box">
@@ -1091,7 +1142,7 @@ section.topic{
         <button class="quiz-opt" onclick="checkQuiz(this,'correct','¡Correcto! LCK: I_sal = 4A + 6A = 10A (la carga se conserva)')">10 A</button>
         <button class="quiz-opt" onclick="checkQuiz(this,'wrong','Por la LCK: I_sal = I_ent₁ + I_ent₂ = 4+6 = 10A')">24 A</button>
       </div>
-      <div class="quiz-feedback"></div>
+      <div class="quiz-feedback" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -1171,17 +1222,18 @@ section.topic{
     <p style="font-size:12px;color:var(--muted);text-align:center">El multímetro conectado en serie mostraría este valor ↑</p>
   </div>
 
-  <div class="video-card" id="vc-8" onclick="playVideo(8,'SLkPtbrGLl8')">
+  <a class="video-card" href="https://www.youtube.com/watch?v=SLkPtbrGLl8" target="_blank" rel="noopener" aria-label="Ver video: Cómo usar un multímetro digital">
     <img src="https://img.youtube.com/vi/SLkPtbrGLl8/maxresdefault.jpg"
          onerror="this.src='https://img.youtube.com/vi/SLkPtbrGLl8/hqdefault.jpg'"
          alt="Cómo usar un multímetro digital" loading="lazy">
     <div class="video-overlay">
-      <button class="play-btn" aria-label="Reproducir video">
+      <div class="play-btn">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      </div>
       <span class="video-label">▶  Cómo usar un multímetro digital</span>
     </div>
-    <iframe title="Cómo usar un multímetro digital" allowfullscreen></iframe>
+    <span class="video-yt-badge">YouTube ↗</span>
+  </a>
   </div>
 
   <!-- RESUMEN FINAL -->
@@ -1348,14 +1400,6 @@ window.addEventListener('scroll', () => {
   // Could add top progress bar here
 });
 
-// ── Video facade loader ──────────────────────────────────────────────
-function playVideo(idx, vidId) {
-  const card = document.getElementById('vc-'+idx);
-  if (card.classList.contains('playing')) return;
-  const iframe = card.querySelector('iframe');
-  iframe.src = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1&rel=0&modestbranding=1';
-  card.classList.add('playing');
-}
 </script>
 </body>
 </html>
