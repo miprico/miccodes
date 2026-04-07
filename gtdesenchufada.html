@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Trabajo — Programación Desenchufada</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f3ee;
+    --ink: #1a1714;
+    --card: #ffffff;
+    --warm: #fef9f3;
+    --red: #d93a2b;
+    --blue: #1d4ed8;
+    --green: #15803d;
+    --amber: #b45309;
+    --purple: #7c3aed;
+    --border: #e2dcd4;
+    --muted: #7a736b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.75;
+  }
+
+  /* NAV STRIP */
+  .nav-strip {
+    background: var(--ink);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-strip .doc-id { color: var(--red); }
+
+  /* HERO */
+  .hero {
+    padding: 72px 48px 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .hero-sub {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+    margin-top: 16px;
+    max-width: 520px;
+  }
+
+  .hero-badge-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    background: var(--ink);
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    padding: 8px 16px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .badge.red { background: var(--red); }
+  .badge.blue { background: var(--blue); }
+
+  /* INTRO BOX */
+  .intro-box {
+    max-width: 980px;
+    margin: 48px auto 0;
+    padding: 0 48px;
+  }
+
+  .intro-inner {
+    background: var(--ink);
+    color: white;
+    border-radius: 4px;
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .intro-item label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .intro-item span {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  /* ACTIVITY BLOCK */
+  .activity {
+    margin-top: 72px;
+    border-top: 2px solid var(--ink);
+    padding-top: 40px;
+  }
+
+  .activity-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 32px;
+  }
+
+  .activity-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--border);
+  }
+
+  .activity-title-block .tag-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+
+  .tag-pilar { background: #fce7f3; color: #be185d; }
+  .tag-tiempo { background: #dbeafe; color: #1e40af; }
+  .tag-materiales { background: #dcfce7; color: #166534; }
+  .tag-grupo { background: #fef3c7; color: #92400e; }
+
+  .activity-title-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .activity-title-block .subtitle {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  /* CARDS */
+  .info-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+  }
+
+  .info-card h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .info-card ul li {
+    font-size: 0.88rem;
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+    color: #2d2a26;
+  }
+
+  .info-card ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--red);
+  }
+
+  /* STEPS */
+  .steps-block {
+    background: var(--warm);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+
+  .steps-block h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+
+  .step-dot {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .step-row.highlight .step-dot { background: var(--red); }
+
+  .step-content strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  /* PREGUNTAS */
+  .questions-block {
+    border-left: 4px solid var(--red);
+    padding: 20px 24px;
+    background: #fff5f5;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 24px;
+  }
+
+  .questions-block h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+
+  .questions-block ol {
+    padding-left: 18px;
+    font-size: 0.88rem;
+    color: #2d2a26;
+  }
+
+  .questions-block ol li { margin-bottom: 8px; }
+
+  /* ADAPTACIÓN */
+  .adapt-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .adapt-card {
+    border-radius: 4px;
+    padding: 18px 20px;
+    font-size: 0.85rem;
+  }
+
+  .adapt-card.simpler {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+  }
+
+  .adapt-card.harder {
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+  }
+
+  .adapt-card strong {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .adapt-card.simpler strong { color: var(--blue); }
+  .adapt-card.harder strong { color: var(--purple); }
+
+  /* EVAL */
+  .eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+
+  .eval-table th {
+    background: var(--ink);
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 11px 16px;
+    text-align: left;
+  }
+
+  .eval-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .eval-table tr:nth-child(even) td { background: var(--warm); }
+
+  .check { color: var(--green); font-weight: 700; }
+
+  /* SEPARATOR */
+  .sep {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--border);
+    letter-spacing: 0.2em;
+    margin: 16px 0;
+  }
+
+  /* CLOSING */
+  .closing {
+    margin-top: 72px;
+    background: var(--ink);
+    border-radius: 4px;
+    padding: 48px;
+    color: white;
+  }
+
+  .closing h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .closing h3 span { color: var(--red); }
+
+  .closing p {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin-bottom: 12px;
+  }
+
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .closing-item {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .closing-item label {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .closing-item span {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+  }
+
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 64px;
+  }
+
+  footer span { color: var(--red); }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; padding: 40px 24px 32px; }
+    .intro-inner { grid-template-columns: 1fr; }
+    .main { padding: 0 24px 60px; }
+    .two-col, .adapt-row, .closing-grid { grid-template-columns: 1fr; }
+    .activity-header { grid-template-columns: 1fr; }
+    .activity-num { font-size: 2.5rem; }
+    .nav-strip { padding: 10px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-strip">
+  <span>Pensamiento Computacional · Formación Docente</span>
+  <span class="doc-id">GT-PC-02 · Programación Desenchufada</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Guía de Trabajo · Actividades Prácticas</div>
+    <h1>Programación<br>Desenchufada<br>en el Aula</h1>
+    <p class="hero-sub">Cinco actividades secuenciadas para maestros en formación inicial. Nivel primaria baja (1.° – 3.° grado, 6–9 años).</p>
+  </div>
+  <div class="hero-badge-stack">
+    <div class="badge red">5 Actividades</div>
+    <div class="badge blue">Sin dispositivos</div>
+    <div class="badge">Listo para usar</div>
+  </div>
+</div>
+
+<!-- INTRO STRIP -->
+<div class="intro-box">
+  <div class="intro-inner">
+    <div class="intro-item">
+      <label>Propósito</label>
+      <span>Vivir el PC como alumno y enseñarlo como docente</span>
+    </div>
+    <div class="intro-item">
+      <label>Secuencia sugerida</label>
+      <span>De lo concreto a lo abstracto</span>
+    </div>
+    <div class="intro-item">
+      <label>Materiales generales</label>
+      <span>Papel, cartulina, cinta, fichas, cuerpo y voz</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ============ ACTIVIDAD 1 ============ -->
+  <div class="activity">
+    <div class="activity-header">
+      <div class="activity-num">01</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-pilar">Pilar: Algoritmos</span>
+          <span class="tag tag-tiempo">⏱ 30–40 min</span>
+          <span class="tag tag-grupo">Equipos de 4</span>
+          <span class="tag tag-materiales">Sin materiales especiales</span>
+        </div>
+        <h2>El Robot Ciego</h2>
+        <span class="subtitle">Dar instrucciones exactas cuando el otro no puede ver</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Objetivo de aprendizaje</h4>
+        <ul>
+          <li>Comprender que una computadora sigue instrucciones al pie de la letra</li>
+          <li>Construir un algoritmo verbal con precisión</li>
+          <li>Depurar (corregir) instrucciones cuando fallan</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Materiales necesarios</h4>
+        <ul>
+          <li>Un objeto de destino (mochila, caja, silla)</li>
+          <li>Cinta adhesiva para marcar el piso (opcional)</li>
+          <li>Venda o pañuelo para los ojos</li>
+          <li>Hoja de registro para anotar instrucciones</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <h4>Secuencia de la actividad — paso a paso</h4>
+
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <strong>Presentación del reto (5 min)</strong>
+          <p>El docente explica: "Un robot solo puede hacer exactamente lo que le dices. Si le dices 'camina', caminará para siempre. Necesitas decirle cuántos pasos y hacia dónde." Elige un voluntario que será el "robot".</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <strong>Escritura del algoritmo en equipo (10 min)</strong>
+          <p>Con los ojos del "robot" abiertos aún, el equipo planea y escribe en su hoja las instrucciones para ir del punto A al punto B. Deben ser instrucciones muy específicas: "Gira 90 grados a la derecha. Camina 4 pasos."</p>
+        </div>
+      </div>
+
+      <div class="step-row highlight">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <strong>Ejecución con ojos vendados (10 min)</strong>
+          <p>Se venda al "robot". El equipo lee sus instrucciones exactamente como las escribió, sin improvisar ni agregar nada. El robot obedece literalmente. El grupo observa dónde falla el algoritmo.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <strong>Depuración (debug) (8 min)</strong>
+          <p>El equipo identifica los errores: "¿Dónde se desvió? ¿Qué instrucción faltó o fue imprecisa?" Corrigen su hoja y vuelven a ejecutar. Pueden intentarlo hasta 3 veces.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">5</div>
+        <div class="step-content">
+          <strong>Plenaria de reflexión (7 min)</strong>
+          <p>El docente guía: "¿Qué fue lo más difícil de dar instrucciones? ¿Por qué no funciona decirle al robot 've allá'?" Se conecta con cómo las computadoras necesitan instrucciones exactas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions-block">
+      <h4>🗣 Preguntas detonadoras para el docente</h4>
+      <ol>
+        <li>¿Por qué el robot fue a un lugar diferente si tú le decías que caminara "recto"?</li>
+        <li>¿Qué palabras son peligrosas en un algoritmo? (allá, cerca, un poco, rápido…)</li>
+        <li>¿Cómo se siente ser el robot? ¿Querías hacer lo que el equipo quería pero no podías?</li>
+        <li>¿En qué momento de tu vida real necesitas dar instrucciones muy exactas?</li>
+      </ol>
+    </div>
+
+    <div class="adapt-row">
+      <div class="adapt-card simpler">
+        <strong>🔽 Versión más simple (1.° grado)</strong>
+        No uses venda: el "robot" solo cierra los ojos. El recorrido es de 3 pasos en línea recta. Instrucciones orales, no escritas.
+      </div>
+      <div class="adapt-card harder">
+        <strong>🔼 Versión más compleja (3.° grado)</strong>
+        El recorrido tiene obstáculos (sillas). El robot debe esquivarlos. Agregan condicionales: "Si tocas algo, detente."
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · · · · · · · · · ·</div>
+
+  <!-- ============ ACTIVIDAD 2 ============ -->
+  <div class="activity">
+    <div class="activity-header">
+      <div class="activity-num">02</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-pilar">Pilar: Descomposición</span>
+          <span class="tag tag-tiempo">⏱ 35 min</span>
+          <span class="tag tag-grupo">Individual y pares</span>
+          <span class="tag tag-materiales">Tarjetas, marcadores</span>
+        </div>
+        <h2>La Receta del Monstruo</h2>
+        <span class="subtitle">Descomponer una tarea cotidiana en pasos mínimos</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Objetivo de aprendizaje</h4>
+        <ul>
+          <li>Identificar la descomposición como estrategia de resolución</li>
+          <li>Ordenar secuencias lógicas de acciones</li>
+          <li>Distinguir entre pasos necesarios y superfluos</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Materiales necesarios</h4>
+        <ul>
+          <li>Tarjetas de cartulina (10 por equipo)</li>
+          <li>Marcadores de colores</li>
+          <li>Cinta para pegar en la pared o pizarrón</li>
+          <li>Fichas de actividades cotidianas (preparadas por el docente)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <h4>Secuencia de la actividad — paso a paso</h4>
+
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <strong>El monstruo que no sabe nada (5 min)</strong>
+          <p>El docente narra: "Llegó un monstruo amigable de otro planeta. Nunca ha lavado un plato, nunca ha sacado punta a un lápiz, nunca ha abierto una mochila. ¡Necesita tu ayuda!" Se asigna una tarea diferente a cada equipo.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <strong>Lluvia de pasos sin orden (10 min)</strong>
+          <p>Cada niño escribe en tarjetas separadas todos los pasos que se le ocurren para completar la tarea. Un paso por tarjeta. No importa el orden todavía. Se vale repetir ideas.</p>
+        </div>
+      </div>
+
+      <div class="step-row highlight">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <strong>Ordenar, eliminar y completar (12 min)</strong>
+          <p>El equipo ordena sus tarjetas en la pared. Deben eliminar pasos innecesarios o repetidos, agregar los que faltan y debatir: "¿Tiene que ir este paso antes que aquel?" Se negocian los desacuerdos.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <strong>Presentación y prueba entre equipos (8 min)</strong>
+          <p>Un equipo lee su receta en voz alta y otro equipo la "actúa" literalmente. ¿Faltó algún paso? ¿El orden tiene sentido? Los espectadores pueden señalar errores con respeto.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions-block">
+      <h4>🗣 Preguntas detonadoras para el docente</h4>
+      <ol>
+        <li>¿Hubo pasos que diste por obvios y resultaron ser los más importantes?</li>
+        <li>¿Qué pasa si cambias el orden de dos pasos? ¿Siempre importa el orden?</li>
+        <li>¿Cuál fue el paso más difícil de describir con palabras?</li>
+        <li>¿Cómo crees que la computadora "descompone" cuando multiplica dos números grandes?</li>
+      </ol>
+    </div>
+
+    <div class="adapt-row">
+      <div class="adapt-card simpler">
+        <strong>🔽 Versión más simple (1.° grado)</strong>
+        Usa imágenes impresas en lugar de tarjetas escritas. Los niños ordenan las imágenes físicamente. Tarea: lavarse las manos (solo 5–6 pasos).
+      </div>
+      <div class="adapt-card harder">
+        <strong>🔼 Versión más compleja (3.° grado)</strong>
+        Descomponer una tarea con sub-tareas: "preparar el desayuno" incluye sub-tareas como "hacer jugo" y "poner la mesa". Introducir la idea de sub-rutinas.
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · · · · · · · · · ·</div>
+
+  <!-- ============ ACTIVIDAD 3 ============ -->
+  <div class="activity">
+    <div class="activity-header">
+      <div class="activity-num">03</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-pilar">Pilar: Patrones</span>
+          <span class="tag tag-tiempo">⏱ 30 min</span>
+          <span class="tag tag-grupo">Equipos de 3</span>
+          <span class="tag tag-materiales">Fichas de colores, hojas cuadriculadas</span>
+        </div>
+        <h2>El Código Secreto de Colores</h2>
+        <span class="subtitle">Descubrir, continuar y crear patrones visuales</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Objetivo de aprendizaje</h4>
+        <ul>
+          <li>Identificar regularidades y repeticiones (patrones)</li>
+          <li>Predecir elementos de una secuencia</li>
+          <li>Crear sus propios patrones y codificarlos</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Materiales necesarios</h4>
+        <ul>
+          <li>Fichas o cuadrados de cartulina de 4 colores</li>
+          <li>Hojas cuadriculadas (para registrar)</li>
+          <li>Lápices de colores</li>
+          <li>Tarjetas con patrones incompletos (preparadas por docente)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <h4>Secuencia de la actividad — paso a paso</h4>
+
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <strong>Calentamiento: adivina qué sigue (5 min)</strong>
+          <p>El docente muestra en el pizarrón 3 secuencias de colores incompletas. Los niños dicen en voz alta qué ficha viene a continuación y por qué. Se validan diferentes razonamientos.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <strong>Misión: descifrar el código (10 min)</strong>
+          <p>Cada equipo recibe una tarjeta con un patrón de colores. Deben: (a) completar las fichas faltantes, (b) describir el patrón con palabras, y (c) escribir una "regla" del patrón: "Siempre va rojo, azul, rojo, azul…"</p>
+        </div>
+      </div>
+
+      <div class="step-row highlight">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <strong>Crear su propio código (10 min)</strong>
+          <p>El equipo inventa un patrón propio con al menos 3 colores, lo registra en la hoja cuadriculada y borra o cubre 3 fichas. Luego intercambian con otro equipo para que descifren su código.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <strong>Conexión con programación (5 min)</strong>
+          <p>El docente muestra cómo un patrón se puede escribir como un bucle (loop): "Repite [rojo, azul, verde] 5 veces." Los niños comprenden que los patrones son la base de los bucles en programación.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions-block">
+      <h4>🗣 Preguntas detonadoras para el docente</h4>
+      <ol>
+        <li>¿Cómo le explicarías a alguien el patrón sin usar los colores, solo con números o letras?</li>
+        <li>¿Dónde ves patrones fuera del salón? (pisos, ropa, naturaleza, música)</li>
+        <li>¿Por qué crees que las computadoras usan bucles en lugar de repetir la instrucción muchas veces?</li>
+        <li>¿Tu patrón tiene una "unidad que se repite"? ¿Cuál es?</li>
+      </ol>
+    </div>
+
+    <div class="adapt-row">
+      <div class="adapt-card simpler">
+        <strong>🔽 Versión más simple (1.° grado)</strong>
+        Usa solo 2 colores. Los niños hacen el patrón con su cuerpo (parado-sentado-parado-sentado) antes de usar las fichas.
+      </div>
+      <div class="adapt-card harder">
+        <strong>🔼 Versión más compleja (3.° grado)</strong>
+        Patrones de dos dimensiones en cuadrícula (como píxeles). Los niños "programan" una imagen en cuadros de colores y dan las instrucciones para reproducirla fila por fila.
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · · · · · · · · · ·</div>
+
+  <!-- ============ ACTIVIDAD 4 ============ -->
+  <div class="activity">
+    <div class="activity-header">
+      <div class="activity-num">04</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-pilar">Pilar: Abstracción</span>
+          <span class="tag tag-tiempo">⏱ 35 min</span>
+          <span class="tag tag-grupo">Parejas</span>
+          <span class="tag tag-materiales">Papel, lápices</span>
+        </div>
+        <h2>Dibujar sin ver</h2>
+        <span class="subtitle">Describir solo lo esencial para que otro pueda reproducirlo</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Objetivo de aprendizaje</h4>
+        <ul>
+          <li>Comprender la abstracción: quedarse con lo importante</li>
+          <li>Comunicar información esencial eliminando el ruido</li>
+          <li>Entender que los modelos son simplificaciones útiles</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Materiales necesarios</h4>
+        <ul>
+          <li>Hojas blancas (2 por pareja)</li>
+          <li>Lápices y colores</li>
+          <li>Una hoja divisoria (o carpeta) para que no se vean</li>
+          <li>Figuras simples preparadas por el docente (casas, animales, formas)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <h4>Secuencia de la actividad — paso a paso</h4>
+
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <strong>Introducción: ¿qué es lo más importante? (5 min)</strong>
+          <p>El docente muestra un dibujo de una casa con muchos detalles (cortinas, flores, perro, buzón). Pregunta: "Si tuvieras que describirla solo con 5 palabras, ¿cuáles usarías?" Se discute qué detalles son esenciales y cuáles son decorativos.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <strong>Descripción sin mostrar (12 min)</strong>
+          <p>Un niño recibe una figura. Sin mostrarla, la describe verbalmente a su pareja: "Hay un rectángulo grande. Arriba tiene un triángulo. A la derecha del rectángulo hay un círculo pequeño." El otro dibuja solo lo que escucha.</p>
+        </div>
+      </div>
+
+      <div class="step-row highlight">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <strong>Comparación y análisis (8 min)</strong>
+          <p>Se baja la divisoria y comparan ambos dibujos. ¿Qué coincide? ¿Qué fue diferente? Identifican qué información faltó y qué detalles resultaron irrelevantes. Reflexionan: "¿Qué era lo verdaderamente esencial de describir?"</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <strong>Ronda 2: mejorar la abstracción (10 min)</strong>
+          <p>Cambian roles con una figura nueva. Esta vez, antes de describir, el niño tiene 1 minuto para planear: "¿Qué voy a decir y qué voy a omitir?" Se nota la mejora respecto a la primera ronda.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions-block">
+      <h4>🗣 Preguntas detonadoras para el docente</h4>
+      <ol>
+        <li>¿Qué información decidiste dejar fuera? ¿Por qué fue una buena decisión?</li>
+        <li>¿Un mapa es un dibujo exacto de la ciudad o una abstracción? ¿Por qué es útil que no sea exacto?</li>
+        <li>¿Cómo crees que una computadora "abstrae" una foto para guardarla en menos espacio?</li>
+        <li>¿En qué mejoró tu descripción en la segunda ronda? ¿Qué cambió en tu forma de pensar?</li>
+      </ol>
+    </div>
+
+    <div class="adapt-row">
+      <div class="adapt-card simpler">
+        <strong>🔽 Versión más simple (1.° grado)</strong>
+        Usa solo figuras geométricas básicas (círculo, cuadrado, triángulo). La descripción es libre y puede incluir gestos si los compañeros están de frente pero con ojos cerrados.
+      </div>
+      <div class="adapt-card harder">
+        <strong>🔼 Versión más compleja (3.° grado)</strong>
+        Describir una escena con múltiples objetos en posiciones relativas. Introducir coordenadas simples para ubicarlos (arriba-izquierda, centro, abajo-derecha).
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · · · · · · · · · ·</div>
+
+  <!-- ============ ACTIVIDAD 5 ============ -->
+  <div class="activity">
+    <div class="activity-header">
+      <div class="activity-num">05</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-pilar">Integrador: Los 4 pilares</span>
+          <span class="tag tag-tiempo">⏱ 50 min</span>
+          <span class="tag tag-grupo">Equipos de 5</span>
+          <span class="tag tag-materiales">Tablero impreso, dados, fichas</span>
+        </div>
+        <h2>La Gran Misión del Robot</h2>
+        <span class="subtitle">Actividad integradora que combina los cuatro pilares del pensamiento computacional</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Objetivo de aprendizaje</h4>
+        <ul>
+          <li>Integrar descomposición, patrones, abstracción y algoritmos</li>
+          <li>Trabajar colaborativamente bajo presión de tiempo</li>
+          <li>Identificar y nombrar los pilares mientras se usan</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Materiales necesarios</h4>
+        <ul>
+          <li>Tablero de cuadrícula 6×6 dibujado en papel grande</li>
+          <li>Fichas de cartulina para el "robot" y los obstáculos</li>
+          <li>Tarjetas de misión (preparadas por docente)</li>
+          <li>Hoja de programación para escribir el algoritmo</li>
+          <li>Dado (opcional, para variante aleatoria)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <h4>Secuencia de la actividad — paso a paso</h4>
+
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <strong>Preparar el tablero y la misión (8 min)</strong>
+          <p>Cada equipo recibe su tablero cuadriculado y una tarjeta de misión: "Tu robot está en A1. Debe recoger los objetos en B3, D4 y F6, evitando los obstáculos en C2, C3 y E5." Colocan las fichas en el tablero.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <strong>Descomponer la misión (8 min)</strong>
+          <p>El equipo divide la misión en sub-misiones: "Primero ir a B3. Luego ir a D4. Finalmente ir a F6." Discuten si hay un orden más eficiente y lo justifican. Usan la descomposición conscientemente.</p>
+        </div>
+      </div>
+
+      <div class="step-row highlight">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <strong>Escribir el algoritmo completo (15 min)</strong>
+          <p>El equipo escribe en su hoja de programación las instrucciones completas para toda la misión usando solo estas instrucciones permitidas: AVANZAR(n), GIRAR_DERECHA, GIRAR_IZQUIERDA, REPETIR(n)[instrucción]. Deben identificar los patrones y usar REPETIR cuando sea posible.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <strong>Ejecutar y depurar (12 min)</strong>
+          <p>Un miembro del equipo mueve la ficha-robot según las instrucciones escritas, exactamente como están. Otro miembro las lee en voz alta. El equipo anota los errores y los corrige. Se celebra cuando el robot completa la misión.</p>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-dot">5</div>
+        <div class="step-content">
+          <strong>Reflexión con los 4 pilares (7 min)</strong>
+          <p>El docente entrega una tarjeta de reflexión: "¿Dónde usaron descomposición? ¿Dónde usaron patrones? ¿Qué ignoraron (abstracción)? ¿Cuál fue su algoritmo?" Los equipos comparten sus respuestas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions-block">
+      <h4>🗣 Preguntas detonadoras para el docente</h4>
+      <ol>
+        <li>¿Encontraron un camino más corto después de ejecutar el primero? ¿Por qué el primer intento no era el óptimo?</li>
+        <li>¿Usaron REPETIR alguna vez? ¿Dónde vieron un patrón que lo hiciera posible?</li>
+        <li>¿Qué información del tablero decidieron ignorar para planear más fácilmente?</li>
+        <li>¿Cómo se repartieron el trabajo? ¿Fue una buena estrategia de descomposición del problema grupal?</li>
+      </ol>
+    </div>
+
+    <div class="adapt-row">
+      <div class="adapt-card simpler">
+        <strong>🔽 Versión más simple (1.° grado)</strong>
+        Tablero 4×4. Solo una misión (un objeto). Instrucciones orales, no escritas. El robot lo hace un niño en el piso (no una ficha).
+      </div>
+      <div class="adapt-card harder">
+        <strong>🔼 Versión más compleja (3.° grado)</strong>
+        Misiones con condicionales: "Si encuentras una estrella en el camino, recógela. Si no, sigue avanzando." Agregar variables: el robot tiene "energía" y cada movimiento la reduce.
+      </div>
+    </div>
+  </div>
+
+  <!-- RÚBRICA DE EVALUACIÓN -->
+  <div class="activity" style="margin-top: 72px;">
+    <div class="activity-header">
+      <div class="activity-num" style="color: var(--border);">★</div>
+      <div class="activity-title-block">
+        <div class="tag-row">
+          <span class="tag tag-tiempo">Herramienta docente</span>
+        </div>
+        <h2>Rúbrica de Evaluación</h2>
+        <span class="subtitle">Para observar el pensamiento computacional en acción — no solo el resultado</span>
+      </div>
+    </div>
+
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th>Indicador observado</th>
+          <th>En desarrollo</th>
+          <th>Logrado</th>
+          <th>Destacado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Da instrucciones precisas</strong></td>
+          <td>Usa términos vagos ("allá", "un poco")</td>
+          <td>Usa dirección y cantidad con orientación</td>
+          <td><span class="check">✓</span> Anticipa ambigüedades y las previene</td>
+        </tr>
+        <tr>
+          <td><strong>Descompone el problema</strong></td>
+          <td>Intenta resolver todo de golpe</td>
+          <td>Divide la tarea en partes manejables</td>
+          <td><span class="check">✓</span> Identifica y nombra sub-tareas espontáneamente</td>
+        </tr>
+        <tr>
+          <td><strong>Identifica patrones</strong></td>
+          <td>No detecta regularidades</td>
+          <td>Continúa patrones dados por el docente</td>
+          <td><span class="check">✓</span> Crea y describe sus propios patrones</td>
+        </tr>
+        <tr>
+          <td><strong>Aplica abstracción</strong></td>
+          <td>Incluye todos los detalles sin filtrar</td>
+          <td>Identifica los elementos esenciales</td>
+          <td><span class="check">✓</span> Justifica qué omite y por qué</td>
+        </tr>
+        <tr>
+          <td><strong>Depura errores</strong></td>
+          <td>Se frustra o abandona ante el error</td>
+          <td>Identifica dónde falló el algoritmo</td>
+          <td><span class="check">✓</span> Corrige con estrategia sin ayuda del docente</td>
+        </tr>
+        <tr>
+          <td><strong>Trabaja en equipo</strong></td>
+          <td>Trabaja en paralelo sin colaborar</td>
+          <td>Escucha y ajusta ideas del equipo</td>
+          <td><span class="check">✓</span> Distribuye roles y media desacuerdos</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="questions-block" style="margin-top: 16px;">
+      <h4>📝 Nota importante sobre evaluación</h4>
+      <p style="margin: 0; font-size: 0.88rem; color: #2d2a26;">En primaria baja, esta rúbrica es una herramienta de <strong>observación docente</strong>, no una calificación para el alumno. Úsala para planear tu siguiente intervención pedagógica y ajustar el nivel de las actividades. El pensamiento computacional se evalúa en el proceso, no en el producto final.</p>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <h3>Esta guía es un punto de<br><span>partida, no un guión.</span></h3>
+    <p>Las actividades están diseñadas para ser adaptadas, combinadas y transformadas según el contexto de tu grupo, tu comunidad y los recursos disponibles.</p>
+    <p>El pensamiento computacional no vive en las actividades: vive en las preguntas que haces, en cómo respondes al error de tus alumnos y en la cultura que construyes en tu aula donde pensar sistemáticamente es valioso y el fracaso productivo es bienvenido.</p>
+
+    <div class="closing-grid">
+      <div class="closing-item">
+        <label>Próximo paso</label>
+        <span>Elige una actividad y experimenta tú mismo como estudiante</span>
+      </div>
+      <div class="closing-item">
+        <label>Recurso recomendado</label>
+        <span>csunplugged.org — biblioteca gratuita de actividades</span>
+      </div>
+      <div class="closing-item">
+        <label>Siguiente guía</label>
+        <span>Integración del PC al currículo de primaria baja</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Guía de Trabajo · Pensamiento Computacional · Formación Docente Inicial<br>
+  Nivel: Primaria Baja · Tema: <span>Programación Desenchufada</span> · 5 Actividades · Versión 1.0</p>
+</footer>
+
+</body>
+</html>
