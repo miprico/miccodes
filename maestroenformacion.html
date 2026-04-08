@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Trabajo — Maestros en Formación</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fffef9;
+    --ink: #181510;
+    --cream: #f2ede3;
+    --orange: #c94a1a;
+    --teal: #0d7a6e;
+    --indigo: #3730a3;
+    --yellow: #ca8a04;
+    --muted: #6b6455;
+    --border: #ddd5c8;
+    --light-orange: #fff4ee;
+    --light-teal: #f0fdf9;
+    --light-indigo: #eef2ff;
+    --light-yellow: #fefce8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--orange);
+    color: white;
+    padding: 10px 56px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* COVER */
+  .cover {
+    padding: 64px 56px 52px;
+    border-bottom: 2px solid var(--ink);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .cover-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  .cover h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    max-width: 680px;
+    margin-bottom: 20px;
+  }
+
+  .cover h1 em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--orange);
+  }
+
+  .cover-desc {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  .cover-strip {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .cover-chip {
+    padding: 10px 22px;
+    border-right: 1.5px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cover-chip:last-child { border-right: none; }
+  .cover-chip strong { display: block; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+
+  /* AVISO PEDAGÓGICO */
+  .aviso {
+    max-width: 960px;
+    margin: 48px auto 0;
+    padding: 0 56px;
+  }
+
+  .aviso-inner {
+    background: var(--ink);
+    color: white;
+    border-radius: 4px;
+    padding: 28px 36px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .aviso-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .aviso-inner h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: white;
+  }
+
+  .aviso-inner p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* MAIN WRAP */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 56px 80px;
+  }
+
+  /* SECTION LABEL */
+  .sec-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+    margin-top: 64px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sec-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* TASK BLOCK */
+  .task {
+    margin-top: 0;
+    padding: 36px 0 0;
+    border-top: 2px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+  .task-head {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .task-num-box {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    background: var(--ink);
+    color: white;
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 3px;
+  }
+
+  .task-num-box.orange { background: var(--orange); }
+  .task-num-box.teal { background: var(--teal); }
+  .task-num-box.indigo { background: var(--indigo); }
+  .task-num-box.yellow { background: var(--yellow); }
+  .task-num-box.ink { background: var(--ink); }
+
+  .task-meta { flex: 1; }
+
+  .task-tags {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .ttag {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  .ttag-orange { background: var(--light-orange); color: var(--orange); }
+  .ttag-teal { background: var(--light-teal); color: var(--teal); }
+  .ttag-indigo { background: var(--light-indigo); color: var(--indigo); }
+  .ttag-yellow { background: var(--light-yellow); color: var(--yellow); }
+  .ttag-gray { background: var(--cream); color: var(--muted); }
+
+  .task h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .task-subtitle {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  /* DESCRIPTION */
+  .task-desc {
+    font-size: 0.95rem;
+    color: #2e2a22;
+    margin-bottom: 24px;
+    max-width: 720px;
+    line-height: 1.75;
+  }
+
+  /* CONSIGNA BOX */
+  .consigna {
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 26px 30px;
+    margin-bottom: 20px;
+  }
+
+  .consigna-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .consigna ol, .consigna ul {
+    padding-left: 20px;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+
+  .consigna ol li, .consigna ul li {
+    margin-bottom: 9px;
+    line-height: 1.6;
+  }
+
+  .consigna ol li strong, .consigna ul li strong {
+    font-weight: 600;
+  }
+
+  /* WRITE ZONE */
+  .write-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    background: white;
+  }
+
+  .write-zone-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .write-zone-label::before {
+    content: '✎';
+    font-size: 0.9rem;
+  }
+
+  .lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .line {
+    height: 38px;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+  }
+
+  /* REFLEXION */
+  .reflexion {
+    background: var(--light-orange);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .reflexion-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .reflexion ol {
+    padding-left: 18px;
+    font-size: 0.88rem;
+    color: var(--ink);
+  }
+
+  .reflexion ol li { margin-bottom: 8px; }
+
+  /* CONEXION PEDAGOGICA */
+  .conexion {
+    background: var(--light-teal);
+    border: 1.5px solid #99f6e4;
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .conexion-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .conexion p {
+    font-size: 0.88rem;
+    color: #134e4a;
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* TABLA DE ANÁLISIS */
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  .analysis-table th {
+    background: var(--ink);
+    color: white;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 11px 16px;
+    text-align: left;
+  }
+
+  .analysis-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: #2e2a22;
+  }
+
+  .analysis-table tr:nth-child(even) td { background: var(--cream); }
+
+  .analysis-table td.fill {
+    background: white;
+    border: 1px dashed var(--border);
+    min-height: 36px;
+  }
+
+  .analysis-table td.fill:nth-child(odd) { background: #fffdf5; }
+
+  /* CIERRE */
+  .cierre {
+    margin-top: 64px;
+    background: var(--ink);
+    border-radius: 4px;
+    padding: 48px;
+    color: white;
+  }
+
+  .cierre h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .cierre h3 span { color: var(--orange); }
+
+  .cierre p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .meta-final {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .meta-final-item label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .meta-final-item span {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    line-height: 1.4;
+    display: block;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  footer span { color: var(--orange); }
+
+  @media (max-width: 620px) {
+    .topbar, .cover, .aviso, .main { padding-left: 20px; padding-right: 20px; }
+    .cover-strip { flex-direction: column; }
+    .cover-chip { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .task-head { flex-direction: column; gap: 14px; }
+    .meta-final { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Pensamiento Computacional · Formación Docente Inicial</span>
+  <span>GT-PC-03 · Para el maestro en formación</span>
+</div>
+
+<div class="cover">
+  <div class="cover-label">Guía de Trabajo para Maestros en Formación</div>
+  <h1>Tú eres el que<br>aprende <em>primero.</em></h1>
+  <p class="cover-desc">
+    Antes de enseñar Programación Desenchufada, debes vivirla. Esta guía te lleva paso a paso por actividades que harás tú mismo para construir comprensión real del pensamiento computacional desde adentro.
+  </p>
+  <div class="cover-strip">
+    <div class="cover-chip"><strong>Modalidad</strong>Individual y en equipo</div>
+    <div class="cover-chip"><strong>Sesiones</strong>3 sesiones de 60–90 min</div>
+    <div class="cover-chip"><strong>Entregables</strong>5 productos escritos</div>
+    <div class="cover-chip"><strong>Nivel para</strong>Primaria baja (1°–3°)</div>
+  </div>
+</div>
+
+<div class="aviso">
+  <div class="aviso-inner">
+    <div class="aviso-icon">🧭</div>
+    <div>
+      <h3>¿Para qué sirve esta guía?</h3>
+      <p>Esta guía tiene un doble propósito: primero, que <strong>tú construyas comprensión genuina</strong> de los cuatro pilares del pensamiento computacional haciéndolos, no solo leyéndolos. Segundo, que <strong>analices pedagógicamente</strong> cada actividad para poder diseñarla, ajustarla y facilitarla con tus futuros alumnos de primaria baja. Leer la guía explicativa es el punto de partida. Esta guía es donde ocurre el aprendizaje real.</p>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ============ SESIÓN 1 ============ -->
+  <div class="sec-label">Sesión 01 — Algoritmos y Descomposición</div>
+
+  <!-- TAREA 1 -->
+  <div class="task">
+    <div class="task-head">
+      <div class="task-num-box orange">1</div>
+      <div class="task-meta">
+        <div class="task-tags">
+          <span class="ttag ttag-orange">Algoritmos</span>
+          <span class="ttag ttag-gray">⏱ 20 min</span>
+          <span class="ttag ttag-gray">Individual</span>
+        </div>
+        <h2>Escribe el algoritmo de tu mañana</h2>
+        <span class="task-subtitle">Desde que suena el despertador hasta que entras a clases</span>
+      </div>
+    </div>
+
+    <p class="task-desc">
+      Un algoritmo es una secuencia ordenada, finita y precisa de instrucciones. Para entenderlo realmente, debes intentar escribir uno sobre algo que haces automáticamente. Verás que lo que parece simple es en realidad muy complejo cuando tienes que hacerlo explícito.
+    </p>
+
+    <div class="consigna">
+      <div class="consigna-label">Consigna — Lo que debes hacer</div>
+      <ol>
+        <li>Escribe el algoritmo de tu rutina matutina desde que suena el despertador hasta que entras al salón de formación. Sé lo más específico posible: cada acción cuenta.</li>
+        <li>Usa <strong>verbos de acción concretos</strong>: apagar, levantarse, caminar, tomar, abrir… Evita: "arreglarse", "prepararse", "alistarse" — esas son tareas, no instrucciones.</li>
+        <li>Numera cada paso. Tu algoritmo debe tener <strong>mínimo 20 pasos</strong>.</li>
+        <li>Cuando termines, intercambia con un compañero y señala los pasos que son ambiguos o que todavía son "tareas" disfrazadas de instrucciones.</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mi algoritmo de la mañana</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="reflexion">
+      <div class="reflexion-label">🔍 Reflexión individual — Responde por escrito</div>
+      <ol>
+        <li>¿En qué momento de la escritura te diste cuenta de que un paso era demasiado general? ¿Cuál fue ese paso y cómo lo descompusiste?</li>
+        <li>¿Qué pasos de tu algoritmo podrían agruparse en una sub-rutina (una tarea con nombre propio)? Nómbralas.</li>
+        <li>¿Cómo usarías esta misma actividad con niños de 2.° grado? ¿Qué ajustes harías?</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mis respuestas de reflexión</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="conexion">
+      <div class="conexion-label">🔗 Conexión pedagógica — Para analizar en plenaria</div>
+      <p>Los niños de 6–7 años ya tienen rutinas automatizadas, pero no han tenido que hacerlas conscientes ni verbalizarlas. Esta actividad funciona en primaria baja porque parte de experiencias propias del niño. La clave pedagógica está en que el docente <strong>no corrija</strong> el algoritmo, sino que lo <em>ejecute literalmente</em> para que el niño vea sus propios errores. ¿Cómo cambiaría tu rol como docente si dejas de corregir y empiezas a "obedecer"?</p>
+    </div>
+  </div>
+
+  <!-- TAREA 2 -->
+  <div class="task" style="margin-top: 40px;">
+    <div class="task-head">
+      <div class="task-num-box teal">2</div>
+      <div class="task-meta">
+        <div class="task-tags">
+          <span class="ttag ttag-teal">Descomposición</span>
+          <span class="ttag ttag-gray">⏱ 25 min</span>
+          <span class="ttag ttag-gray">Equipos de 3</span>
+        </div>
+        <h2>Diseña una actividad de descomposición</h2>
+        <span class="task-subtitle">No solo completa la actividad — analízala y redíseñala para tu aula</span>
+      </div>
+    </div>
+
+    <p class="task-desc">
+      Como maestro en formación, no basta con hacer la actividad: debes poder diseñarla para tus alumnos. En esta tarea vivirás la descomposición y luego la adaptarás para el contexto de primaria baja.
+    </p>
+
+    <div class="consigna">
+      <div class="consigna-label">Parte A — Vivir la actividad (10 min)</div>
+      <ol>
+        <li>En equipo, elijan una tarea cotidiana de un niño de 7 años (ejemplos: ponerse los zapatos, guardar la mochila, hacer una fila, jugar a la pelota).</li>
+        <li>Sin ponerse de acuerdo primero, <strong>cada integrante escribe por separado</strong> todos los pasos que cree necesarios en tarjetas individuales (una idea por tarjeta).</li>
+        <li>Junten todas las tarjetas, dupliquen las que coincidan y ordénenlas. Negocien el orden cuando haya desacuerdo. Eliminen las que no son pasos mínimos.</li>
+      </ol>
+    </div>
+
+    <div class="consigna">
+      <div class="consigna-label">Parte B — Analizar y adaptar (15 min)</div>
+      <ol>
+        <li>Completen la tabla de análisis pedagógico de abajo.</li>
+        <li>Escriban la versión final de su actividad adaptada para 1.° grado: ¿qué cambia en el material, en la consigna, en el rol del docente?</li>
+      </ol>
+    </div>
+
+    <table class="analysis-table">
+      <thead>
+        <tr>
+          <th>Elemento de la actividad</th>
+          <th>Lo que vivieron como adultos</th>
+          <th>Cómo lo adaptan para 1.° grado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tarea elegida</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Tipo de material utilizado</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Cómo se registraron los pasos</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Cómo se resolvieron los desacuerdos</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Rol del docente durante la actividad</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>¿Cómo sabrías que un niño logró el objetivo?</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="reflexion">
+      <div class="reflexion-label">🔍 Reflexión — Responde por escrito</div>
+      <ol>
+        <li>¿En qué momento del trabajo en equipo surgió el mayor desacuerdo? ¿Qué lo causó?</li>
+        <li>¿Qué diferencias importantes hay entre descomponer como adulto y descomponer como niño de 7 años?</li>
+        <li>¿Qué haría un docente inexperto en esta actividad que podría arruinar el aprendizaje?</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mis respuestas de reflexión</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SESIÓN 2 ============ -->
+  <div class="sec-label">Sesión 02 — Patrones y Abstracción</div>
+
+  <!-- TAREA 3 -->
+  <div class="task">
+    <div class="task-head">
+      <div class="task-num-box indigo">3</div>
+      <div class="task-meta">
+        <div class="task-tags">
+          <span class="ttag ttag-indigo">Reconocimiento de patrones</span>
+          <span class="ttag ttag-gray">⏱ 25 min</span>
+          <span class="ttag ttag-gray">Parejas</span>
+        </div>
+        <h2>El patrón que no se ve</h2>
+        <span class="task-subtitle">Encontrar, describir y enseñar patrones cotidianos</span>
+      </div>
+    </div>
+
+    <p class="task-desc">
+      Los patrones están en todas partes, pero el pensamiento computacional nos enseña a verlos con intención. Esta tarea tiene dos momentos: primero encontrar patrones en tu entorno inmediato, y luego reflexionar sobre cómo un niño de primaria baja los vive de forma diferente.
+    </p>
+
+    <div class="consigna">
+      <div class="consigna-label">Parte A — Caza de patrones (10 min)</div>
+      <ol>
+        <li>Sin levantarte de tu lugar, observa tu entorno durante 3 minutos. Anota <strong>al menos 8 patrones</strong> que encuentres (en el piso, la pared, la ropa, el comportamiento de personas, el horario del día, la estructura de las frases de esta guía…).</li>
+        <li>Para cada uno, escribe: (a) qué se repite, (b) cuál es la unidad mínima que se repite, (c) si el patrón podría romperse y qué pasaría.</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mis 8 patrones encontrados</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+
+    <div class="consigna">
+      <div class="consigna-label">Parte B — Diseño de actividad con patrones (15 min)</div>
+      <ol>
+        <li>Elige <strong>uno</strong> de tus patrones encontrados que creas que podría convertirse en una actividad desenchufada para niños de 2.° grado.</li>
+        <li>Escribe el diseño de la actividad usando este formato exacto:
+          <ul style="margin-top:10px;">
+            <li><strong>Nombre de la actividad:</strong></li>
+            <li><strong>Patrón que trabaja:</strong></li>
+            <li><strong>Lo que el niño hará:</strong></li>
+            <li><strong>Lo que el docente dirá para detonar el pensamiento:</strong> (escribe 2 preguntas)</li>
+            <li><strong>Cómo sabrás que el niño reconoció el patrón:</strong></li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mi diseño de actividad con patrones</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="reflexion">
+      <div class="reflexion-label">🔍 Reflexión — Responde por escrito</div>
+      <ol>
+        <li>¿Qué diferencia hay entre reconocer un patrón visualmente y ser capaz de describirlo con palabras? ¿Por qué esa diferencia importa en el aula?</li>
+        <li>Un niño de 6 años dice: "Siempre que llueve me pongo triste." ¿Eso es reconocer un patrón? ¿Lo usarías en clase? ¿Por qué sí o no?</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mis respuestas de reflexión</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAREA 4 -->
+  <div class="task" style="margin-top: 40px;">
+    <div class="task-head">
+      <div class="task-num-box yellow">4</div>
+      <div class="task-meta">
+        <div class="task-tags">
+          <span class="ttag ttag-yellow">Abstracción</span>
+          <span class="ttag ttag-gray">⏱ 30 min</span>
+          <span class="ttag ttag-gray">Individual + plenaria</span>
+        </div>
+        <h2>El mapa mínimo del salón</h2>
+        <span class="task-subtitle">Representar solo lo esencial — y justificar cada decisión</span>
+      </div>
+    </div>
+
+    <p class="task-desc">
+      La abstracción es el pilar más difícil de enseñar porque requiere tomar decisiones conscientes sobre qué ignorar. Esta tarea te pedirá que construyas un modelo simplificado y que defiendas cada elección de omisión.
+    </p>
+
+    <div class="consigna">
+      <div class="consigna-label">Consigna — Lo que debes hacer</div>
+      <ol>
+        <li>Dibuja un mapa del espacio donde estás ahora (salón, patio, área de formación). Tienes <strong>exactamente 5 minutos</strong> para dibujarlo. No puedes agregar nada después.</li>
+        <li>Cuando termines, anota en la tabla de abajo qué incluiste y qué dejaste fuera, y por qué.</li>
+        <li>Compara tu mapa con el de dos compañeros. ¿Qué incluyeron ellos que tú no? ¿Hubo algo que todos omitieron? ¿Eso significa que era irrelevante?</li>
+        <li>Escribe una definición propia de abstracción basada en lo que acabas de vivir — sin usar las palabras "ignorar" ni "simplificar".</li>
+      </ol>
+    </div>
+
+    <div class="write-zone" style="min-height: 220px;">
+      <div class="write-zone-label">Mi mapa del espacio (dibuja aquí)</div>
+      <div style="height: 180px;"></div>
+    </div>
+
+    <table class="analysis-table">
+      <thead>
+        <tr>
+          <th>Lo que incluí en el mapa</th>
+          <th>Por qué lo incluí</th>
+          <th>Lo que dejé fuera</th>
+          <th>Por qué lo omití</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td></tr>
+        <tr><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td></tr>
+        <tr><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td></tr>
+        <tr><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td><td class="fill"> </td></tr>
+      </tbody>
+    </table>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mi definición propia de abstracción</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="reflexion">
+      <div class="reflexion-label">🔍 Reflexión — Responde por escrito</div>
+      <ol>
+        <li>¿Qué criterio usaste, sin darte cuenta, para decidir qué era "importante" incluir? ¿Cómo se llama ese criterio en términos pedagógicos?</li>
+        <li>¿Podría haber un mapa "correcto" de este espacio? ¿O depende del propósito del mapa? ¿Qué dice eso sobre la abstracción como competencia?</li>
+        <li>Diseña una pregunta que le harías a un niño de 3.° grado para ayudarlo a practicar abstracción usando su mochila como objeto de estudio.</li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mis respuestas de reflexión</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SESIÓN 3 ============ -->
+  <div class="sec-label">Sesión 03 — Integración y Práctica Docente</div>
+
+  <!-- TAREA 5 -->
+  <div class="task">
+    <div class="task-head">
+      <div class="task-num-box ink">5</div>
+      <div class="task-meta">
+        <div class="task-tags">
+          <span class="ttag ttag-orange">Integrador</span>
+          <span class="ttag ttag-gray">⏱ 45 min</span>
+          <span class="ttag ttag-gray">Equipos de 4</span>
+          <span class="ttag ttag-gray">Producto final</span>
+        </div>
+        <h2>Planea y facilita una micro-clase</h2>
+        <span class="task-subtitle">Tu primer diseño de actividad desenchufada real — y lo facilitas ante tus compañeros</span>
+      </div>
+    </div>
+
+    <p class="task-desc">
+      Esta es la tarea integradora de la guía. Usarás todo lo que viviste y reflexionaste en las tareas anteriores para diseñar una actividad desenchufada de 10 minutos dirigida a niños de primaria baja. Luego la facilitarás ante tus compañeros de formación, quienes harán el papel de los niños.
+    </p>
+
+    <div class="consigna">
+      <div class="consigna-label">Parte A — Diseño de la micro-clase (20 min)</div>
+      <ol>
+        <li>En equipo, elijan <strong>uno de los cuatro pilares</strong> del pensamiento computacional.</li>
+        <li>Diseñen una actividad desenchufada de <strong>exactamente 10 minutos</strong> para niños de 1.° a 3.° grado. Completen la ficha de planificación de abajo.</li>
+        <li>Identifiquen claramente el <strong>momento de error productivo</strong>: ¿cuándo y cómo van a dejar que los niños fallen para que aprendan del fallo?</li>
+      </ol>
+    </div>
+
+    <div class="consigna" style="background: white; border: 1.5px solid var(--border);">
+      <div class="consigna-label">📋 Ficha de planificación — Completen todos los campos</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px;">
+        <div>
+          <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Nombre de la actividad</p>
+          <div class="line" style="height:32px; border: 1px solid var(--border); background:white;"></div>
+        </div>
+        <div>
+          <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Pilar del PC que trabaja</p>
+          <div class="line" style="height:32px; border: 1px solid var(--border); background:white;"></div>
+        </div>
+        <div>
+          <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Grado al que va dirigida</p>
+          <div class="line" style="height:32px; border: 1px solid var(--border); background:white;"></div>
+        </div>
+        <div>
+          <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Materiales necesarios</p>
+          <div class="line" style="height:32px; border: 1px solid var(--border); background:white;"></div>
+        </div>
+      </div>
+      <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin:16px 0 6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Objetivo de pensamiento computacional (¿qué hará el niño con su mente?)</p>
+      <div class="lines"><div class="line"></div><div class="line"></div></div>
+      <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin:16px 0 6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Descripción de los pasos de la actividad</p>
+      <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin:16px 0 6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Las 3 preguntas detonadoras que usarán</p>
+      <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin:16px 0 6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">Momento del error productivo — ¿cuándo y cómo?</p>
+      <div class="lines"><div class="line"></div><div class="line"></div></div>
+      <p style="font-size:0.78rem; font-weight:600; color:var(--muted); margin:16px 0 6px; font-family:'Courier Prime',monospace; letter-spacing:0.1em; text-transform:uppercase;">¿Cómo sabrán que el objetivo fue logrado?</p>
+      <div class="lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+
+    <div class="consigna" style="margin-top:16px;">
+      <div class="consigna-label">Parte B — Facilitación ante el grupo (25 min)</div>
+      <ol>
+        <li>Cada equipo facilita su actividad durante <strong>10 minutos exactos</strong>. Los compañeros actúan como niños de primaria baja (sin exagerar, pero sí adoptando el nivel cognitivo esperado).</li>
+        <li>El equipo que observa completa la <strong>tabla de retroalimentación</strong> de abajo.</li>
+        <li>Después de la facilitación, hay 5 minutos de retroalimentación guiada: primero el equipo reflexiona sobre sí mismo, luego el grupo aporta.</li>
+      </ol>
+    </div>
+
+    <table class="analysis-table" style="margin-top:16px;">
+      <thead>
+        <tr>
+          <th>Lo que observé</th>
+          <th>Lo que funcionó bien</th>
+          <th>Lo que podría mejorar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Las instrucciones del docente</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Las preguntas detonadoras</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Manejo del error productivo</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Claridad del objetivo de PC</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+        <tr>
+          <td>Adecuación al nivel del niño</td>
+          <td class="fill"> </td>
+          <td class="fill"> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="reflexion" style="margin-top:16px;">
+      <div class="reflexion-label">🔍 Reflexión final del maestro en formación</div>
+      <ol>
+        <li>¿Qué fue lo más difícil de no dar la respuesta cuando veías que los "niños" estaban confundidos?</li>
+        <li>¿En qué momento de la facilitación sentiste que el pensamiento computacional realmente ocurrió? ¿Cómo lo reconociste?</li>
+        <li>¿Qué cambiarías de tu actividad antes de llevarla a un aula real? Sé específico.</li>
+        <li>Completa esta frase con honestidad: <em>"Antes de esta guía creía que la programación desenchufada era… Ahora entiendo que es…"</em></li>
+      </ol>
+    </div>
+
+    <div class="write-zone">
+      <div class="write-zone-label">Mi reflexión final</div>
+      <div class="lines">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="cierre">
+    <h3>Ahora sí puedes<br><span>enseñarlo.</span></h3>
+    <p>Has vivido los cuatro pilares del pensamiento computacional desde adentro. Has construido algoritmos, descompuesto tareas, cazado patrones y tomado decisiones de abstracción. Has diseñado y facilitado una actividad real.</p>
+    <p>Eso es exactamente lo que necesitas para entrar a un aula de primaria baja con seguridad: no un manual, sino experiencia propia.</p>
+    <p>El pensamiento computacional no es una materia. Es una forma de resolver problemas que tus alumnos usarán mucho más allá de cualquier pantalla.</p>
+    <div class="meta-final">
+      <div class="meta-final-item">
+        <label>Entregables de esta guía</label>
+        <span>5 reflexiones escritas + 1 ficha de planificación + 1 tabla de retroalimentación</span>
+      </div>
+      <div class="meta-final-item">
+        <label>Próximo paso sugerido</label>
+        <span>Aplicar una actividad en observación de práctica y documentar la experiencia</span>
+      </div>
+      <div class="meta-final-item">
+        <label>Recurso de profundización</label>
+        <span>csunplugged.org · Wing, J. (2006) Computational Thinking · Bers, M. (2018)</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Guía de Trabajo para Maestros en Formación Inicial · Pensamiento Computacional<br>
+  Tema: <span>Programación Desenchufada</span> · Nivel: Primaria Baja (1°–3°) · 3 Sesiones · 5 Tareas</p>
+</footer>
+
+</body>
+</html>
