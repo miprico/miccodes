@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guías HTML 01–10 · Grado 10° · ENSDB</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Source+Code+Pro:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ══ BASE ══ */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#f1f5f9;color:#1e293b;font-size:15px;line-height:1.65}
+
+/* ══ NAV ══ */
+.nav-guias{position:sticky;top:0;z-index:100;background:#0f172a;display:flex;align-items:center;gap:6px;padding:9px 20px;overflow-x:auto;box-shadow:0 2px 12px rgba(0,0,0,.35);scrollbar-width:none}
+.nav-guias::-webkit-scrollbar{display:none}
+.nav-guias .brand{font-size:11px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;margin-right:8px;flex-shrink:0}
+.ng{flex-shrink:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;padding:4px 11px;border-radius:20px;cursor:pointer;text-decoration:none;transition:all .2s}
+.ng:hover{background:rgba(255,255,255,.18);color:#fff}
+.ng.on{background:#fbbf24;color:#78350f;border-color:#fbbf24}
+
+/* ══ GUÍA WRAPPER ══ */
+.guia{max-width:860px;margin:0 auto;padding:28px 20px 48px}
+
+/* ══ HEADER ══ */
+.ghead{background:linear-gradient(135deg,#1a4f8a 0%,#2563eb 100%);border-radius:16px;padding:26px 30px;color:#fff;margin-bottom:22px;position:relative;overflow:hidden}
+.ghead::before{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.gnum{font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:1.8px;color:#93c5fd;margin-bottom:6px}
+.ghead h1{font-size:22px;font-weight:900;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+.ghead p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.55;position:relative;z-index:1}
+.gtags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:1}
+.gt{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.13);color:#fff}
+.gt-y{background:#fbbf24;color:#78350f}
+
+/* ══ PROGRESS ══ */
+.prog{display:flex;align-items:center;gap:12px;margin-bottom:22px;background:#fff;border-radius:10px;padding:10px 16px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.prog-bar{flex:1;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#1a4f8a,#2563eb)}
+.prog-txt{font-size:12px;font-weight:800;color:#1a4f8a;white-space:nowrap}
+
+/* ══ OBJETIVO ══ */
+.objetivo{background:#fff;border-radius:12px;padding:16px 22px;margin-bottom:22px;border-left:5px solid #1a4f8a;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.objetivo h3{font-size:11px;font-weight:900;color:#1a4f8a;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.objetivo ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.objetivo li{font-size:14px;color:#334155;display:flex;gap:9px;line-height:1.5}
+.objetivo li::before{content:'✓';color:#16a34a;font-weight:900;flex-shrink:0;margin-top:1px}
+
+/* ══ CONCEPTO ══ */
+.concepto{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:24px;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.ch{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid #f1f5f9}
+.cico{width:40px;height:40px;border-radius:10px;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ch h2{font-size:17px;font-weight:900;color:#1a4f8a}
+.exp{font-size:14.5px;color:#334155;line-height:1.8;margin-bottom:16px}
+.exp strong{color:#1a4f8a;font-weight:800}
+
+/* ══ EDITOR ══ */
+.editor{background:#0f172a;border-radius:12px;overflow:hidden;margin:14px 0}
+.ebar{background:#1e293b;padding:7px 14px;display:flex;align-items:center;gap:8px}
+.dots{display:flex;gap:5px}
+.dots span{width:10px;height:10px;border-radius:50%}
+.dr{background:#ef4444}.dy{background:#f59e0b}.dg{background:#22c55e}
+.fn{font-family:'Source Code Pro',monospace;font-size:11px;color:#64748b;margin-left:4px}
+.ebody{padding:16px 20px;font-family:'Source Code Pro',monospace;font-size:13px;line-height:1.9;overflow-x:auto}
+.ht{color:#f472b6}.ha{color:#86efac}.hv{color:#fbbf24}.hc{color:#475569;font-style:italic}.htx{color:#e2e8f0}
+.cp{color:#f472b6}.cs{color:#86efac}.cv{color:#fbbf24}
+
+/* ══ RESULTADO ══ */
+.resultado{border:2px solid #e2e8f0;border-radius:12px;overflow:hidden;margin:8px 0 16px}
+.rbar{background:#f1f5f9;padding:6px 14px;font-size:11px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px}
+.rdot{width:8px;height:8px;border-radius:50%;background:#22c55e}
+.rbody{padding:16px 22px;background:#fff}
+
+/* ══ NOTAS ══ */
+.nota{display:flex;gap:10px;align-items:flex-start;background:#eff6ff;border-left:4px solid #2563eb;border-radius:0 10px 10px 0;padding:11px 16px;margin:12px 0;font-size:13.5px;color:#1e40af;line-height:1.6}
+.nota strong{font-weight:900}
+.nota.warn{background:#fef3c7;border-color:#d97706;color:#92400e}
+
+/* ══ TABLA ══ */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+.tbl th{background:#1a4f8a;color:#fff;padding:8px 12px;text-align:left;font-size:12px;font-weight:800}
+.tbl td{padding:8px 12px;border-bottom:1px solid #f1f5f9;color:#334155;vertical-align:top}
+.tbl tr:hover td{background:#f8fafc}
+.tbl code{background:#f1f5f9;color:#7c3aed;padding:1px 5px;border-radius:4px;font-family:'Source Code Pro',monospace;font-size:12px}
+
+/* ══ ══ ══ ACTIVIDAD — NÚCLEO DEL REDISEÑO ══ ══ ══ */
+.actividad{background:#fff;border-radius:16px;overflow:hidden;margin-bottom:24px;box-shadow:0 2px 14px rgba(0,0,0,.08)}
+
+/* Franja superior de la actividad */
+.a-banner{padding:16px 24px;color:#fff;display:flex;align-items:flex-start;gap:16px}
+.a-badge{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.a-titulo h3{font-size:17px;font-weight:900;line-height:1.2}
+.a-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.a-chip{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff}
+
+/* Zonas funcionales */
+.a-zonas{display:flex;flex-direction:column;gap:0}
+
+/* Cada zona */
+.zona{padding:18px 24px;border-top:1.5px solid #f1f5f9}
+.zona:first-child{border-top:0}
+.z-lbl{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;padding:3px 10px;border-radius:20px}
+
+/* Zona: PREPARA — gris suave */
+.z-prepara{background:#f8fafc}
+.z-prepara .z-lbl{background:#e2e8f0;color:#475569}
+
+/* Zona: CONSTRUYE — azul muy suave */
+.z-construye{background:#fafbff}
+.z-construye .z-lbl{background:#dbeafe;color:#1e40af}
+
+/* Zona: REFLEXIONA — naranja o verde según SEL */
+.z-reflexiona{background:#fffbf0}
+.z-reflexiona.autoconciencia{background:#fff7ed}.z-reflexiona.autoconciencia .z-lbl{background:#fed7aa;color:#92400e}
+.z-reflexiona.autocontrol{background:#eff6ff}.z-reflexiona.autocontrol .z-lbl{background:#bfdbfe;color:#1e40af}
+.z-reflexiona.social{background:#f0fdf4}.z-reflexiona.social .z-lbl{background:#bbf7d0;color:#14532d}
+.z-reflexiona.relacional{background:#f5f3ff}.z-reflexiona.relacional .z-lbl{background:#ddd6fe;color:#4c1d95}
+.z-reflexiona.decision{background:#fdf4ff}.z-reflexiona.decision .z-lbl{background:#e9d5ff;color:#6b21a8}
+.z-reflexiona p{font-size:14px;line-height:1.75}
+
+/* Zona: VERIFICA — verde */
+.z-verifica{background:#f0fdf4}
+.z-verifica .z-lbl{background:#bbf7d0;color:#14532d}
+
+/* Zona: BITÁCORA — oscura */
+.z-bitacora{background:#0f172a}
+.z-bitacora .z-lbl{background:rgba(251,191,36,.15);color:#fbbf24}
+.z-bitacora p{font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px;line-height:1.6}
+.z-bitacora .bline{height:1px;background:#1e293b;margin-bottom:6px}
+
+/* Pasos dentro de CONSTRUYE */
+.pasos{display:flex;flex-direction:column;gap:12px}
+.paso{display:flex;gap:13px;align-items:flex-start}
+.paso-n{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
+.paso-c{flex:1}
+.paso-c strong{display:block;font-size:13.5px;font-weight:800;color:#1e293b;margin-bottom:3px}
+.paso-c p{font-size:13.5px;color:#475569;line-height:1.6}
+.paso-c code{background:#f1f5f9;color:#7c3aed;padding:1px 6px;border-radius:4px;font-family:'Source Code Pro',monospace;font-size:12px}
+
+/* Items de verificación */
+.checks{display:flex;flex-direction:column;gap:6px}
+.check-item{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:#166534;line-height:1.5}
+.check-item::before{content:'□';font-size:15px;color:#16a34a;flex-shrink:0;line-height:1}
+
+/* Separador entre guías */
+.sep{height:3px;background:linear-gradient(90deg,transparent,#1a4f8a 20%,#2563eb 80%,transparent);margin:10px 0}
+
+/* Siguiente guía */
+.sig{background:linear-gradient(135deg,#1a4f8a,#2563eb);border-radius:12px;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;color:#fff;margin-top:24px;text-decoration:none}
+.sig p{font-size:12px;opacity:.75}
+.sig strong{font-size:15px;font-weight:900}
+
+@media(max-width:640px){
+  .guia{padding:16px 12px 36px}
+  .ghead{padding:20px 20px}
+  .ghead h1{font-size:19px}
+  .concepto{padding:18px 18px}
+  .zona{padding:14px 16px}
+  .a-banner{padding:14px 18px}
+  .a-zonas .zona{padding:14px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-guias">
+  <span class="brand">HTML · 10°</span>
+  <a class="ng" href="#g01">01</a><a class="ng" href="#g02">02</a><a class="ng" href="#g03">03</a>
+  <a class="ng" href="#g04">04</a><a class="ng" href="#g05">05</a><a class="ng" href="#g06">06</a>
+  <a class="ng" href="#g07">07</a><a class="ng" href="#g08">08</a><a class="ng" href="#g09">09</a>
+  <a class="ng" href="#g10">10 ⭐</a>
+</nav>
+
+<!-- ════════════════════════════════════════ G01 ════════════════════════════════════════ -->
+<section id="g01" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 01 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>¿Qué es HTML? Estructura básica y comentarios</h1>
+  <p>HTML estructura el contenido de la web. Hoy creas tu primer documento real: cinco líneas que el navegador entiende, y aprendes qué se ve y qué permanece oculto.</p>
+  <div class="gtags"><span class="gt">!DOCTYPE · html · head · body · meta · title</span><span class="gt">comentarios &lt;!-- --&gt;</span><span class="gt gt-y">Autoconciencia</span></div>
+</div>
+
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:10%"></div></div><span class="prog-txt">1 / 10</span></div>
+
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Crear un archivo .html válido con la estructura mínima de 5 partes</li>
+    <li>Explicar para qué sirve cada etiqueta del esqueleto</li>
+    <li>Documentar tu código con comentarios que el navegador ignora</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🦴</div><h2>El esqueleto que toda página necesita</h2></div>
+  <p class="exp">Todo documento HTML empieza con la misma base. <strong>Sin esta estructura, el navegador no sabe qué hacer con el archivo.</strong> Los comentarios <code style="background:#f1f5f9;color:#7c3aed;padding:1px 5px;border-radius:4px;font-family:'Source Code Pro',monospace">&lt;!-- texto --&gt;</code> son invisibles para el usuario — solo los ve quien lee el código.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">index.html</span></div>
+    <div class="ebody"><span class="hc">&lt;!DOCTYPE html&gt;</span>           <span class="hc">← versión de HTML</span>
+<span class="ht">&lt;html</span> <span class="ha">lang</span>=<span class="hv">"es"</span><span class="ht">&gt;</span>              <span class="hc">← raíz del documento</span>
+
+  <span class="ht">&lt;head&gt;</span>                      <span class="hc">← info INVISIBLE para el usuario</span>
+    <span class="ht">&lt;meta</span> <span class="ha">charset</span>=<span class="hv">"UTF-8"</span><span class="ht">&gt;</span>    <span class="hc">← permite tildes y ñ</span>
+    <span class="ht">&lt;title&gt;</span><span class="htx">Mi primera página</span><span class="ht">&lt;/title&gt;</span>
+  <span class="ht">&lt;/head&gt;</span>
+
+  <span class="ht">&lt;body&gt;</span>                      <span class="hc">← todo lo VISIBLE va aquí</span>
+    <span class="hc">&lt;!-- Este comentario no se ve en el navegador --&gt;</span>
+    <span class="htx">Hola, soy mi primera página web.</span>
+  <span class="ht">&lt;/body&gt;</span>
+
+<span class="ht">&lt;/html&gt;</span></div>
+  </div>
+
+  <div class="resultado">
+    <div class="rbar"><span class="rdot"></span> Resultado en el navegador</div>
+    <div class="rbody"><p style="font-size:14px;color:#334155">Hola, soy mi primera página web.</p></div>
+  </div>
+
+  <div class="nota"><strong>Regla de oro:</strong> Cada etiqueta que abre &lt;tag&gt; debe cerrarse &lt;/tag&gt;. Excepciones: &lt;meta&gt; y &lt;!DOCTYPE&gt; no se cierran.</div>
+</div>
+
+<!-- ── ACTIVIDAD GUÍA 01 ── -->
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#1a4f8a,#2563eb)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 30 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: index.html</span>
+        <span class="a-chip">🔧 Editor de texto</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+
+    <!-- ZONA 1: PREPARA -->
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea la carpeta del proyecto</strong>
+            <p>En tu computador, crea la carpeta <code>proyecto_html</code>. Dentro, crea un archivo nuevo y nómbralo <code>index.html</code>. Ábrelo con el editor de texto (VS Code, Notepad++ o el que uses).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONA 2: CONSTRUYE -->
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#1a4f8a">2</div>
+          <div class="paso-c">
+            <strong>Escribe el esqueleto — no lo copies</strong>
+            <p>Escribe a mano las 12 líneas del ejemplo. Los errores que cometes al escribir son los que más se recuerdan. Si algo no funciona, revisa mayúsculas y comillas.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#2563eb">3</div>
+          <div class="paso-c">
+            <strong>Personaliza el &lt;title&gt; y el &lt;body&gt;</strong>
+            <p>En <code>&lt;title&gt;</code> pon tu nombre real. En el <code>&lt;body&gt;</code> escribe una sola oración sobre ti que sea verdad y que pocas personas saben.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">4</div>
+          <div class="paso-c">
+            <strong>Agrega dos comentarios</strong>
+            <p>Un <code>&lt;!-- --&gt;</code> encima del &lt;head&gt; que diga para qué sirve, y otro encima del &lt;body&gt;. Guarda y abre en el navegador. Verifica que el &lt;title&gt; aparece en la pestaña.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONA 3: REFLEXIONA -->
+    <div class="zona z-reflexiona autoconciencia">
+      <div class="z-lbl">🔍 Reflexiona · Autoconciencia</div>
+      <p>El título de tu página es lo primero que el mundo ve — aparece en la pestaña del navegador, en los favoritos, en los resultados de Google. <strong>¿Qué pusiste en tu &lt;title&gt;? ¿Es cómo te presentas normalmente o algo diferente?</strong></p>
+    </div>
+
+    <!-- ZONA 4: VERIFICA -->
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">El archivo se llama <code>index.html</code> y está en la carpeta <code>proyecto_html</code></div>
+        <div class="check-item">Al abrir en el navegador, el título aparece en la pestaña</div>
+        <div class="check-item">La oración del &lt;body&gt; se ve en la página — es tuya y es real</div>
+        <div class="check-item">Hay al menos 2 comentarios visibles en el código fuente</div>
+      </div>
+    </div>
+
+    <!-- ZONA 5: BITÁCORA -->
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min antes de salir</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>¿Qué fue lo más difícil de escribir hoy — técnicamente y personalmente?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>Los comentarios <code style="background:rgba(255,255,255,.08);color:#93c5fd;padding:1px 5px;border-radius:4px">&lt;!-- --&gt;</code> ocultan cosas al navegador. ¿Qué escribirías en un comentario de tu vida que no quieres que nadie más vea?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /a-zonas -->
+</div><!-- /actividad -->
+
+<a class="sig" href="#g02"><div><p>Próxima guía</p><strong>Guía 02 → Encabezados, párrafos y formato</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G02 ════════════════════════════════════════ -->
+<section id="g02" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 02 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Encabezados, párrafos y formato de texto</h1>
+  <p>El texto no es todo igual. Los encabezados crean jerarquía. Los párrafos dan espacio. &lt;strong&gt;, &lt;em&gt; y &lt;u&gt; marcan énfasis. Conviertes tu index.html en una página con contenido estructurado real.</p>
+  <div class="gtags"><span class="gt">h1–h6 · p · strong · em · u</span><span class="gt gt-y">Autoconciencia · Conciencia Social</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:20%"></div></div><span class="prog-txt">2 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Usar h1–h6 para crear jerarquía visual y semántica</li>
+    <li>Escribir párrafos con &lt;p&gt; y aplicar énfasis con strong y em con intención</li>
+    <li>Completar el body de index.html con contenido real y estructurado</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🔤</div><h2>Jerarquía y énfasis: no todo puede ser h1</h2></div>
+  <p class="exp">Los encabezados van de <strong>h1</strong> (el más importante, uno solo por página) hasta <strong>h6</strong>. Los párrafos son <strong>&lt;p&gt;</strong>. El énfasis visual tiene tres grados: <strong>&lt;strong&gt;</strong> importancia real (negrita semántica), <strong>&lt;em&gt;</strong> énfasis de tono o voz (cursiva), <strong>&lt;u&gt;</strong> subrayado — raramente usado en web porque confunde con enlace.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">index.html → &lt;body&gt;</span></div>
+    <div class="ebody"><span class="ht">&lt;h1&gt;</span><span class="htx">Andrés — lo que el colegio no ve</span><span class="ht">&lt;/h1&gt;</span>  <span class="hc">← solo uno en toda la página</span>
+
+<span class="ht">&lt;h2&gt;</span><span class="htx">Lo que me gusta de verdad</span><span class="ht">&lt;/h2&gt;</span>
+<span class="ht">&lt;p&gt;</span><span class="htx">Me gusta programar, aunque en el colegio nadie lo sabe.</span><span class="ht">&lt;/p&gt;</span>
+
+<span class="ht">&lt;h2&gt;</span><span class="htx">Lo que sí me importa</span><span class="ht">&lt;/h2&gt;</span>
+<span class="ht">&lt;p&gt;</span>
+  <span class="htx">No es que no me importe el estudio. Es que</span>
+  <span class="ht">&lt;strong&gt;</span><span class="htx">lo que me piden estudiar</span><span class="ht">&lt;/strong&gt;</span>
+  <span class="htx">y</span> <span class="ht">&lt;em&gt;</span><span class="htx">lo que quiero aprender</span><span class="ht">&lt;/em&gt;</span>
+  <span class="htx">son cosas distintas.</span>
+<span class="ht">&lt;/p&gt;</span></div>
+  </div>
+
+  <div class="resultado">
+    <div class="rbar"><span class="rdot"></span> Resultado en el navegador</div>
+    <div class="rbody">
+      <h1 style="font-size:21px;font-weight:900;margin-bottom:8px">Andrés — lo que el colegio no ve</h1>
+      <h2 style="font-size:16px;font-weight:700;margin-bottom:6px">Lo que me gusta de verdad</h2>
+      <p style="font-size:14px;color:#334155;margin-bottom:10px">Me gusta programar, aunque en el colegio nadie lo sabe.</p>
+      <h2 style="font-size:16px;font-weight:700;margin-bottom:6px">Lo que sí me importa</h2>
+      <p style="font-size:14px;color:#334155">No es que no me importe el estudio. Es que <strong>lo que me piden estudiar</strong> y <em>lo que quiero aprender</em> son cosas distintas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#ea580c,#c2410c)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Edita: index.html</span>
+        <span class="a-chip">📌 Producto: body con estructura real</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Abre index.html del proyecto</strong>
+            <p>El &lt;body&gt; solo tiene la oración de la Guía 01. Bórrala — hoy la reemplazas con una estructura real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#1a4f8a">2</div>
+          <div class="paso-c">
+            <strong>Escribe un h1 con tu nombre y una frase que te describe</strong>
+            <p>Esa frase no puede ser genérica. Si leerla sin saber que es tuya la podrías confundir con la de otro, cámbiala.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#2563eb">3</div>
+          <div class="paso-c">
+            <strong>Agrega dos h2 como secciones reales con párrafos</strong>
+            <p>Cada &lt;h2&gt; debe introducir una idea distinta sobre ti. Debajo de cada uno, un &lt;p&gt; con al menos dos oraciones de contenido genuino.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">4</div>
+          <div class="paso-c">
+            <strong>Usa &lt;strong&gt; y &lt;em&gt; con intención — no al azar</strong>
+            <p>Pon <code>&lt;strong&gt;</code> solo en algo que sea realmente importante para ti. Pon <code>&lt;em&gt;</code> donde el tono de tu voz cambiaría al leerlo en voz alta.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona social">
+      <div class="z-lbl">🌍 Reflexiona · Conciencia Social</div>
+      <p>Comparte tu h1 en voz alta con el compañero del lado. ¿La frase que elegiste para describirte coincide con cómo te describirían ellos? <strong>¿Qué diferencia hay entre cómo te ves y cómo te ven?</strong></p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">Hay exactamente un &lt;h1&gt; en la página — no dos</div>
+        <div class="check-item">Los h2 son visualmente más pequeños que el h1</div>
+        <div class="check-item">&lt;strong&gt; y &lt;em&gt; tienen una razón — no son decorativos</div>
+        <div class="check-item">El contenido es tuyo y real, no un placeholder</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>¿Pusiste &lt;strong&gt; en algo que realmente es importante para ti, o fue decorativo? ¿Por qué elegiste eso y no otra cosa?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>En los h1–h6 hay jerarquía: no todo puede ser igual de importante. ¿Hay algo en tu vida que debería ser h1 pero ocupa h4?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g03"><div><p>Próxima guía</p><strong>Guía 03 → Listas, &lt;br&gt;, &lt;hr&gt; y citas</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G03 ════════════════════════════════════════ -->
+<section id="g03" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 03 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Listas, saltos de línea y citas</h1>
+  <p>Organiza ideas con &lt;ul&gt; y &lt;ol&gt;. Usa &lt;br&gt; para forzar línea nueva y &lt;hr&gt; para separar secciones. Da voz a otros con &lt;blockquote&gt;. Creas mi_historia.html — segunda página del proyecto.</p>
+  <div class="gtags"><span class="gt">ul · ol · li · br · hr · blockquote · q</span><span class="gt gt-y">Autoconciencia · Toma de Decisiones</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:30%"></div></div><span class="prog-txt">3 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Crear listas &lt;ul&gt; (puntos) y &lt;ol&gt; (numeradas) con ítems &lt;li&gt;</li>
+    <li>Usar &lt;br&gt; para salto de línea y &lt;hr&gt; para separar secciones</li>
+    <li>Citar palabras de otros con &lt;blockquote&gt;</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">📋</div><h2>Listas, espacio y la voz de otros</h2></div>
+  <p class="exp"><strong>&lt;ul&gt;</strong> lista sin orden (puntos). <strong>&lt;ol&gt;</strong> lista numerada — el orden importa. <strong>&lt;br&gt;</strong> fuerza nueva línea sin párrafo nuevo. <strong>&lt;hr&gt;</strong> traza una línea divisoria horizontal. <strong>&lt;blockquote&gt;</strong> para citas largas (bloque aparte), <strong>&lt;q&gt;</strong> para citas cortas dentro del texto.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">mi_historia.html → &lt;body&gt;</span></div>
+    <div class="ebody"><span class="ht">&lt;h2&gt;</span><span class="htx">Lo que me mueve</span><span class="ht">&lt;/h2&gt;</span>
+<span class="ht">&lt;ul&gt;</span>
+  <span class="ht">&lt;li&gt;</span><span class="htx">Diseño gráfico — aunque nadie me lo enseñó</span><span class="ht">&lt;/li&gt;</span>
+  <span class="ht">&lt;li&gt;</span><span class="htx">La música del barrio los domingos</span><span class="ht">&lt;/li&gt;</span>
+<span class="ht">&lt;/ul&gt;</span>
+
+<span class="ht">&lt;hr&gt;</span>  <span class="hc">&lt;!-- línea separadora --&gt;</span>
+
+<span class="ht">&lt;blockquote&gt;</span>
+  <span class="htx">"Uno no escoge de dónde viene, pero sí puede escoger a dónde va."</span>
+  <span class="ht">&lt;br&gt;</span>
+  <span class="htx">— Mi abuela</span>
+<span class="ht">&lt;/blockquote&gt;</span></div>
+  </div>
+
+  <div class="resultado">
+    <div class="rbar"><span class="rdot"></span> Resultado en el navegador</div>
+    <div class="rbody">
+      <h2 style="font-size:16px;font-weight:700;margin-bottom:8px">Lo que me mueve</h2>
+      <ul style="padding-left:20px;font-size:14px;color:#334155;margin-bottom:12px"><li>Diseño gráfico — aunque nadie me lo enseñó</li><li>La música del barrio los domingos</li></ul>
+      <hr style="margin:10px 0;border:0;border-top:1px solid #e2e8f0">
+      <blockquote style="border-left:4px solid #2563eb;padding:10px 16px;background:#eff6ff;border-radius:0 8px 8px 0;font-style:italic;font-size:14px;color:#1e40af;margin:0">"Uno no escoge de dónde viene, pero sí puede escoger a dónde va."<br><span style="font-size:12px;color:#64748b">— Mi abuela</span></blockquote>
+    </div>
+  </div>
+  <div class="nota"><strong>Diferencia clave:</strong> &lt;ul&gt; = el orden no importa (hobbies, ingredientes). &lt;ol&gt; = el orden sí importa (pasos de un proceso, ranking, prioridades).</div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#16a34a,#15803d)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: mi_historia.html</span>
+        <span class="a-chip">🔗 Enlázala desde index.html</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea mi_historia.html en la misma carpeta</strong>
+            <p>Copia el esqueleto HTML de la Guía 01. Cambia el &lt;title&gt; a algo como "Mi historia – [tu nombre]". Agrega un enlace a <code>mi_historia.html</code> en el body de <code>index.html</code> para poder navegar entre ellas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#16a34a">2</div>
+          <div class="paso-c">
+            <strong>Agrega una &lt;ul&gt; con al menos 4 intereses reales</strong>
+            <p>No lo que "debería" interesarte — lo que genuinamente te mueve. Si tienes que pensar cuáles son, es buena señal.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#0d9488">3</div>
+          <div class="paso-c">
+            <strong>Agrega una &lt;ol&gt; con 3 cosas que quieres aprender este año</strong>
+            <p>En orden real de urgencia o deseo. El número 1 es lo que más quieres. Separa las dos listas con un <code>&lt;hr&gt;</code>.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">4</div>
+          <div class="paso-c">
+            <strong>Termina con un &lt;blockquote&gt; real</strong>
+            <p>Una frase que alguien te dijo y que sigue contigo. Usa <code>&lt;br&gt;</code> para separar la frase del nombre de quien la dijo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona decision">
+      <div class="z-lbl">⚖️ Reflexiona · Toma de Decisiones</div>
+      <p>La &lt;ol&gt; que hiciste con lo que quieres aprender tiene un orden. <strong>¿Ese orden refleja realmente tu prioridad, o pusiste lo que "debería" ser primero?</strong> Si quisieras reordenarla ahora, ¿cambiaría algo?</p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item"><code>mi_historia.html</code> existe en la misma carpeta que <code>index.html</code></div>
+        <div class="check-item">&lt;ul&gt; tiene puntos, &lt;ol&gt; tiene números — son visualmente distintas</div>
+        <div class="check-item">El &lt;blockquote&gt; es una cita real de alguien real — no inventada</div>
+        <div class="check-item">Hay un enlace en index.html que lleva a mi_historia.html</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>La frase que pusiste en &lt;blockquote&gt; — ¿qué tiene esa persona que hace que sus palabras valgan la pena citar?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>Si tu vida fuera una &lt;ol&gt; ahora mismo, ¿qué estaría en el ítem número 1?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g04"><div><p>Próxima guía</p><strong>Guía 04 → Enlaces &lt;a&gt; e imágenes &lt;img&gt;</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G04 ════════════════════════════════════════ -->
+<section id="g04" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 04 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Enlaces e imágenes: conectar y mostrar</h1>
+  <p>Con &lt;a&gt; el proyecto pasa de archivos sueltos a un sitio navegable. Con &lt;img&gt; agregas imágenes. Al terminar tienes 3 páginas enlazadas y una imagen con alt descriptivo.</p>
+  <div class="gtags"><span class="gt">a · href · target="_blank" · img · src · alt · width</span><span class="gt gt-y">Habilidades Relacionales · Autoconciencia</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div><span class="prog-txt">4 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Crear enlaces internos (entre tus páginas) y externos (a otros sitios web)</li>
+    <li>Insertar una imagen con src, alt y width correctamente</li>
+    <li>Tener 3 páginas del proyecto navegables entre sí</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🔗</div><h2>El enlace y la imagen: los dos conectores de la web</h2></div>
+  <p class="exp">El enlace <strong>&lt;a href="..."&gt;</strong> crea una puerta a otro lugar. Para páginas propias escribes solo el nombre del archivo. Para sitios externos escribes la URL completa y añades <strong>target="_blank"</strong> para abrir en pestaña nueva. La imagen <strong>&lt;img&gt;</strong> siempre necesita <strong>alt</strong> — describe la imagen para quien no puede verla.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">index.html → dentro del &lt;body&gt;</span></div>
+    <div class="ebody"><span class="hc">&lt;!-- Enlace interno: misma carpeta --&gt;</span>
+<span class="ht">&lt;a</span> <span class="ha">href</span>=<span class="hv">"mi_historia.html"</span><span class="ht">&gt;</span><span class="htx">Mi historia</span><span class="ht">&lt;/a&gt;</span>
+
+<span class="hc">&lt;!-- Enlace externo: URL completa + nueva pestaña --&gt;</span>
+<span class="ht">&lt;a</span> <span class="ha">href</span>=<span class="hv">"https://code.org"</span> <span class="ha">target</span>=<span class="hv">"_blank"</span><span class="ht">&gt;</span><span class="htx">Aprende a programar</span><span class="ht">&lt;/a&gt;</span>
+
+<span class="hc">&lt;!-- Imagen con src, alt descriptivo y ancho fijo --&gt;</span>
+<span class="ht">&lt;img</span>
+  <span class="ha">src</span>=<span class="hv">"mi_foto.jpg"</span>
+  <span class="ha">alt</span>=<span class="hv">"Camila sonriendo en el puerto de Barranquilla"</span>
+  <span class="ha">width</span>=<span class="hv">"300"</span>
+<span class="ht">&gt;</span></div>
+  </div>
+
+  <div class="nota"><strong>Si src es incorrecto</strong>, el navegador muestra el alt en su lugar. Por eso el alt siempre debe describir la imagen — no "foto", no "imagen", sino qué hay en ella.</div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: lo_que_siento.html</span>
+        <span class="a-chip">🔗 Conecta las 3 páginas</span>
+        <span class="a-chip">🖼️ Agrega imagen</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea lo_que_siento.html — tercera página</strong>
+            <p>Mismo esqueleto, misma carpeta. Título: "Lo que siento – [tu nombre]". Contenido: un párrafo honesto sobre algo que estás viviendo ahora. No tiene que ser dramático — puede ser pequeño.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">2</div>
+          <div class="paso-c">
+            <strong>Agrega la navegación entre las 3 páginas</strong>
+            <p>En el &lt;body&gt; de <strong>las tres páginas</strong>, escribe tres enlaces que conecten entre ellas. Prueba que al hacer clic en el navegador puedes navegar sin usar la barra de dirección.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#6d28d9">3</div>
+          <div class="paso-c">
+            <strong>Agrega una imagen en mi_historia.html</strong>
+            <p>Una foto tuya, de tu barrio, de algo que te importe. Ponla en la carpeta del proyecto. Usa <code>src</code> con solo el nombre del archivo, y escribe un <code>alt</code> que describa lo que hay en la imagen de verdad.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#ea580c">4</div>
+          <div class="paso-c">
+            <strong>Agrega al menos un enlace externo en alguna de las páginas</strong>
+            <p>Un sitio, una canción, un recurso — algo que tenga que ver contigo. Con <code>target="_blank"</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona relacional">
+      <div class="z-lbl">💬 Reflexiona · Habilidades Relacionales</div>
+      <p>Los tres enlaces entre tus páginas conectan tres partes de ti: quién eres (index), tu historia (mi_historia), lo que sientes (lo_que_siento). <strong>¿La navegación entre ellas refleja cómo se relacionan esos tres temas en tu vida real?</strong></p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">Las 3 páginas están en la misma carpeta y se pueden navegar entre ellas</div>
+        <div class="check-item">La imagen carga correctamente — no aparece el ícono roto</div>
+        <div class="check-item">El alt de la imagen describe lo que hay en ella, no "foto" ni "imagen"</div>
+        <div class="check-item">El enlace externo abre en una nueva pestaña</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>La imagen que pusiste tiene un alt. ¿Qué alt pondría alguien que te conoce bien? ¿Coincide con el que pusiste tú?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>Un enlace roto lleva a ningún lado. ¿Hay alguna conexión en tu vida que sientes que funciona como un href roto — que antes llevaba a alguien y ahora no?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g05"><div><p>Próxima guía</p><strong>Guía 05 → &lt;div&gt;, &lt;span&gt; y estructura semántica</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G05 ════════════════════════════════════════ -->
+<section id="g05" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 05 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Divisiones y estructura semántica</h1>
+  <p>&lt;div&gt; agrupa sin significado. Los semánticos &lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;section&gt; &lt;aside&gt; &lt;footer&gt; le dan nombre a cada zona. Reestructuras las 3 páginas del proyecto sin cambiar su contenido visible.</p>
+  <div class="gtags"><span class="gt">div · span · header · nav · main · section · article · aside · footer</span><span class="gt gt-y">Autoconciencia · Conciencia Social</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:50%"></div></div><span class="prog-txt">5 / 10 · ¡Punto medio!</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Distinguir entre &lt;div&gt; (neutro) y los elementos semánticos (con nombre y propósito)</li>
+    <li>Envolver el contenido de tus páginas en header, nav, main, aside y footer</li>
+    <li>Mejorar la estructura sin que nada visible cambie para el usuario</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🧱</div><h2>Cajas con nombre vs. cajas genéricas</h2></div>
+  <p class="exp"><strong>&lt;div&gt;</strong> es una caja sin significado — agrupa, pero no dice qué hay adentro. Los elementos semánticos le dicen al navegador y a cualquier persona que lea el código qué tipo de contenido hay en cada zona. Solo hay <strong>un &lt;main&gt; por página</strong>. El resto puede repetirse.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">index.html → estructura semántica completa</span></div>
+    <div class="ebody"><span class="ht">&lt;body&gt;</span>
+
+  <span class="ht">&lt;header&gt;</span>          <span class="hc">← cabecera: nombre y presentación</span>
+    <span class="ht">&lt;h1&gt;</span><span class="htx">Isabela Díaz</span><span class="ht">&lt;/h1&gt;</span>
+    <span class="ht">&lt;p&gt;</span><span class="htx">Estudiante · Barranquilla · 2025</span><span class="ht">&lt;/p&gt;</span>
+  <span class="ht">&lt;/header&gt;</span>
+
+  <span class="ht">&lt;nav&gt;</span>              <span class="hc">← menú de navegación</span>
+    <span class="ht">&lt;a</span> <span class="ha">href</span>=<span class="hv">"index.html"</span><span class="ht">&gt;</span><span class="htx">Inicio</span><span class="ht">&lt;/a&gt;</span>
+    <span class="ht">&lt;a</span> <span class="ha">href</span>=<span class="hv">"mi_historia.html"</span><span class="ht">&gt;</span><span class="htx">Mi historia</span><span class="ht">&lt;/a&gt;</span>
+  <span class="ht">&lt;/nav&gt;</span>
+
+  <span class="ht">&lt;main&gt;</span>             <span class="hc">← contenido principal (solo 1 por página)</span>
+    <span class="ht">&lt;section&gt;</span>       <span class="hc">← sección temática dentro del main</span>
+      <span class="ht">&lt;h2&gt;</span><span class="htx">Lo que nadie ve</span><span class="ht">&lt;/h2&gt;</span>
+      <span class="ht">&lt;p&gt;</span><span class="htx">Me gustan las matemáticas pero nunca lo digo.</span><span class="ht">&lt;/p&gt;</span>
+    <span class="ht">&lt;/section&gt;</span>
+    <span class="ht">&lt;aside&gt;</span>         <span class="hc">← info secundaria, relacionada pero aparte</span>
+      <span class="ht">&lt;p&gt;</span><span class="htx">Libros que me marcaron este año.</span><span class="ht">&lt;/p&gt;</span>
+    <span class="ht">&lt;/aside&gt;</span>
+  <span class="ht">&lt;/main&gt;</span>
+
+  <span class="ht">&lt;footer&gt;</span>           <span class="hc">← pie: autor, fecha, créditos</span>
+    <span class="ht">&lt;p&gt;</span><span class="htx">Proyecto HTML · ENSDB · 2025</span><span class="ht">&lt;/p&gt;</span>
+  <span class="ht">&lt;/footer&gt;</span>
+
+<span class="ht">&lt;/body&gt;</span></div>
+  </div>
+
+  <table class="tbl">
+    <tr><th>Elemento</th><th>Para qué sirve</th><th>¿Uno solo?</th></tr>
+    <tr><td><code>&lt;header&gt;</code></td><td>Cabecera de la página o de una sección</td><td>No — puede haber varios</td></tr>
+    <tr><td><code>&lt;nav&gt;</code></td><td>Menú de navegación principal</td><td>Normalmente uno</td></tr>
+    <tr><td><code>&lt;main&gt;</code></td><td>Contenido principal — lo más importante</td><td>Sí — solo uno por página</td></tr>
+    <tr><td><code>&lt;section&gt;</code></td><td>Sección temática con encabezado propio</td><td>No — los que necesites</td></tr>
+    <tr><td><code>&lt;aside&gt;</code></td><td>Contenido relacionado pero secundario</td><td>No — los que necesites</td></tr>
+    <tr><td><code>&lt;footer&gt;</code></td><td>Pie de página o sección</td><td>No — puede haber varios</td></tr>
+  </table>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#0d9488,#0f766e)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Edita: las 3 páginas</span>
+        <span class="a-chip">🏗️ Solo cambia estructura — no contenido</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Abre las 3 páginas en el editor</strong>
+            <p>Vas a envolver el contenido existente en las etiquetas semánticas. <strong>El contenido que el usuario ve no cambia.</strong> Solo cambia la organización del código.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#0d9488">2</div>
+          <div class="paso-c">
+            <strong>Agrega header, nav, main y footer a las 3 páginas</strong>
+            <p>En cada página: el h1 y la presentación van dentro de <code>&lt;header&gt;</code>. Los enlaces de navegación van dentro de <code>&lt;nav&gt;</code>. El contenido principal va dentro de <code>&lt;main&gt;</code>. Agrega un <code>&lt;footer&gt;</code> con tu nombre y "Proyecto HTML · ENSDB · 2025".</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#16a34a">3</div>
+          <div class="paso-c">
+            <strong>En mi_historia.html: usa section y aside</strong>
+            <p>Envuelve los intereses y la &lt;ol&gt; en una <code>&lt;section&gt;</code>. Mueve el &lt;blockquote&gt; a un <code>&lt;aside&gt;</code> — es información relacionada pero secundaria.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">4</div>
+          <div class="paso-c">
+            <strong>Verifica en el navegador</strong>
+            <p>Abre cada página. El contenido visible debe verse idéntico a antes. Si algo desapareció o se desorganizó, revisa que cerraste bien cada etiqueta.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona autoconciencia">
+      <div class="z-lbl">🔍 Reflexiona · Autoconciencia</div>
+      <p>Tu &lt;aside&gt; contiene información relacionada pero no principal. <strong>¿Qué pusiste ahí? ¿Es algo que realmente consideras secundario de ti, o en otro contexto sería tu &lt;main&gt;?</strong></p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">Las 3 páginas tienen header · nav · main · footer</div>
+        <div class="check-item">Hay exactamente un &lt;main&gt; en cada página</div>
+        <div class="check-item">El contenido visible es idéntico al de la Guía 04 — nada desapareció</div>
+        <div class="check-item">mi_historia.html tiene una &lt;section&gt; y un &lt;aside&gt;</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>Tu &lt;header&gt; es lo primero que el mundo ve. ¿Qué pusiste ahí? ¿Es la misma forma en que te presentas en la vida real o es una versión editada?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>El &lt;nav&gt; ofrece caminos. ¿Qué "páginas" de ti le mostrarías a alguien que acaba de conocerte?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g06"><div><p>Próxima guía</p><strong>Guía 06 → Tablas: thead, tbody, colspan, rowspan</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G06 ════════════════════════════════════════ -->
+<section id="g06" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 06 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Tablas HTML: datos con estructura</h1>
+  <p>Las tablas organizan datos en filas y columnas. colspan y rowspan permiten que una celda ocupe más espacio. Creas mis_datos.html — cuarta página del proyecto.</p>
+  <div class="gtags"><span class="gt">table · thead · tbody · tfoot · tr · td · th · colspan · rowspan</span><span class="gt gt-y">Autoconciencia · Toma de Decisiones</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div><span class="prog-txt">6 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Construir una tabla completa con thead, tbody y tfoot</li>
+    <li>Usar colspan para que una celda ocupe varias columnas</li>
+    <li>Añadir mis_datos.html al proyecto con una tabla real</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">📊</div><h2>Estructura de una tabla y colspan</h2></div>
+  <p class="exp">Toda tabla tiene filas (<strong>&lt;tr&gt;</strong>), celdas de datos (<strong>&lt;td&gt;</strong>) y celdas de encabezado (<strong>&lt;th&gt;</strong>). Se organiza en &lt;thead&gt; (cabecera), &lt;tbody&gt; (datos) y &lt;tfoot&gt; (resumen). <strong>colspan="2"</strong> hace que una celda ocupe 2 columnas — útil para agrupar encabezados.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">mis_datos.html → tabla semanal</span></div>
+    <div class="ebody"><span class="ht">&lt;table&gt;</span>
+  <span class="ht">&lt;thead&gt;</span>
+    <span class="ht">&lt;tr&gt;</span>
+      <span class="ht">&lt;th&gt;</span><span class="htx">Día</span><span class="ht">&lt;/th&gt;</span>
+      <span class="ht">&lt;th</span> <span class="ha">colspan</span>=<span class="hv">"2"</span><span class="ht">&gt;</span><span class="htx">Colegio</span><span class="ht">&lt;/th&gt;</span>  <span class="hc">← ocupa 2 columnas</span>
+      <span class="ht">&lt;th&gt;</span><span class="htx">Lo que sentí</span><span class="ht">&lt;/th&gt;</span>
+    <span class="ht">&lt;/tr&gt;</span>
+    <span class="ht">&lt;tr&gt;</span>
+      <span class="ht">&lt;th&gt;&lt;/th&gt;</span>
+      <span class="ht">&lt;th&gt;</span><span class="htx">Clases</span><span class="ht">&lt;/th&gt;</span>
+      <span class="ht">&lt;th&gt;</span><span class="htx">Recreo</span><span class="ht">&lt;/th&gt;</span>
+      <span class="ht">&lt;th&gt;&lt;/th&gt;</span>
+    <span class="ht">&lt;/tr&gt;</span>
+  <span class="ht">&lt;/thead&gt;</span>
+  <span class="ht">&lt;tbody&gt;</span>
+    <span class="ht">&lt;tr&gt;</span>
+      <span class="ht">&lt;td&gt;</span><span class="htx">Lunes</span><span class="ht">&lt;/td&gt;</span>
+      <span class="ht">&lt;td&gt;</span><span class="htx">Matemáticas difícil</span><span class="ht">&lt;/td&gt;</span>
+      <span class="ht">&lt;td&gt;</span><span class="htx">Jugué fútbol</span><span class="ht">&lt;/td&gt;</span>
+      <span class="ht">&lt;td&gt;</span><span class="htx">😐 Mitad y mitad</span><span class="ht">&lt;/td&gt;</span>
+    <span class="ht">&lt;/tr&gt;</span>
+    <span class="hc">&lt;!-- Agrega los otros 4 días --&gt;</span>
+  <span class="ht">&lt;/tbody&gt;</span>
+  <span class="ht">&lt;tfoot&gt;</span>
+    <span class="ht">&lt;tr&gt;</span>
+      <span class="ht">&lt;td</span> <span class="ha">colspan</span>=<span class="hv">"4"</span><span class="ht">&gt;</span><span class="htx">Semana en una palabra: desafiante</span><span class="ht">&lt;/td&gt;</span>
+    <span class="ht">&lt;/tr&gt;</span>
+  <span class="ht">&lt;/tfoot&gt;</span>
+<span class="ht">&lt;/table&gt;</span></div>
+  </div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#ea580c,#c2410c)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: mis_datos.html</span>
+        <span class="a-chip">📊 Tabla de 5 días × 3 columnas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea mis_datos.html con estructura semántica</strong>
+            <p>Mismo esqueleto. Agrega <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> y <code>&lt;footer&gt;</code> desde el principio — no esperes a la Guía 05 para hacerlo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#ea580c">2</div>
+          <div class="paso-c">
+            <strong>Construye la tabla con los 5 días de la semana</strong>
+            <p>Al menos 3 columnas: actividad principal del día, algo que pasó fuera del colegio, y una emoción honesta. Usa el ejemplo como base — no copies, adapta a tu semana real.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#c2410c">3</div>
+          <div class="paso-c">
+            <strong>Usa colspan en el thead y en el tfoot</strong>
+            <p>Agrupa dos columnas del colegio bajo un solo encabezado. En el &lt;tfoot&gt; usa <code>colspan</code> para que la fila resumen ocupe todo el ancho.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">4</div>
+          <div class="paso-c">
+            <strong>Enlaza desde el &lt;nav&gt; de las otras páginas</strong>
+            <p>Agrega un enlace a <code>mis_datos.html</code> en el &lt;nav&gt; de index, mi_historia y lo_que_siento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona autoconciencia">
+      <div class="z-lbl">🔍 Reflexiona · Autoconciencia</div>
+      <p>La columna de emociones que llenaste — <strong>¿fue difícil ser honesto? ¿Pusiste lo que realmente sentiste o lo que "debería" sentirse en esa situación?</strong> ¿Hay días donde la emoción real y la emoción "esperada" son muy distintas?</p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">La tabla tiene thead (con colspan), tbody (5 filas) y tfoot</div>
+        <div class="check-item">El colspan hace que las celdas abarquen el número de columnas correcto</div>
+        <div class="check-item">mis_datos.html está enlazado en el nav de las 4 páginas del proyecto</div>
+        <div class="check-item">El &lt;tfoot&gt; tiene una frase que resume la semana</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div>
+        <p>El &lt;tfoot&gt; resume la semana en una palabra. ¿Cuál pusiste? ¿Es la misma que le dirías a alguien que te pregunta "¿cómo te fue esta semana?" en el pasillo?</p>
+        <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g07"><div><p>Próxima guía</p><strong>Guía 07 → Formularios: form, input, select, textarea</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G07 ════════════════════════════════════════ -->
+<section id="g07" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 07 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Formularios: preguntar, escuchar y recibir</h1>
+  <p>Los formularios recogen información. &lt;form&gt; es el contenedor. &lt;label&gt; hace la pregunta. &lt;input&gt; recibe la respuesta. Creas contactame.html — quinta y última página del proyecto.</p>
+  <div class="gtags"><span class="gt">form · label · input · textarea · select · button · required</span><span class="gt gt-y">Habilidades Relacionales · Conciencia Social</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:70%"></div></div><span class="prog-txt">7 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Construir un formulario funcional con los 5 elementos esenciales</li>
+    <li>Vincular &lt;label&gt; con &lt;input&gt; usando for e id</li>
+    <li>Usar tipos de input: text, email, range, radio, checkbox, select</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">📝</div><h2>Un formulario completo: todos los tipos en uno</h2></div>
+  <p class="exp">El <strong>&lt;label&gt;</strong> vinculado al input por <strong>for="id"</strong> es fundamental — sin él, al hacer clic en el texto del label el campo no se activa. El <strong>type</strong> del input define qué tipo de respuesta acepta. <strong>required</strong> hace el campo obligatorio — el formulario no envía si está vacío.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">contactame.html → formulario de contacto</span></div>
+    <div class="ebody"><span class="ht">&lt;form&gt;</span>
+
+  <span class="hc">&lt;!-- Texto: label vinculado por for="id" --&gt;</span>
+  <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"nombre"</span><span class="ht">&gt;</span><span class="htx">Tu nombre</span><span class="ht">&lt;/label&gt;</span>
+  <span class="ht">&lt;input</span> <span class="ha">type</span>=<span class="hv">"text"</span> <span class="ha">id</span>=<span class="hv">"nombre"</span> <span class="ha">name</span>=<span class="hv">"nombre"</span>
+         <span class="ha">placeholder</span>=<span class="hv">"Ej: Natalia García"</span> <span class="ha">required</span><span class="ht">&gt;</span>
+
+  <span class="hc">&lt;!-- Deslizador: cómo estás del 1 al 10 --&gt;</span>
+  <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"energia"</span><span class="ht">&gt;</span><span class="htx">¿Cómo estás hoy? (1–10)</span><span class="ht">&lt;/label&gt;</span>
+  <span class="ht">&lt;input</span> <span class="ha">type</span>=<span class="hv">"range"</span> <span class="ha">id</span>=<span class="hv">"energia"</span> <span class="ha">min</span>=<span class="hv">"1"</span> <span class="ha">max</span>=<span class="hv">"10"</span><span class="ht">&gt;</span>
+
+  <span class="hc">&lt;!-- Lista desplegable --&gt;</span>
+  <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"tema"</span><span class="ht">&gt;</span><span class="htx">¿De qué quieres hablar?</span><span class="ht">&lt;/label&gt;</span>
+  <span class="ht">&lt;select</span> <span class="ha">id</span>=<span class="hv">"tema"</span> <span class="ha">name</span>=<span class="hv">"tema"</span><span class="ht">&gt;</span>
+    <span class="ht">&lt;option</span> <span class="ha">value</span>=<span class="hv">"tecnologia"</span><span class="ht">&gt;</span><span class="htx">Tecnología</span><span class="ht">&lt;/option&gt;</span>
+    <span class="ht">&lt;option</span> <span class="ha">value</span>=<span class="hv">"otra"</span><span class="ht">&gt;</span><span class="htx">Otra cosa</span><span class="ht">&lt;/option&gt;</span>
+  <span class="ht">&lt;/select&gt;</span>
+
+  <span class="hc">&lt;!-- Texto libre --&gt;</span>
+  <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"mensaje"</span><span class="ht">&gt;</span><span class="htx">¿Qué quieres decirme?</span><span class="ht">&lt;/label&gt;</span>
+  <span class="ht">&lt;textarea</span> <span class="ha">id</span>=<span class="hv">"mensaje"</span> <span class="ha">name</span>=<span class="hv">"mensaje"</span> <span class="ha">rows</span>=<span class="hv">"4"</span><span class="ht">&gt;&lt;/textarea&gt;</span>
+
+  <span class="ht">&lt;button</span> <span class="ha">type</span>=<span class="hv">"submit"</span><span class="ht">&gt;</span><span class="htx">Enviar</span><span class="ht">&lt;/button&gt;</span>
+
+<span class="ht">&lt;/form&gt;</span></div>
+  </div>
+
+  <div class="resultado">
+    <div class="rbar"><span class="rdot"></span> Vista previa</div>
+    <div class="rbody">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;font-size:14px">
+        <div><label style="font-weight:700;display:block;margin-bottom:3px">Tu nombre</label><input type="text" placeholder="Ej: Natalia García" style="border:1.5px solid #e2e8f0;border-radius:6px;padding:7px 10px;width:100%;font-family:'Nunito',sans-serif;font-size:13px"></div>
+        <div><label style="font-weight:700;display:block;margin-bottom:3px">¿Cómo estás hoy?</label><input type="range" min="1" max="10" style="width:100%"></div>
+        <div><label style="font-weight:700;display:block;margin-bottom:3px">¿De qué quieres hablar?</label><select style="border:1.5px solid #e2e8f0;border-radius:6px;padding:7px 10px;width:100%;font-family:'Nunito',sans-serif;font-size:13px"><option>Tecnología</option><option>Otra cosa</option></select></div>
+        <div><label style="font-weight:700;display:block;margin-bottom:3px">¿Qué quieres decirme?</label><textarea rows="3" style="border:1.5px solid #e2e8f0;border-radius:6px;padding:7px 10px;width:100%;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical"></textarea></div>
+        <button style="background:#1a4f8a;color:#fff;border:0;padding:10px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: contactame.html</span>
+        <span class="a-chip">📌 Proyecto: 4 páginas enlazadas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea contactame.html con estructura completa desde el inicio</strong>
+            <p>Esqueleto HTML + head + header + nav + main + footer. El formulario va dentro del &lt;main&gt;.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">2</div>
+          <div class="paso-c">
+            <strong>Personaliza las preguntas del formulario</strong>
+            <p>No uses las del ejemplo literal. Escribe las preguntas que tú realmente le harías a quien te visita. Incluye al menos: text, email, range, select y textarea.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#6d28d9">3</div>
+          <div class="paso-c">
+            <strong>Agrega un checkbox y asegúrate que cada label tiene su for</strong>
+            <p>El for del label y el id del input deben ser idénticos. Prueba haciendo clic en el texto del label — si el campo se activa, está bien vinculado.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#ea580c">4</div>
+          <div class="paso-c">
+            <strong>Enlaza contactame.html en el nav de las otras páginas</strong>
+            <p>El proyecto ahora tiene 4 páginas. Actualiza el &lt;nav&gt; en index, mi_historia, lo_que_siento y mis_datos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona relacional">
+      <div class="z-lbl">💬 Reflexiona · Habilidades Relacionales</div>
+      <p>Las preguntas del formulario son las que decides hacer a quien te visita. <strong>¿Son las mismas preguntas que harías en persona? ¿O son más o menos profundas que las que harías cara a cara?</strong> ¿Por qué cambia cuando es un formulario?</p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">Cada &lt;label&gt; tiene un for que coincide exactamente con el id del input</div>
+        <div class="check-item">Al hacer clic en el texto del label, el campo correspondiente se activa</div>
+        <div class="check-item">Hay al menos 5 tipos distintos de input en el formulario</div>
+        <div class="check-item">contactame.html está en el &lt;nav&gt; de las 4 páginas</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div>
+        <p>¿Cuál fue la pregunta más difícil de formular para el formulario? ¿Por qué costó más escribirla?</p>
+        <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g08"><div><p>Próxima guía</p><strong>Guía 08 → Video, audio y &lt;source&gt;</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G08 ════════════════════════════════════════ -->
+<section id="g08" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 08 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Video, audio y multimedia</h1>
+  <p>Incrustar multimedia es técnicamente simple. Lo complejo es elegir qué mostrar — y cómo. &lt;source&gt; ofrece formatos alternativos para que funcione en cualquier navegador.</p>
+  <div class="gtags"><span class="gt">video · audio · source · controls · poster · autoplay · muted · loop</span><span class="gt gt-y">Autoconciencia · Conciencia Social</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div><span class="prog-txt">8 / 10</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Incrustar video y audio con &lt;video&gt; y &lt;audio&gt; y sus atributos de control</li>
+    <li>Usar &lt;source&gt; para ofrecer el archivo en más de un formato</li>
+    <li>Elegir conscientemente qué mostrar y con qué controles</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🎬</div><h2>Video y audio: mostrar con control</h2></div>
+  <p class="exp"><strong>&lt;video&gt;</strong> y <strong>&lt;audio&gt;</strong> tienen la misma lógica: contenedor + atributos de control + &lt;source&gt; dentro con el archivo. <strong>controls</strong> muestra la barra de reproducción — sin él el usuario no puede reproducir. <strong>poster</strong> es la imagen antes de reproducir. <strong>autoplay + muted</strong> reproduce automáticamente sin sonido (requerido por los navegadores modernos).</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">mi_historia.html → sección multimedia</span></div>
+    <div class="ebody"><span class="hc">&lt;!-- VIDEO con controles e imagen previa --&gt;</span>
+<span class="ht">&lt;video</span> <span class="ha">controls</span> <span class="ha">poster</span>=<span class="hv">"imagen_previa.jpg"</span> <span class="ha">width</span>=<span class="hv">"400"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;source</span> <span class="ha">src</span>=<span class="hv">"mi_video.mp4"</span> <span class="ha">type</span>=<span class="hv">"video/mp4"</span><span class="ht">&gt;</span>
+  <span class="htx">Tu navegador no soporta video.</span>
+<span class="ht">&lt;/video&gt;</span>
+
+<span class="hc">&lt;!-- AUDIO con dos formatos alternativos --&gt;</span>
+<span class="ht">&lt;audio</span> <span class="ha">controls</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;source</span> <span class="ha">src</span>=<span class="hv">"cancion.mp3"</span> <span class="ha">type</span>=<span class="hv">"audio/mpeg"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;source</span> <span class="ha">src</span>=<span class="hv">"cancion.ogg"</span> <span class="ha">type</span>=<span class="hv">"audio/ogg"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/audio&gt;</span>
+
+<span class="hc">&lt;!-- VIDEO DE FONDO: autoplay + muted (sin controles) --&gt;</span>
+<span class="ht">&lt;video</span> <span class="ha">autoplay</span> <span class="ha">muted</span> <span class="ha">loop</span> <span class="ha">width</span>=<span class="hv">"100%"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;source</span> <span class="ha">src</span>=<span class="hv">"fondo.mp4"</span> <span class="ha">type</span>=<span class="hv">"video/mp4"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/video&gt;</span></div>
+  </div>
+
+  <table class="tbl">
+    <tr><th>Atributo</th><th>Efecto</th><th>Cuándo usarlo</th></tr>
+    <tr><td><code>controls</code></td><td>Muestra play/pausa/volumen/barra</td><td>Siempre que el usuario deba controlar</td></tr>
+    <tr><td><code>poster</code></td><td>Imagen que se ve antes de reproducir</td><td>Videos informativos o personales</td></tr>
+    <tr><td><code>autoplay muted</code></td><td>Inicia sin acción del usuario, sin sonido</td><td>Solo en videos decorativos de fondo</td></tr>
+    <tr><td><code>loop</code></td><td>Se repite continuamente</td><td>Fondos animados</td></tr>
+  </table>
+  <div class="nota warn"><strong>Sin controls ni autoplay:</strong> El navegador no reproduce el video. El usuario lo ve estático y no puede hacer nada. Siempre pon controls, o autoplay+muted si es decorativo.</div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#0d9488,#0f766e)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 30 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Edita: mi_historia.html</span>
+        <span class="a-chip">🎬 Agrega video + audio</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Consigue un video y una canción libre</strong>
+            <p>Pixabay o Pexels tienen videos sin derechos. Para audio, puedes usar una canción de tu celular o buscar en Free Music Archive. Cópialos a la carpeta del proyecto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#0d9488">2</div>
+          <div class="paso-c">
+            <strong>Agrega el &lt;video&gt; en mi_historia.html</strong>
+            <p>Con <code>controls</code>, <code>poster</code> y <code>width="400"</code>. Usa un &lt;source&gt; con el archivo mp4. Debajo del video, escribe un &lt;p&gt; que explique por qué elegiste ese video — qué tiene que ver contigo.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#0f766e">3</div>
+          <div class="paso-c">
+            <strong>Agrega el &lt;audio&gt; con dos &lt;source&gt;</strong>
+            <p>El primero en mp3, el segundo en ogg si lo tienes (si no, dos mp3 con distintos nombres funciona para el ejercicio). Debajo, escribe por qué esa canción te representa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona autoconciencia">
+      <div class="z-lbl">🔍 Reflexiona · Autoconciencia</div>
+      <p>Elegiste ese video y esa canción. <strong>¿Los elegirías diferentes si la página la viera alguien que no te conoce versus alguien que te conoce bien?</strong> ¿Qué dice esa diferencia de cómo te presentas según el público?</p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">El video se reproduce al hacer clic en play — no aparece el ícono de error</div>
+        <div class="check-item">El audio tiene controles visibles</div>
+        <div class="check-item">Hay un párrafo &lt;p&gt; explicando por qué elegiste cada uno</div>
+        <div class="check-item">Los archivos mp4/mp3 están en la carpeta del proyecto, no en otra ubicación</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div>
+        <p>La canción del &lt;audio&gt; — ¿la conoce alguien cercano a ti? ¿Qué diría esa persona al escucharla en tu página?</p>
+        <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g09"><div><p>Próxima guía</p><strong>Guía 09 → El &lt;head&gt; completo y CSS externo</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G09 ════════════════════════════════════════ -->
+<section id="g09" class="guia">
+<div class="ghead">
+  <div class="gnum">Guía 09 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>El &lt;head&gt; completo y CSS externo</h1>
+  <p>El &lt;head&gt; es invisible para el usuario pero define cómo aparece la página en buscadores y dispositivos móviles. El CSS externo le da estilo coherente a todo el proyecto con un solo archivo.</p>
+  <div class="gtags"><span class="gt">meta charset · viewport · description · Google Fonts · link stylesheet</span><span class="gt gt-y">Autoconciencia</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:90%"></div></div><span class="prog-txt">9 / 10 · ¡Casi!</span></div>
+<div class="objetivo">
+  <h3>Al terminar esta guía puedes</h3>
+  <ul>
+    <li>Escribir un &lt;head&gt; completo con todas las metaetiquetas esenciales</li>
+    <li>Vincular un CSS externo con &lt;link rel="stylesheet"&gt;</li>
+    <li>Escribir CSS básico que aplique a las 4 páginas del proyecto</li>
+  </ul>
+</div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🧠</div><h2>El head completo + tu primer estilos.css</h2></div>
+  <p class="exp">El &lt;head&gt; tiene tres funciones: decirle al navegador cómo renderizar (<strong>charset, viewport</strong>), decirle a los buscadores de qué trata (<strong>title, description</strong>), y cargar recursos externos (<strong>Google Fonts, CSS propio</strong>). El CSS en <strong>estilos.css</strong> se enlaza una vez y aplica a todas las páginas.</p>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">index.html → &lt;head&gt; completo</span></div>
+    <div class="ebody"><span class="ht">&lt;head&gt;</span>
+  <span class="ht">&lt;meta</span> <span class="ha">charset</span>=<span class="hv">"UTF-8"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;meta</span> <span class="ha">name</span>=<span class="hv">"viewport"</span> <span class="ha">content</span>=<span class="hv">"width=device-width, initial-scale=1.0"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;title&gt;</span><span class="htx">Daniela Pérez · Estudiante ENSDB Barranquilla</span><span class="ht">&lt;/title&gt;</span>
+  <span class="ht">&lt;meta</span> <span class="ha">name</span>=<span class="hv">"description"</span>
+        <span class="ha">content</span>=<span class="hv">"Mi página personal. Soy estudiante de décimo en la ENSDB."</span><span class="ht">&gt;</span>
+  <span class="hc">&lt;!-- Google Fonts --&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"preconnect"</span> <span class="ha">href</span>=<span class="hv">"https://fonts.googleapis.com"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">href</span>=<span class="hv">"https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"</span>
+        <span class="ha">rel</span>=<span class="hv">"stylesheet"</span><span class="ht">&gt;</span>
+  <span class="hc">&lt;!-- CSS propio —el que escribo en estilos.css --&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"stylesheet"</span> <span class="ha">href</span>=<span class="hv">"estilos.css"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/head&gt;</span></div>
+  </div>
+
+  <div class="editor">
+    <div class="ebar"><div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div><span class="fn">estilos.css · nueva carpeta</span></div>
+    <div class="ebody"><span class="cs">body</span> {
+  <span class="cp">font-family</span>: <span class="cv">'Nunito'</span>, sans-serif;
+  <span class="cp">background</span>: <span class="cv">#f0f4f8</span>;
+  <span class="cp">color</span>: <span class="cv">#1e293b</span>;
+  <span class="cp">line-height</span>: <span class="cv">1.7</span>;
+  <span class="cp">max-width</span>: <span class="cv">800px</span>;
+  <span class="cp">margin</span>: <span class="cv">0 auto</span>;
+  <span class="cp">padding</span>: <span class="cv">20px</span>;
+}
+
+<span class="cs">h1</span> { <span class="cp">color</span>: <span class="cv">#1a4f8a</span>; <span class="cp">font-size</span>: <span class="cv">2rem</span>; }
+<span class="cs">h2</span> { <span class="cp">color</span>: <span class="cv">#2563eb</span>; }
+
+<span class="cs">nav a</span> {
+  <span class="cp">margin-right</span>: <span class="cv">16px</span>;
+  <span class="cp">color</span>: <span class="cv">#2563eb</span>;
+  <span class="cp">text-decoration</span>: <span class="cv">none</span>;
+}
+<span class="cs">nav a:hover</span> { <span class="cp">text-decoration</span>: <span class="cv">underline</span>; }
+
+<span class="cs">blockquote</span> {
+  <span class="cp">border-left</span>: <span class="cv">4px solid #2563eb</span>;
+  <span class="cp">padding-left</span>: <span class="cv">16px</span>;
+  <span class="cp">font-style</span>: <span class="cv">italic</span>;
+  <span class="cp">color</span>: <span class="cv">#475569</span>;
+}</div>
+  </div>
+</div>
+
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#1a4f8a,#2563eb)">
+    <div class="a-badge">✏️</div>
+    <div class="a-titulo">
+      <h3>Actividad · 35 min · Individual</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 Crea: estilos.css</span>
+        <span class="a-chip">🔄 Actualiza las 4 páginas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+    <div class="zona z-prepara">
+      <div class="z-lbl">⚙️ Prepara</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#475569">1</div>
+          <div class="paso-c">
+            <strong>Crea estilos.css en la misma carpeta</strong>
+            <p>Un archivo nuevo, vacío por ahora. Las 4 páginas van a usar este mismo archivo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Construye</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#1a4f8a">2</div>
+          <div class="paso-c">
+            <strong>Reemplaza el &lt;head&gt; de las 4 páginas con el completo</strong>
+            <p>Personaliza el &lt;title&gt; y la &lt;meta description&gt; de cada página — que sean únicos y digan algo real de esa página en particular.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#2563eb">3</div>
+          <div class="paso-c">
+            <strong>Escribe el CSS base en estilos.css y personalízalo</strong>
+            <p>Cambia los colores por los tuyos propios. Elige una fuente de Google Fonts diferente a Nunito que se sienta más tuya. Ajusta font-size y max-width a tu gusto.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#16a34a">4</div>
+          <div class="paso-c">
+            <strong>Verifica que el estilo aplica en las 4 páginas</strong>
+            <p>Abre cada página. La fuente, los colores y los márgenes deben ser idénticos en todas. Si alguna se ve diferente, revisa que el href="estilos.css" esté en el &lt;head&gt; de esa página.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zona z-reflexiona autoconciencia">
+      <div class="z-lbl">🔍 Reflexiona · Autoconciencia</div>
+      <p>La meta description es lo que Google muestra de ti en los resultados de búsqueda. Tiene máximo 160 caracteres. <strong>¿Qué escribiste? ¿Es la versión auténtica de quién eres, o es la versión que crees que debería estar ahí?</strong></p>
+    </div>
+
+    <div class="zona z-verifica">
+      <div class="z-lbl">✅ Verifica antes de avanzar</div>
+      <div class="checks">
+        <div class="check-item">Las 4 páginas tienen el head completo con charset, viewport, title, description, fonts, css</div>
+        <div class="check-item">El &lt;title&gt; y la &lt;meta description&gt; son únicos en cada página</div>
+        <div class="check-item">La fuente de Google Fonts se aplica a las 4 páginas</div>
+        <div class="check-item">Los colores en estilos.css son propios — no los del ejemplo</div>
+      </div>
+    </div>
+
+    <div class="zona z-bitacora">
+      <div class="z-lbl">📓 Bitácora · 5 min</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <p>Escribe aquí la meta description de tu index antes de ponerla en el código:</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div>
+          <p>La fuente y los colores que elegiste — ¿qué dicen de cómo quieres que te vean?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="sig" href="#g10"><div><p>Última guía</p><strong>Guía 10 → Proyecto Integrador: entrega final ⭐</strong></div><span>→</span></a>
+</section><div class="sep"></div>
+
+<!-- ════════════════════════════════════════ G10 ════════════════════════════════════════ -->
+<section id="g10" class="guia">
+<div class="ghead" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
+  <div class="gnum">Guía 10 · HTML y Socioemocionalidad · Grado 10° · ENSDB 2025</div>
+  <h1>Proyecto Integrador: tu sitio web personal completo ⭐</h1>
+  <p>No hay contenido nuevo. Hay una entrega. Usas todo lo aprendido en las Guías 01–09 para presentar un sitio de 4 páginas funcional, coherente y genuinamente tuyo.</p>
+  <div class="gtags"><span class="gt">HTML completo · CSS externo · 4 páginas enlazadas</span><span class="gt gt-y">Las 5 competencias CASEL</span></div>
+</div>
+<div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div><span class="prog-txt">10 / 10 · 🎉 Proyecto final</span></div>
+
+<div class="concepto">
+  <div class="ch"><div class="cico">🗺️</div><h2>Las 4 páginas — qué debe tener cada una</h2></div>
+  <table class="tbl">
+    <tr><th>Página</th><th>Contenido mínimo</th><th>Etiquetas clave</th></tr>
+    <tr><td><code>index.html</code> Inicio</td><td>Presentación real. Quién eres, dónde estás, qué te importa — no la versión editada.</td><td>head · header · nav · h1 · p · img · footer</td></tr>
+    <tr><td><code>mi_historia.html</code></td><td>Intereses, experiencias, lo que te formó. Con listas, cita, imagen y multimedia.</td><td>section · aside · ul · ol · blockquote · img · video/audio</td></tr>
+    <tr><td><code>mis_datos.html</code></td><td>Una tabla con datos que te importa organizar — semana emocional, metas, proyectos.</td><td>table · thead · tbody · tfoot · colspan</td></tr>
+    <tr><td><code>contactame.html</code></td><td>Formulario con las preguntas reales que le harías a quien te visita.</td><td>form · label · input (5 tipos) · textarea · button</td></tr>
+  </table>
+  <div class="nota"><strong>El &lt;nav&gt; conecta todo:</strong> Las 4 páginas deben estar en el &lt;nav&gt; de cada una. El usuario puede navegar entre todas sin usar la barra de dirección.</div>
+</div>
+
+<!-- ACTIVIDAD FINAL: 3 sesiones -->
+<div class="actividad">
+  <div class="a-banner" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
+    <div class="a-badge">⭐</div>
+    <div class="a-titulo">
+      <h3>Proyecto Final · 3 sesiones de 90 min</h3>
+      <div class="a-meta">
+        <span class="a-chip">📂 4 páginas enlazadas</span>
+        <span class="a-chip">🎨 estilos.css completo</span>
+        <span class="a-chip">📓 Bitácora final</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-zonas">
+
+    <!-- PREPARA: 3 sesiones -->
+    <div class="zona z-prepara">
+      <div class="z-lbl">📅 Plan de sesiones</div>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-n" style="background:#1a4f8a">S1</div>
+          <div class="paso-c">
+            <strong>Sesión 1 · Estructura y contenido</strong>
+            <p>Verifica que las 4 páginas tienen el head completo y estructura semántica (header, nav, main, footer). Completa el contenido real de index y mi_historia — sin placeholders.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#7c3aed">S2</div>
+          <div class="paso-c">
+            <strong>Sesión 2 · Datos, formulario y multimedia</strong>
+            <p>Termina mis_datos.html con la tabla completa. Termina contactame.html con el formulario con todos los tipos de input. Agrega video y audio a mi_historia.html.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-n" style="background:#16a34a">S3</div>
+          <div class="paso-c">
+            <strong>Sesión 3 · CSS, revisión y entrega</strong>
+            <p>Profundiza estilos.css — que el proyecto se vea coherente y sea visualmente tuyo. Navega entre las 4 páginas y verifica que todo funciona. Escribe la bitácora final.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONSTRUYE: checklist -->
+    <div class="zona z-construye">
+      <div class="z-lbl">🔨 Lista de verificación técnica</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <p style="font-size:12px;font-weight:900;color:#1a4f8a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">HTML · Estructura</p>
+          <div class="checks">
+            <div class="check-item">4 páginas con esqueleto HTML válido</div>
+            <div class="check-item">head completo en las 4 páginas</div>
+            <div class="check-item">header · nav · main · footer en todas</div>
+            <div class="check-item">nav con enlaces a las 4 páginas</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:900;color:#7c3aed;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">HTML · Contenido</p>
+          <div class="checks">
+            <div class="check-item">ul · ol · blockquote en mi_historia</div>
+            <div class="check-item">img con alt descriptivo</div>
+            <div class="check-item">video o audio con source</div>
+            <div class="check-item">tabla con thead · tbody · tfoot · colspan</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:900;color:#ea580c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Formulario</p>
+          <div class="checks">
+            <div class="check-item">form con label vinculado por for/id</div>
+            <div class="check-item">Al menos 5 tipos distintos de input</div>
+            <div class="check-item">textarea · select · button submit</div>
+            <div class="check-item">Campos importantes con required</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:900;color:#16a34a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">CSS · Estilo</p>
+          <div class="checks">
+            <div class="check-item">estilos.css con fuente y colores propios</div>
+            <div class="check-item">Google Fonts vinculado y aplicado</div>
+            <div class="check-item">Mismo CSS en las 4 páginas</div>
+            <div class="check-item">meta description única por página</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFLEXIONA: las 5 competencias -->
+    <div class="zona" style="background:#0f172a;border-top:0">
+      <div class="z-lbl" style="background:rgba(251,191,36,.15);color:#fbbf24">📓 Bitácora Final · Las 5 competencias CASEL</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="border-left:3px solid #ea580c;padding:12px 16px;background:rgba(234,88,12,.06);border-radius:0 8px 8px 0">
+          <p style="font-size:11.5px;font-weight:900;color:#ea580c;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">🔍 Autoconciencia</p>
+          <p style="font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px">¿Qué aprendiste de ti mismo/a al construir una página que el mundo puede ver? ¿El h1 de tu index dice algo verdadero de quién eres?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div style="border-left:3px solid #2563eb;padding:12px 16px;background:rgba(37,99,235,.06);border-radius:0 8px 8px 0">
+          <p style="font-size:11.5px;font-weight:900;color:#2563eb;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">🧘 Autocontrol</p>
+          <p style="font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px">¿Hubo momentos en que quisiste borrar algo porque daba miedo que alguien lo viera? ¿Qué hiciste con ese miedo?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div style="border-left:3px solid #16a34a;padding:12px 16px;background:rgba(22,163,74,.06);border-radius:0 8px 8px 0">
+          <p style="font-size:11.5px;font-weight:900;color:#16a34a;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">🌍 Conciencia Social</p>
+          <p style="font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px">¿Qué aprendiste del proceso de construir algo que otros van a ver? ¿Cambió algo de cómo imaginas ser visto/a?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div style="border-left:3px solid #7c3aed;padding:12px 16px;background:rgba(124,58,237,.06);border-radius:0 8px 8px 0">
+          <p style="font-size:11.5px;font-weight:900;color:#7c3aed;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">💬 Habilidades Relacionales</p>
+          <p style="font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px">¿Hay algo de tu proyecto que quisieras que una persona específica viera? ¿Quién y por qué?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div style="border-left:3px solid #a21caf;padding:12px 16px;background:rgba(162,28,175,.06);border-radius:0 8px 8px 0">
+          <p style="font-size:11.5px;font-weight:900;color:#a21caf;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">⚖️ Toma de Decisiones</p>
+          <p style="font-size:13.5px;color:#94a3b8;font-style:italic;margin-bottom:10px">¿Qué decidiste mostrar en tu página y qué decidiste guardar? ¿Fue una decisión consciente o evitabas pensar en ella?</p>
+          <div class="bline"></div><div class="bline" style="margin-top:10px"></div>
+        </div>
+        <div style="text-align:center;padding:16px 0 4px">
+          <p style="font-size:13.5px;color:#fbbf24;font-weight:700;margin-bottom:12px">Frase final — en una oración honesta: ¿qué fue este proyecto para ti?</p>
+          <div style="height:1.5px;background:#fbbf24;opacity:.3;margin-bottom:8px"></div>
+          <div class="bline" style="margin-bottom:8px"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:14px;padding:30px;text-align:center;margin-top:24px">
+  <p style="font-size:21px;font-weight:900;color:#fbbf24;margin-bottom:12px">Lo que construiste no es solo código.</p>
+  <p style="font-size:14.5px;color:rgba(255,255,255,.75);max-width:580px;margin:0 auto;line-height:1.7">Es la versión visible de cómo entiendes la estructura, la conexión, los datos y las preguntas. Eso ya eres tú — antes de aprender CSS.</p>
+  <p style="font-size:12px;color:rgba(255,255,255,.35);margin-top:20px">ENSDB · Barranquilla 2025 · Proyecto HTML y Socioemocionalidad · Grado Décimo</p>
+</div>
+
+</section>
+
+<script>
+const secs = document.querySelectorAll('section[id]');
+const btns = document.querySelectorAll('.ng');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      btns.forEach(b => b.classList.remove('on'));
+      const t = document.querySelector(`.ng[href="#${e.target.id}"]`);
+      if(t) t.classList.add('on');
+    }
+  });
+},{threshold:0.25});
+secs.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
