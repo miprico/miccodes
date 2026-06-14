@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Viva el Carnaval! — Bitácora del Proyecto</title>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F5F0;color:#222;min-height:100vh}
+
+/* HEADER */
+.page-header{
+  background:linear-gradient(135deg,#D85A30 0%,#BA3D10 45%,#7A1A00 100%);
+  padding:2.5rem 2rem 2rem;
+  position:relative;overflow:hidden;
+}
+.page-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 75% 30%,#F4A62340 0%,transparent 60%);
+}
+.confetti-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.dot{position:absolute;border-radius:50%}
+.header-inner{position:relative;z-index:1;max-width:860px;margin:0 auto}
+.game-title{
+  font-family:'Lilita One',cursive;
+  font-size:clamp(28px,6vw,52px);
+  color:#FFFDE7;
+  text-shadow:3px 3px 0 #7A1A00, 0 0 30px #F4A62360;
+  line-height:1.1;margin-bottom:6px;
+}
+.game-sub{font-size:clamp(13px,2.5vw,17px);color:#FFD180;font-style:italic;margin-bottom:1rem}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem}
+.tag{
+  background:#FFFFFF22;border:1px solid #FFFFFF40;color:#FFFDE7;
+  font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700;
+}
+.drive-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#F4A623;color:#7A1A00;font-weight:800;font-size:14px;
+  padding:10px 20px;border-radius:10px;text-decoration:none;
+  border:2px solid #FFFDE7;transition:transform .15s,box-shadow .15s;
+}
+.drive-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px #0004}
+.drive-btn svg{width:18px;height:18px;flex-shrink:0}
+
+/* STATS */
+.stats-row{
+  display:flex;flex-wrap:wrap;gap:10px;
+  max-width:860px;margin:1.5rem auto;
+  padding:0 1.5rem;
+}
+.stat{
+  flex:1;min-width:100px;
+  background:#fff;border-radius:12px;padding:.85rem 1rem;
+  text-align:center;border:1.5px solid #eee;
+  box-shadow:0 1px 4px #0001;
+}
+.stat-n{font-family:'Lilita One',cursive;font-size:28px;line-height:1}
+.stat-l{font-size:11px;color:#666;margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.n-rojo{color:#D85A30}.n-ambar{color:#BA7517}.n-verde{color:#0F6E56}.n-morado{color:#4A3FB0}
+
+/* MAIN */
+.main{max-width:860px;margin:0 auto;padding:0 1.5rem 3rem}
+
+/* SECCIÓN */
+.sec{margin-bottom:1rem}
+.sec-head{
+  display:flex;align-items:center;gap:10px;
+  padding:.75rem 1rem;border-radius:12px;
+  cursor:pointer;user-select:none;border:2px solid transparent;
+  transition:opacity .15s;
+}
+.sec-head:hover{opacity:.92}
+.sec-icon{font-size:22px;line-height:1}
+.sec-title{font-size:15px;font-weight:800;flex:1}
+.sec-count{font-size:12px;opacity:.8}
+.sec-arr{
+  font-size:18px;font-weight:800;transition:transform .2s;
+  line-height:1;color:inherit;
+}
+.sec-arr.open{transform:rotate(90deg)}
+.sec-body{display:none;padding:.5rem 0 .25rem}
+.sec-body.open{display:block}
+
+.h-rojo{background:#FAECE7;border-color:#D85A30;color:#712B13}
+.h-ambar{background:#FEF5E7;border-color:#BA7517;color:#412402}
+.h-verde{background:#E1F5EE;border-color:#1D9E75;color:#04342C}
+.h-morado{background:#EEEDFE;border-color:#534AB7;color:#26215C}
+.h-azul{background:#E6F1FB;border-color:#185FA5;color:#042C53}
+.h-gris{background:#F4F4F4;border-color:#888780;color:#2C2C2A}
+
+/* GRID RECURSOS */
+.rg{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:8px;margin-top:6px;
+}
+.ri{
+  background:#fff;border:1.5px solid #E8E8E8;border-radius:10px;
+  padding:.7rem .9rem;display:flex;align-items:flex-start;gap:10px;
+  text-decoration:none;color:#222;
+  transition:border-color .15s,transform .1s,box-shadow .1s;
+}
+.ri:hover{border-color:#aaa;transform:translateY(-2px);box-shadow:0 3px 10px #0001}
+.ri-ico{font-size:20px;margin-top:1px;flex-shrink:0}
+.ri-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.ri-meta{font-size:11px;color:#666}
+.ri-badge{
+  display:inline-block;font-size:10px;font-weight:800;
+  padding:2px 8px;border-radius:10px;margin-top:4px;
+}
+.b-vid{background:#E1F5EE;color:#085041}
+.b-img{background:#E6F1FB;color:#042C53}
+.b-doc{background:#EEEDFE;color:#26215C}
+.b-zip{background:#FAECE7;color:#712B13}
+.b-fld{background:#FEF5E7;color:#412402}
+.b-mvp{background:#D85A30;color:#fff}
+
+/* ESTRELLADO */
+.starred{border-color:#D85A30 !important;background:#FFFAF8 !important}
+.starred .ri-name{color:#712B13}
+
+/* CARPETAS */
+.fg{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.fi{
+  background:#F8F8F5;border:1.5px solid #E0E0DC;border-radius:10px;
+  padding:.5rem .9rem;display:flex;align-items:center;gap:8px;
+  text-decoration:none;color:#333;font-size:12px;font-weight:700;
+  transition:border-color .15s;
+}
+.fi:hover{border-color:#aaa;background:#F0EFE8}
+
+/* DIVISOR */
+.div{border:none;border-top:1.5px solid #EBEBEB;margin:.75rem 0}
+
+/* SUBLABEL */
+.sublabel{
+  font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.06em;margin:.8rem 0 5px;
+}
+
+/* FOOTER */
+footer{
+  background:#fff;border-top:2px solid #FAECE7;
+  padding:1.5rem;margin-top:2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  max-width:860px;margin:2rem auto 0;border-radius:12px;
+  border:1.5px solid #FAECE7;
+}
+.footer-info{font-size:12px;color:#666;line-height:1.6}
+.footer-link{
+  font-size:13px;font-weight:800;color:#D85A30;
+  text-decoration:none;display:flex;align-items:center;gap:6px;
+}
+.footer-link:hover{text-decoration:underline}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .stats-row{padding:0 1rem}
+  .main{padding:0 1rem 3rem}
+  .rg{grid-template-columns:1fr}
+  .page-header{padding:2rem 1rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="confetti-wrap" id="cf"></div>
+  <div class="header-inner">
+    <div class="game-title">¡Viva el Carnaval!</div>
+    <div class="game-sub">Piensa, programa y ¡baila con código!</div>
+    <div class="tags">
+      <span class="tag">🎮 Unity 2D</span>
+      <span class="tag">🧠 Pensamiento Computacional</span>
+      <span class="tag">📍 Barranquilla, Colombia</span>
+      <span class="tag">🏫 ENSDB · Hub Ecosistema</span>
+      <span class="tag">👧 Básica Primaria · Grados 3°–5°</span>
+    </div>
+    <a class="drive-btn" href="https://drive.google.com/drive/folders/1hi6mKkjzqvtcKt8RX_TwTa7eACSLWUTk" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Abrir carpeta completa en Drive
+    </a>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat"><div class="stat-n n-rojo">7</div><div class="stat-l">Personajes</div></div>
+  <div class="stat"><div class="stat-n n-ambar">4</div><div class="stat-l">Niveles</div></div>
+  <div class="stat"><div class="stat-n n-verde">2</div><div class="stat-l">Versiones</div></div>
+  <div class="stat"><div class="stat-n n-morado">4</div><div class="stat-l">Videos</div></div>
+  <div class="stat"><div class="stat-n n-rojo">45 MB</div><div class="stat-l">Proyecto Unity</div></div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ⭐ RECURSOS PRINCIPALES -->
+  <div class="sec">
+    <div class="sec-head h-rojo" onclick="tog(this,'bd-star')">
+      <span class="sec-icon">⭐</span>
+      <span class="sec-title">Recursos principales — para la presentación</span>
+      <span class="sec-count">3 archivos clave</span>
+      <span class="sec-arr open">›</span>
+    </div>
+    <div class="sec-body open" id="bd-star">
+      <div class="rg">
+        <a class="ri starred" href="https://drive.google.com/file/d/1W60Zm8QsivzJINNJzuHE4yvVo51PWDcl/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🗜️</span>
+          <div>
+            <div class="ri-name">Juego Viva carnaval.zip</div>
+            <div class="ri-meta">Proyecto Unity completo · 45.4 MB</div>
+            <span class="ri-badge b-zip">Abrir en Unity</span>
+          </div>
+        </a>
+        <a class="ri starred" href="https://drive.google.com/file/d/184uhYuUxZKxL3_rlmlz3BwftXQIT2_8D/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎬</span>
+          <div>
+            <div class="ri-name">PRESENTACION.mkv</div>
+            <div class="ri-meta">Video de presentación oficial · 68.6 MB</div>
+            <span class="ri-badge b-vid">Video presentación</span>
+          </div>
+        </a>
+        <a class="ri starred" href="https://drive.google.com/file/d/1rYs-UtoP8KoiTESZG1YtWb_M9LBaFbiv/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎮</span>
+          <div>
+            <div class="ri-name">MUESTRADELACONSTRUCCIONDELMVP.mp4</div>
+            <div class="ri-meta">Demo del MVP construido · 4.6 MB</div>
+            <span class="ri-badge b-mvp">Demo MVP</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎭 PERSONAJES -->
+  <div class="sec">
+    <div class="sec-head h-ambar" onclick="tog(this,'bd-per')">
+      <span class="sec-icon">🎭</span>
+      <span class="sec-title">Personajes · Sprites</span>
+      <span class="sec-count">6 carpetas · 2 videos · 1 imagen</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-per">
+      <div class="fg">
+        <a class="fi" href="https://drive.google.com/drive/folders/1jOQGOla9JN6cDrolPumUlQV3zmaWfutz" target="_blank">📁 KARLITO (protagonista)</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1rldfpjItzIiSI7jqcKtonvI3Gy6C9orM" target="_blank">📁 Marimonda Sabia</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1nz0f1G2jD3N7ED5DU2oUCkQl-9vYdjKI" target="_blank">📁 Garabato</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1UGK36wO-oMTDroav_CzvmffTJ9GYwjXY" target="_blank">📁 Congo Grande</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1iX3wDjgDczyuaXxaDWT9h2ZkS2sGDNWw" target="_blank">📁 Llorona del Río</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1lYW565UB8y8lgNE4AdTOAJCQj2aNvhSu" target="_blank">📁 Rey Momo</a>
+      </div>
+      <div class="div"></div>
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1bY4qsskqk693KeY7txqDPs2g2z7eUrI-/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖼️</span>
+          <div><div class="ri-name">PERSONAJE.png</div><div class="ri-meta">Sprite principal · 1.3 MB</div><span class="ri-badge b-img">PNG</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1dNSdjUtzRu36qcd-KZI6luWCMGTe9T4O/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎬</span>
+          <div><div class="ri-name">MOVIMIENTOKARLITO.mp4</div><div class="ri-meta">Animación protagonista · 5.3 MB</div><span class="ri-badge b-vid">Video</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1C01o34TNlPmtwc-ZyRzzJd2PzTTRV4NE/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎬</span>
+          <div><div class="ri-name">video.mp4</div><div class="ri-meta">Movimiento personaje · 5.3 MB</div><span class="ri-badge b-vid">Video</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🗺️ ESCENARIOS -->
+  <div class="sec">
+    <div class="sec-head h-verde" onclick="tog(this,'bd-esc')">
+      <span class="sec-icon">🗺️</span>
+      <span class="sec-title">Escenarios del juego · 4 Niveles</span>
+      <span class="sec-count">3 carpetas · 1 imagen</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-esc">
+      <div class="fg">
+        <a class="fi" href="https://drive.google.com/drive/folders/1ahpU46yZN2ap7WkT-2CCTH_c4j59H76N" target="_blank">🔴 N1 · Paseo Bolívar — Secuencias</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1k0I0sN8o6WvD_K6B61c1oyQfXl6M3fbZ" target="_blank">🟡 N2 · Barrio El Prado — Patrones</a>
+        <a class="fi" href="https://drive.google.com/drive/folders/1-R-nlTtW5s-KNoJ1jw6j4mR7d2m_k8He" target="_blank">🟢 N3 · Río Magdalena — Condicionales</a>
+      </div>
+      <div class="div"></div>
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1nBRh6eJCsChSkForX8nYoI437aGWHqiq/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖼️</span>
+          <div><div class="ri-name">NUEVASTARPAGE.jpeg</div><div class="ri-meta">Pantalla de inicio actualizada · 553 KB</div><span class="ri-badge b-img">Captura</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🏙️ AMBIENTES REALES -->
+  <div class="sec">
+    <div class="sec-head h-azul" onclick="tog(this,'bd-amb')">
+      <span class="sec-icon">🏙️</span>
+      <span class="sec-title">Ambientes reales · Barranquilla</span>
+      <span class="sec-count">6 fotografías y artes de referencia</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-amb">
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1qWPs2fJxmtZGaQxgSr34y5cr-4sex9re/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📸</span>
+          <div><div class="ri-name">paseo-bolivar.jpg</div><div class="ri-meta">Referencia fotográfica N1 · 769 KB</div><span class="ri-badge b-img">N1 · Referencia</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1vPSTXEZOZaVxseMmg2SCNSIaPpUKSri8/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🏠</span>
+          <div><div class="ri-name">casa1.jpeg</div><div class="ri-meta">El Prado · referencia N2 · 62 KB</div><span class="ri-badge b-img">N2 · Referencia</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1qrpDR_itld83aq264bI0YifCSlRAUrgV/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🏠</span>
+          <div><div class="ri-name">casa2.jpeg</div><div class="ri-meta">El Prado · referencia N2 · 59 KB</div><span class="ri-badge b-img">N2 · Referencia</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1D8qJ95UZQym6x9X0sDnhfSWRVAEBPkks/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🏠</span>
+          <div><div class="ri-name">casa3.jpg</div><div class="ri-meta">El Prado · referencia N2 · 12 KB</div><span class="ri-badge b-img">N2 · Referencia</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1b4cXk4pA-kK3P-nPqxKBw1GZXEEzJ_vH/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🏠</span>
+          <div><div class="ri-name">casa4.jpg</div><div class="ri-meta">El Prado · referencia N2 · 321 KB</div><span class="ri-badge b-img">N2 · Referencia</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1Y6CMwHsahaoF5oDGTsxC3NlRoFlZw7_1/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎨</span>
+          <div><div class="ri-name">Arte generado con IA (Midjourney)</div><div class="ri-meta">Fondo estilo 2D · 2.4 MB</div><span class="ri-badge b-img">Arte</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⚙️ PROCESO EN UNITY -->
+  <div class="sec">
+    <div class="sec-head h-ambar" onclick="tog(this,'bd-proc')">
+      <span class="sec-icon">⚙️</span>
+      <span class="sec-title">Proceso de construcción · Unity Editor</span>
+      <span class="sec-count">3 capturas del proceso</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-proc">
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1wKlN08gk4AJ7lg4W1v8-vbjIykrZ87O3/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖥️</span>
+          <div><div class="ri-name">CONSTRUCCIONNIVEL.jpeg</div><div class="ri-meta">Unity Editor — escena N1 · 89 KB</div><span class="ri-badge b-img">Captura Unity</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1gSh8P68J2iffGGhCF7jFGwrtaglas3k6/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖥️</span>
+          <div><div class="ri-name">CONSNIVEL1.jpeg</div><div class="ri-meta">Construcción inicial N1 · 105 KB</div><span class="ri-badge b-img">Captura Unity</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1q-YGva161nX5NtEpP-iqh34V1jBZSM_b/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖥️</span>
+          <div><div class="ri-name">AJUSTESNIVEL1.jpeg</div><div class="ri-meta">Ajustes del Nivel 1 · 189 KB</div><span class="ri-badge b-img">Captura Unity</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔄 VERSIONES -->
+  <div class="sec">
+    <div class="sec-head h-morado" onclick="tog(this,'bd-ver')">
+      <span class="sec-icon">🔄</span>
+      <span class="sec-title">Versiones del juego · Evolución del MVP</span>
+      <span class="sec-count">V1 → V2 final</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-ver">
+      <div class="sublabel" style="color:#534AB7">Versión 1</div>
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1g8-9r9GIlZLqT8r40Ja8AkctbuXNc1Yi/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖼️</span>
+          <div><div class="ri-name">PRIMERA VERSION.jpg</div><div class="ri-meta">Captura menú inicial · 84 KB</div><span class="ri-badge b-img">V1 · Imagen</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1mGt7OmdZ9KneNsHn9ZvY-lJ-hCfXEo3V/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎬</span>
+          <div><div class="ri-name">PRIMERA VERSION.mp4</div><div class="ri-meta">Demo en video · 1.8 MB</div><span class="ri-badge b-vid">V1 · Video</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1got2vE2pnOXTWAh8GBmVOrYCJ_pWJKxZ/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖼️</span>
+          <div><div class="ri-name">fondo_nivel1_paseo_bolivar.png</div><div class="ri-meta">Fondo N1 primera versión · 62 KB</div><span class="ri-badge b-img">V1 · Asset</span></div>
+        </a>
+      </div>
+      <div class="sublabel" style="color:#D85A30;margin-top:1rem">Versión 2 — MVP Final 🏆</div>
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1DE-99ZOJMMNKH2dh9pi4FAzdWHCcrW-h/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🖥️</span>
+          <div><div class="ri-name">DISEÑOENUNITY.jpeg</div><div class="ri-meta">Panel de bloques · ajuste V2 · 119 KB</div><span class="ri-badge b-img">V2 · Captura</span></div>
+        </a>
+        <a class="ri starred" href="https://drive.google.com/file/d/1hfk2KAsB0UPnRRmscRqdMprQcVagK6Kd/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">🎮</span>
+          <div><div class="ri-name">FINALIZACIONNIVEL1.mp4</div><div class="ri-meta">Nivel 1 terminado · versión final · 16.3 MB</div><span class="ri-badge b-mvp">MVP Final ⭐</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📸 EQUIPO Y DOCS -->
+  <div class="sec">
+    <div class="sec-head h-gris" onclick="tog(this,'bd-doc')">
+      <span class="sec-icon">📸</span>
+      <span class="sec-title">Registro del equipo · Documentación</span>
+      <span class="sec-count">3 fotos · 2 documentos Word</span>
+      <span class="sec-arr">›</span>
+    </div>
+    <div class="sec-body" id="bd-doc">
+      <div class="rg">
+        <a class="ri" href="https://drive.google.com/file/d/1HaJy0jukWq4bBs9VYZs9H8adKuUTtE2g/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📷</span>
+          <div><div class="ri-name">meet3.jpeg</div><div class="ri-meta">Sesión de trabajo del equipo · 154 KB</div><span class="ri-badge b-fld">Foto equipo</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1BH72GG4XYEt1Dxf8mav4MTVn4bQGsX01/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📷</span>
+          <div><div class="ri-name">meet3b.jpeg</div><div class="ri-meta">Sesión de trabajo del equipo · 175 KB</div><span class="ri-badge b-fld">Foto equipo</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1H-qiLtTJK3Koksw-ohWB4Kn0QQuBviYj/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📷</span>
+          <div><div class="ri-name">meet3c.jpeg</div><div class="ri-meta">Revisión del plan del proyecto · 133 KB</div><span class="ri-badge b-fld">Foto equipo</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1_belPA1tXGEhuTZJyEtmN7wq8M0Z5msE/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📄</span>
+          <div><div class="ri-name">Fichas_Graficas_VivaCarnval.docx</div><div class="ri-meta">Fichas técnicas de producción gráfica · 46 KB</div><span class="ri-badge b-doc">Word</span></div>
+        </a>
+        <a class="ri" href="https://drive.google.com/file/d/1-stn0Pfi47wG37vF8i4Bsfcwik-MqaC6/view?usp=drivesdk" target="_blank">
+          <span class="ri-ico">📄</span>
+          <div><div class="ri-name">Plan_VivaCarnval_Barranquilla.docx</div><div class="ri-meta">Plan completo del proyecto · 30 KB</div><span class="ri-badge b-doc">Word</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-info">
+      <strong>¡Viva el Carnaval!</strong> — Videojuego educativo 2D en Unity<br>
+      Hub Ecosistema de Innovación, Ciencia y Tecnología · ENSDB · Barranquilla, Colombia<br>
+      mprieto@ensdbexcelencia.edu.co · 2025
+    </div>
+    <a class="footer-link" href="https://drive.google.com/drive/folders/1hi6mKkjzqvtcKt8RX_TwTa7eACSLWUTk" target="_blank">
+      📁 Abrir Drive completo →
+    </a>
+  </footer>
+
+</main>
+
+<script>
+// Acordeón
+function tog(head, bodyId) {
+  const body = document.getElementById(bodyId);
+  const arr = head.querySelector('.sec-arr');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arr.classList.toggle('open', !isOpen);
+}
+
+// Confeti decorativo
+const cf = document.getElementById('cf');
+const cols = ['#F4A623','#FFFFFF','#1D9E75','#534AB7','#FAEEDA','#E1F5EE'];
+for (let i = 0; i < 28; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot';
+  const size = 4 + Math.random() * 8;
+  d.style.cssText = `
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    width:${size}px;height:${size}px;
+    background:${cols[Math.floor(Math.random()*cols.length)]};
+    opacity:${0.35+Math.random()*0.5};
+    border-radius:${Math.random()>.4?'50%':'3px'};
+    transform:rotate(${Math.random()*360}deg)
+  `;
+  cf.appendChild(d);
+}
+</script>
+</body>
+</html>
