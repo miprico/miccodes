@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidencias — Uso de TIC e Innovación | ENSDB</title>
+<style>
+  :root{
+    --navy:#032251;
+    --navy2:#063a7a;
+    --red:#DA251C;
+    --green:#009224;
+    --yellow:#F3E800;
+    --bg:#eef1f6;
+    --card:#ffffff;
+    --text:#1c2733;
+    --muted:#697285;
+    --border:#e2e7f0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);}
+
+  /* ---------- HEADER / PORTADA ---------- */
+  header{
+    background:linear-gradient(140deg, var(--navy) 0%, var(--navy2) 60%, #0a4a94 100%);
+    color:#fff;padding:46px 24px 36px;text-align:center;position:relative;overflow:hidden;
+  }
+  header::after{content:"";position:absolute;bottom:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));}
+  .eyebrow{
+    display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);
+    padding:5px 16px;border-radius:20px;font-size:.72rem;letter-spacing:1.5px;
+    text-transform:uppercase;margin-bottom:16px;font-weight:600;
+  }
+  header h1{margin:0 0 10px;font-size:2rem;letter-spacing:.3px;}
+  header p{margin:0;color:#cfe0f7;font-size:.95rem;max-width:720px;margin:0 auto;}
+  .stats-row{
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:26px;
+  }
+  .stat{
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+    border-radius:12px;padding:10px 18px;min-width:120px;
+  }
+  .stat b{display:block;font-size:1.3rem;}
+  .stat span{font-size:.72rem;color:#cfe0f7;text-transform:uppercase;letter-spacing:.5px;}
+
+  main{max-width:1180px;margin:0 auto;padding:34px 20px 60px;}
+
+  /* ---------- ACCORDION (details/summary) ---------- */
+  details.category{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:18px;
+    box-shadow:0 2px 10px rgba(3,34,81,.06);
+    overflow:hidden;
+  }
+  details.category[open]{ box-shadow:0 6px 20px rgba(3,34,81,.1); }
+
+  summary{
+    list-style:none;cursor:pointer;padding:20px 24px;
+    display:flex;align-items:center;gap:14px;
+    font-size:1.1rem;font-weight:700;color:var(--navy);
+    user-select:none;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary .chev{
+    margin-left:auto;transition:transform .25s;font-size:1rem;color:var(--muted);flex-shrink:0;
+  }
+  details[open] summary .chev{ transform:rotate(180deg); }
+  summary .icon-badge{
+    width:42px;height:42px;border-radius:10px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;
+  }
+  summary .cat-meta{ display:flex; flex-direction:column; gap:2px; }
+  summary .cat-desc{ font-size:.78rem;font-weight:400;color:var(--muted); }
+  .count-pill{
+    background:#eef2f9;color:var(--navy);font-size:.72rem;font-weight:700;
+    padding:3px 12px;border-radius:12px;white-space:nowrap;
+  }
+
+  .cat-body{ padding:4px 24px 26px; border-top:1px solid var(--border); }
+
+  /* priority category highlight */
+  details.priority{ border:2px solid var(--navy); }
+  details.priority2{ border:2px solid var(--red); }
+
+  /* ---------- GRID / CARDS ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px;}
+
+  .card{
+    background:#fbfcfe;border:1px solid var(--border);border-radius:12px;overflow:hidden;
+    display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(3,34,81,.12);}
+
+  .thumb{width:100%;height:140px;background:#e9edf4;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .thumb img{width:100%;height:100%;object-fit:cover;}
+  .thumb .icon{font-size:2.4rem;}
+  .badge{position:absolute;top:8px;right:8px;background:rgba(3,34,81,.85);color:#fff;font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:10px;letter-spacing:.4px;}
+
+  .card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .card-body h3{margin:0;font-size:.93rem;line-height:1.3;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0;}
+  .tag{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:8px;}
+  .tag.area{background:#eaf2ff;color:var(--navy);}
+  .tag.saber{background:#eafaf0;color:#046b1c;}
+  .filename{font-size:.7rem;color:var(--muted);word-break:break-word;}
+  .card-body a.open{margin-top:auto;text-decoration:none;font-size:.78rem;font-weight:700;color:var(--navy);display:inline-flex;align-items:center;gap:4px;padding-top:4px;}
+  .card-body a.open:hover{color:var(--red);}
+
+  /* WebQuest list styling (table-like rows instead of image cards) */
+  .wq-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .wq-item{
+    display:flex;align-items:flex-start;gap:14px;background:#fbfcfe;border:1px solid var(--border);
+    border-left:4px solid var(--navy);border-radius:10px;padding:14px 16px;
+  }
+  .wq-num{
+    background:var(--navy);color:#fff;font-weight:800;font-size:.85rem;
+    width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .wq-content{flex:1;}
+  .wq-content h4{margin:0 0 4px;font-size:.95rem;}
+  .wq-content .tag-row{margin-bottom:4px;}
+  .wq-content .filename{margin-bottom:4px;}
+  .wq-item a.open{font-size:.78rem;font-weight:700;color:var(--navy);text-decoration:none;white-space:nowrap;flex-shrink:0;align-self:center;}
+  .wq-item a.open:hover{color:var(--red);}
+
+  .note{
+    background:#fff7e0;border:1px solid #f0dca0;color:#6b5306;
+    font-size:.78rem;border-radius:8px;padding:10px 14px;margin:14px 0 4px;
+  }
+
+  .subgroup-title{
+    font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    color:var(--muted);margin:22px 0 4px;
+  }
+
+  footer{text-align:center;padding:26px;color:var(--muted);font-size:.78rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Condición de Investigación · Uso de TIC e Innovación</span>
+  <h1>📁 Evidencias Digitales de Innovación Educativa</h1>
+  <p>Escuela Normal Superior del Distrito de Barranquilla (ENSDB) — Recursos, WebQuests e IA generativa producidos e implementados en el aula.</p>
+  <div class="stats-row">
+    <div class="stat"><b>17</b><span>WebQuests</span></div>
+    <div class="stat"><b>65+</b><span>Recursos con IA</span></div>
+    <div class="stat"><b>16</b><span>Proyectos Micro:bit</span></div>
+    <div class="stat"><b>6</b><span>Sitios / OVAs</span></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 1 (prioritaria, abierta): RECURSOS EDUCATIVOS DIGITALES -->
+  <!-- ============================================================ -->
+  <details class="category priority" open>
+    <summary>
+      <div class="icon-badge" style="background:var(--navy)">🧭</div>
+      <div class="cat-meta">
+        Recursos Educativos Digitales — WebQuests (Genially)
+        <span class="cat-desc">Diseño e implementación de WebQuests interactivas, articuladas al área de Tecnología e Informática y a la metodología del Hub Ecosistema de Innovación (ENSDB), siguiendo la estructura Eduteka: introducción, tarea, proceso, recursos y evaluación.</span>
+      </div>
+      <span class="count-pill">17 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="note">
+        📌 Los enlaces de Genially son de acceso privado/no indexado, por lo que el tema específico de cada WebQuest no pudo verificarse automáticamente. El área y saberes generales se asignaron según el contexto curricular (Tecnología e Informática / Hub Ecosistema). Si compartes el tema puntual de alguna, la actualizo con gusto.
+      </div>
+      <div class="wq-list">
+
+        <div class="wq-item"><div class="wq-num">1</div><div class="wq-content"><h4>WebQuest N.º 1</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/67abc626fa13609f658c57e4</div></div>
+          <a class="open" href="https://view.genially.com/67abc626fa13609f658c57e4" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">2</div><div class="wq-content"><h4>WebQuest N.º 2</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/689bbb8c5050140ff66668b4</div></div>
+          <a class="open" href="https://view.genially.com/689bbb8c5050140ff66668b4" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">3</div><div class="wq-content"><h4>WebQuest N.º 3</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/689bbc60906732f2685cfacf</div></div>
+          <a class="open" href="https://view.genially.com/689bbc60906732f2685cfacf" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">4</div><div class="wq-content"><h4>WebQuest N.º 4</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/68ae2c840b12b653b0617059</div></div>
+          <a class="open" href="https://view.genially.com/68ae2c840b12b653b0617059" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">5</div><div class="wq-content"><h4>WebQuest N.º 5</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/689bbcb7d6e76a4f3465e7c7</div></div>
+          <a class="open" href="https://view.genially.com/689bbcb7d6e76a4f3465e7c7" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">6</div><div class="wq-content"><h4>WebQuest N.º 6</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/68afb415b5d7f97411377cfd</div></div>
+          <a class="open" href="https://view.genially.com/68afb415b5d7f97411377cfd" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">7</div><div class="wq-content"><h4>WebQuest N.º 7</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/689bc23a0fced69cb3eeabf7</div></div>
+          <a class="open" href="https://view.genially.com/689bc23a0fced69cb3eeabf7" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">8</div><div class="wq-content"><h4>WebQuest N.º 8</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/68ae6cb42f5520dff39ff6cf</div></div>
+          <a class="open" href="https://view.genially.com/68ae6cb42f5520dff39ff6cf" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">9</div><div class="wq-content"><h4>WebQuest N.º 9</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/67abc86b08eea32c83226e75</div></div>
+          <a class="open" href="https://view.genially.com/67abc86b08eea32c83226e75" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">10</div><div class="wq-content"><h4>WebQuest N.º 10</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/67abca0fb15c0b95fcb6fe26</div></div>
+          <a class="open" href="https://view.genially.com/67abca0fb15c0b95fcb6fe26" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">11</div><div class="wq-content"><h4>WebQuest N.º 11</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/62251fcc78e1e9001165274d</div></div>
+          <a class="open" href="https://view.genially.com/62251fcc78e1e9001165274d" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">12</div><div class="wq-content"><h4>WebQuest N.º 12</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/6410e3b97da6020012f8890f</div></div>
+          <a class="open" href="https://view.genially.com/6410e3b97da6020012f8890f?authuser=1" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">13</div><div class="wq-content"><h4>WebQuest N.º 13</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/640f7a3c3f071d0018accbdc</div></div>
+          <a class="open" href="https://view.genially.com/640f7a3c3f071d0018accbdc?authuser=1" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">14</div><div class="wq-content"><h4>WebQuest N.º 14</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/640fde2b1ff0aa00104bd800</div></div>
+          <a class="open" href="https://view.genially.com/640fde2b1ff0aa00104bd800" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">15</div><div class="wq-content"><h4>WebQuest N.º 15</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/640fef331ff0aa00104bf512</div></div>
+          <a class="open" href="https://view.genially.com/640fef331ff0aa00104bf512?authuser=1" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">16</div><div class="wq-content"><h4>WebQuest N.º 16</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/684059d585370ed079c30a12</div></div>
+          <a class="open" href="https://view.genially.com/684059d585370ed079c30a12" target="_blank">Ver →</a></div>
+
+        <div class="wq-item"><div class="wq-num">17</div><div class="wq-content"><h4>WebQuest N.º 17</h4>
+          <div class="tag-row"><span class="tag area">Área: Tecnología e Informática</span><span class="tag saber">Saber: Diseño de proyectos digitales / TIC</span></div>
+          <div class="filename">view.genially.com/683ce0fdc6cb217d7a3d143c</div></div>
+          <a class="open" href="https://view.genially.com/683ce0fdc6cb217d7a3d143c" target="_blank">Ver →</a></div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 2 (prioritaria, abierta): IA GENERATIVA -->
+  <!-- ============================================================ -->
+  <details class="category priority2" open>
+    <summary>
+      <div class="icon-badge" style="background:var(--red)">🤖</div>
+      <div class="cat-meta">
+        IA Generativa — Videos, canciones e imágenes
+        <span class="cat-desc">Recursos didácticos producidos con herramientas de inteligencia artificial (InVideo AI, Suno/generador musical, Piclumen, Ideogram) para el desarrollo de contenidos de aula.</span>
+      </div>
+      <span class="count-pill">65+ evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+
+      <div class="subgroup-title">🎵 Canciones generadas con IA</div>
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre matemáticas: "Matemáticas Fácil"</h3><div class="filename">Matemáticas Fácil.mp3</div><a class="open" href="https://drive.google.com/file/d/1QDBXirWxOGXQ-d0W2RZFDEvRq2vCArsS/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre mitología griega: "Los Dioses Griegos"</h3><div class="filename">Los Dioses Griegos.mp3</div><a class="open" href="https://drive.google.com/file/d/174iEAMEZYgGHRGSa_y-uEH8jJ7MLoMO8/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre las plantas: "Magias Verdes"</h3><div class="filename">Las Plantas y Sus Magias Verdes.mp3</div><a class="open" href="https://drive.google.com/file/d/1OdmN3L89CZfPZ3dXvWoGNAGXnGD4dXMV/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre las partes de la planta</h3><div class="filename">Las Plantas y Sus Partes.mp3</div><a class="open" href="https://drive.google.com/file/d/1xG57nvBSGvufwZQHOzSX1IWYD3708q9F/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción motivacional: "A Contrarreloj"</h3><div class="filename">A Contrarreloj.mp3</div><a class="open" href="https://drive.google.com/file/d/14Q7TRoGNx_UrPdL_EVmYZt5lEPzwnPjg/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre superhéroes: "Héroes Invencibles"</h3><div class="filename">Héroes Invencibles.mp3</div><a class="open" href="https://drive.google.com/file/d/1XqVlJz8WTaV15y3P9qWnNON2rTGpNAQY/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre tortugas marinas</h3><div class="filename">Las Tortugas Marinas.mp3</div><a class="open" href="https://drive.google.com/file/d/1Aa3kMH7brCrPj7GPFy1SqVhTtrtrkpqf/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre lenguaje y lectura: "Letras y Cuerdas"</h3><div class="filename">Cuento de Letras y Cuerdas.mp3</div><a class="open" href="https://drive.google.com/file/d/1leT6Re6D3nb7vRL3zKk_YxrV4egrI__w/view" target="_blank">Escuchar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎵</span><span class="badge">MP3</span></div><div class="card-body"><h3>Canción sobre alimentos: "El Dulce Te Alegra La Vida"</h3><div class="filename">El dulce te alegra la vida.mp3</div><a class="open" href="https://drive.google.com/file/d/1SYL9jvptIzcCX6U-SmCpZSsRaQfxIbmh/view" target="_blank">Escuchar →</a></div></div>
+      </div>
+
+      <div class="subgroup-title">🎬 Videos generados con IA</div>
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>Video corto: "Las Plantas"</h3><div class="filename">Las Plantas.mp4</div><a class="open" href="https://drive.google.com/file/d/1xgAzpslKREwCeAvikZ7Y7f50d9Wt2dzQ/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Explorando el Mundo de los Animales Salvajes"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/1lwyg-xIVegRiUBr_w9ZeCHTPOBXhZVW-/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>Documental: "La Segunda Guerra Mundial — Un Viaje Visual"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/1LTXXWZYC13k0acYBfuHbqx3x7q3c1nFQ/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>Cuento andino: "Cuentos del Zorro y el Cuy"</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/15vDk4DU0GB-GFzjcTkCteEUFe9qVx9cg/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Explora el Mundo Mágico de la Lectura"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/14WwHFcxravJnkipFKIJ1NYz1hhLl_1R9/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Despierta tus superpoderes creativos!"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/1eWj0R2LijW5hwV7jqqpj3kwkKP-c0CDE/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Descubre el Mundo de los Superhéroes!"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/11olAvL1PvVFCGBGrbeAfbjsLbYeM8Rth/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Descubre el Fascinante Mundo de las Tortugas"</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/1BB-PUeCfc346BLNppemVR5qtXolI5zgF/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Descubre el Mundo de las Plantas!" (1080p)</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/1k8xJbj_MDPQj03nmuVW6WOd4Dcfnorl5/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Descubre el Mundo de las Plantas!" (480p)</h3><div class="filename">invideo-ai-480...mp4</div><a class="open" href="https://drive.google.com/file/d/1V3JJgPWST5hqueasYI6TBhEYEFVIeNpY/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Guardianes del Agua vs. El Derrochador!"</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/1G6kKWDL7vprktxX_kKmY3TekHoQtiQqM/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Guardianes del Agua: Luna y Ariel"</h3><div class="filename">invideo-ai-720...mp4</div><a class="open" href="https://drive.google.com/file/d/1I6bjPKF56Ol-3ppqaFfLwPx67NKDj-N_/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>Biología: "¡Descubre los Secretos de la Reproducción!"</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/1WpkfsJeiS0jtgq3N_imYfEc5Wdp2mOWG/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Exploradores del Reino Animal: Secretos"</h3><div class="filename">invideo-ai-480...mp4</div><a class="open" href="https://drive.google.com/file/d/1flGFpG6VUT507CwQ5ePKTfvIzkDqpCRn/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"¡Bienvenidos al Mundo Dulce de Fantasía!"</h3><div class="filename">invideo-ai-1080...mp4</div><a class="open" href="https://drive.google.com/file/d/1moYGmDWoF1WBQRFvVcVbwQ6A2q6Y5wfj/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎬</span><span class="badge">MP4</span></div><div class="card-body"><h3>"Explorando los Hábitats de los Animales"</h3><div class="filename">invideo-ai-480...mp4</div><a class="open" href="https://drive.google.com/file/d/1v2u4rADoAM17zn4q6AUnVGVu_Ry2uQzF/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📹</span><span class="badge">MP4</span></div><div class="card-body"><h3>Registro de actividad de clase (WhatsApp)</h3><div class="filename">VID-20250620-WA0092.mp4</div><a class="open" href="https://drive.google.com/file/d/1YlZY9wkfDOzpxt7XM2SGo5C12v0XPwrh/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📹</span><span class="badge">MP4</span></div><div class="card-body"><h3>Registro de actividad en el aula</h3><div class="filename">video de la actividad.mp4</div><a class="open" href="https://drive.google.com/file/d/1iGX-n8UWCZsaisdbucvxOTbkyLWuHH88/view" target="_blank">Ver →</a></div></div>
+      </div>
+
+      <div class="subgroup-title">🖼️ Imágenes generadas con IA</div>
+      <div class="grid">
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=18cd3wNASo_R4yFthbHoLhtBCjrDw3VAm&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Personaje "Silvia" — v1</h3><div class="filename">silvia1.webp</div><a class="open" href="https://drive.google.com/file/d/18cd3wNASo_R4yFthbHoLhtBCjrDw3VAm/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1EhWHKGz8vcTn0u2z7P6kYdklI8xcAYYx&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Personaje "Silvia" — v2</h3><div class="filename">silvia2.webp</div><a class="open" href="https://drive.google.com/file/d/1EhWHKGz8vcTn0u2z7P6kYdklI8xcAYYx/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1IVF_GWwzKr2fE6asf6sqAw1RnI5bcpF2&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Niño guiando — ilustración</h3><div class="filename">a-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1IVF_GWwzKr2fE6asf6sqAw1RnI5bcpF2/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1GZvo1pIKg6iJQW4JCKHbgmki--tzfUWA&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Niño en aventura — ilustración</h3><div class="filename">a-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1GZvo1pIKg6iJQW4JCKHbgmki--tzfUWA/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1P8O0vyd1GUmu4T_4Q3Tm4BMtZ6U11pcC&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Niña protagonista — ilustración</h3><div class="filename">a-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1P8O0vyd1GUmu4T_4Q3Tm4BMtZ6U11pcC/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=18Iew31_Hv_MKDY2KLSO_tRADBZeWToD_&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Anciano sabio — ilustración</h3><div class="filename">a-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/18Iew31_Hv_MKDY2KLSO_tRADBZeWToD_/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1yBFG3YgTyYZIv3egZoBk62EUmUg7lCCM&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Niña de pie en paisaje — fotografía IA</h3><div class="filename">a-photograph...jpeg</div><a class="open" href="https://drive.google.com/file/d/1yBFG3YgTyYZIv3egZoBk62EUmUg7lCCM/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=18xwmK_JJGEYrL8jAPfwWf-fOssHhq5BJ&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Retrato vibrante de personaje</h3><div class="filename">a-vibrant-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/18xwmK_JJGEYrL8jAPfwWf-fOssHhq5BJ/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1Sa0sbf4bhlG8WWevLVFm6c0Ke3Yi7Lpk&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Escena animal fantástica</h3><div class="filename">a-digital-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1Sa0sbf4bhlG8WWevLVFm6c0Ke3Yi7Lpk/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1-cDV_lkayGRmF3UzlxJ5K_TYb521aOjb&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Tortugas marinas — fotografía IA</h3><div class="filename">a-photograph-of-sea-turtles...jpeg</div><a class="open" href="https://drive.google.com/file/d/1-cDV_lkayGRmF3UzlxJ5K_TYb521aOjb/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1FrN5E2-qz_4ML8-oxZXEF4HA_0pXj8t7&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Aventureros explorando</h3><div class="filename">an-animated-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1FrN5E2-qz_4ML8-oxZXEF4HA_0pXj8t7/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1Lo9AjLybrChh-Qm2T46kaYQoL96pwU8N&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Grupo de aventureros</h3><div class="filename">an-animated-illustration...jpeg</div><a class="open" href="https://drive.google.com/file/d/1Lo9AjLybrChh-Qm2T46kaYQoL96pwU8N/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1rBlsOKOSXJzL9flgMxyGq4r96pwgL42E&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>📚</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración de libros — v1</h3><div class="filename">libros.webp</div><a class="open" href="https://drive.google.com/file/d/1rBlsOKOSXJzL9flgMxyGq4r96pwgL42E/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=10CNiFuoXZy2VJtZF54B8r65NlotjR2eW&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>📖</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración de un libro</h3><div class="filename">libro.webp</div><a class="open" href="https://drive.google.com/file/d/10CNiFuoXZy2VJtZF54B8r65NlotjR2eW/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1hCT6-inpdjmHx2AIlTn1__mGz-wSES8z&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>💡</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Estética "mujer neón" — v1</h3><div class="filename">mujer neon.webp</div><a class="open" href="https://drive.google.com/file/d/1hCT6-inpdjmHx2AIlTn1__mGz-wSES8z/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1Y-yXfZ8srY2gFKAPr5M2gJ7r07yqxN6T&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>💡</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Estética "mujer neón" — v2</h3><div class="filename">mujer neon.webp</div><a class="open" href="https://drive.google.com/file/d/1Y-yXfZ8srY2gFKAPr5M2gJ7r07yqxN6T/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1Mo59y0jO_ot1cDUR8Y6RydvbhE4kM-5L&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Registro fotográfico de actividad 1</h3><div class="filename">IMG-20250401-WA0059.jpg</div><a class="open" href="https://drive.google.com/file/d/1Mo59y0jO_ot1cDUR8Y6RydvbhE4kM-5L/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1kh-2IVQOvai1uxrXhcPbkAib-1wK45qw&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Registro fotográfico de actividad 2</h3><div class="filename">IMG-20250401-WA0063.jpg</div><a class="open" href="https://drive.google.com/file/d/1kh-2IVQOvai1uxrXhcPbkAib-1wK45qw/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1FGUmcTEqlN1Jj7EXPO6e2qo_XiQQmaHF&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración/foto IA de apoyo 1</h3><div class="filename">-wWymdUuQSqBhQpBOFoFuA.jpg</div><a class="open" href="https://drive.google.com/file/d/1FGUmcTEqlN1Jj7EXPO6e2qo_XiQQmaHF/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1fYjMjbdYYmHvfGNlQJkCe6cRNO2Kk7KR&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración/foto IA de apoyo 2</h3><div class="filename">GuEb6l6pTiK6t_TWne4mFA.jpg</div><a class="open" href="https://drive.google.com/file/d/1fYjMjbdYYmHvfGNlQJkCe6cRNO2Kk7KR/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1q3tlUwkj8A3T9IkIIZ-DUJ7HWZK72Ys6&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena adicional 1</h3><div class="filename">9cc2f51c...webp</div><a class="open" href="https://drive.google.com/file/d/1q3tlUwkj8A3T9IkIIZ-DUJ7HWZK72Ys6/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=108mDrZuklMwF3MzQSPF1q7UCOPw9-bMZ&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena adicional 2</h3><div class="filename">edllecRoR_SM...webp</div><a class="open" href="https://drive.google.com/file/d/108mDrZuklMwF3MzQSPF1q7UCOPw9-bMZ/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1Ht9CkO_No-s34Z97GKPRKT0xQ0p7x7co&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena A</h3><div class="filename">piclumen-1748993843968.png</div><a class="open" href="https://drive.google.com/file/d/1Ht9CkO_No-s34Z97GKPRKT0xQ0p7x7co/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1XjCuwB-fkdwJUFzh72HKuk48PDoJD7DW&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena B</h3><div class="filename">piclumen-1748995162686.png</div><a class="open" href="https://drive.google.com/file/d/1XjCuwB-fkdwJUFzh72HKuk48PDoJD7DW/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1dYrmZ0F6-6K-mgOuoLZ7v8cnxT_lQQFq&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena C</h3><div class="filename">piclumen-1748995213639.png</div><a class="open" href="https://drive.google.com/file/d/1dYrmZ0F6-6K-mgOuoLZ7v8cnxT_lQQFq/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1UmupDD-Y8D1tGW9IHWHR3MXCjtcot8ri&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena D</h3><div class="filename">piclumen-1743550898228.png</div><a class="open" href="https://drive.google.com/file/d/1UmupDD-Y8D1tGW9IHWHR3MXCjtcot8ri/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=12u6xR-p3JZglnBExzgsA6pxAkQQSuirF&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena E</h3><div class="filename">piclumen-1743551899473.png</div><a class="open" href="https://drive.google.com/file/d/12u6xR-p3JZglnBExzgsA6pxAkQQSuirF/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1mln9L6hfd9X5bKemexfdHXgkHVxT9EXR&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena F</h3><div class="filename">piclumen-1743551269139.png</div><a class="open" href="https://drive.google.com/file/d/1mln9L6hfd9X5bKemexfdHXgkHVxT9EXR/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1URWbXaiKuLfjknewlotAhGOry5rL-k8s&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración Piclumen — escena G</h3><div class="filename">piclumen-1743550247893.png</div><a class="open" href="https://drive.google.com/file/d/1URWbXaiKuLfjknewlotAhGOry5rL-k8s/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1etYuGk56BI2GOM78UZnhYOaJAXLIMtkF&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración IA de apoyo — 1</h3><div class="filename">piclumen-1743550117028.png</div><a class="open" href="https://drive.google.com/file/d/1etYuGk56BI2GOM78UZnhYOaJAXLIMtkF/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><img src="https://drive.google.com/thumbnail?id=1_NKrHhov335Wkb_wVn0K1wZyzKC7bwxR&sz=w400" loading="lazy" onerror="this.parentElement.innerHTML='<span class=icon>🖼️</span>'"><span class="badge">IMG</span></div><div class="card-body"><h3>Ilustración IA de apoyo — 2</h3><div class="filename">piclumen-1743550110530.png</div><a class="open" href="https://drive.google.com/file/d/1_NKrHhov335Wkb_wVn0K1wZyzKC7bwxR/view" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🌳</span></div><div class="card-body"><h3>"Bosque Encantado" — ilustración IA (Ideogram)</h3><div class="filename">BOSQUE ENCANTADO.html</div><a class="open" href="https://drive.google.com/file/d/133y1mrNlM-67O16AeOUQxneX3bVHIgxp/view" target="_blank">Ver →</a></div></div>
+      </div>
+
+      <div class="subgroup-title">📄 Documentos de planeación (guiones de las producciones IA)</div>
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">📄</span></div><div class="card-body"><h3>Guion / registro del video educativo</h3><div class="filename">IDAIDES PEREZ MONT - Video educativo</div><a class="open" href="https://docs.google.com/document/d/1LEiFVQUoVohYd4eTFHWvD9fSwBPtX-BqHbIt2J8vAbo/edit" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📄</span></div><div class="card-body"><h3>Planeación de imágenes IA</h3><div class="filename">LEX DE JESUS CUETO VALENCIA - IMAGENES CON IA</div><a class="open" href="https://docs.google.com/document/d/1JhsZ9289WTUtiMqs3Zqg1goEjMe2xnHoSAEog2v9fkQ/edit" target="_blank">Abrir →</a></div></div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 3 (colapsada): PLATAFORMAS Y CURSOS -->
+  <!-- ============================================================ -->
+  <details class="category">
+    <summary>
+      <div class="icon-badge" style="background:var(--green)">🖥️</div>
+      <div class="cat-meta">
+        Plataformas y cursos virtuales
+        <span class="cat-desc">Entornos virtuales de aprendizaje (EVA) y cursos creados por los estudiantes.</span>
+      </div>
+      <span class="count-pill">3 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">🖥️</span></div><div class="card-body"><h3>Plataforma Moodle del curso (EVA)</h3><div class="filename">srv988040.hstgr.cloud</div><a class="open" href="https://srv988040.hstgr.cloud/" target="_blank">Ir a Moodle →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🎓</span></div><div class="card-body"><h3>Curso interactivo creado por estudiantes (Genially)</h3><div class="filename">67ca1ed4810b6e226aa1ead1</div><a class="open" href="https://view.genially.com/67ca1ed4810b6e226aa1ead1" target="_blank">Ver curso →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📽️</span></div><div class="card-body"><h3>Presentación de curso creado por estudiantes</h3><div class="filename">Google Slides</div><a class="open" href="https://docs.google.com/presentation/d/1Kv_KzziE4nkL1jpG-i8UmXYjz_cNSxkODQRsEaGzZuU/edit" target="_blank">Abrir →</a></div></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 4 (colapsada): HYPERDOCUMENTOS -->
+  <!-- ============================================================ -->
+  <details class="category">
+    <summary>
+      <div class="icon-badge" style="background:var(--yellow);color:#3a3200">📄</div>
+      <div class="cat-meta">
+        Hyperdocumentos
+        <span class="cat-desc">Secuencias didácticas y documentos de aprendizaje autónomo con enlaces y actividades integradas.</span>
+      </div>
+      <span class="count-pill">2 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">📄</span></div><div class="card-body"><h3>Hyperdocumento — secuencia didáctica (guía de aprendizaje autónomo)</h3><div class="filename">Google Doc</div><a class="open" href="https://docs.google.com/document/d/1F-hCZN_p9XWvNpqcpK8gKF1904hYup97/edit?usp=sharing" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📽️</span></div><div class="card-body"><h3>Hyperdocumento — presentación de apoyo</h3><div class="filename">Google Slides</div><a class="open" href="https://docs.google.com/presentation/d/1EOgGki8yYFcYKYAwCTIf8tZWgMvdhwvH/edit?usp=sharing" target="_blank">Abrir →</a></div></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 5 (colapsada): SITIOS INTERACTIVOS / OVAS -->
+  <!-- ============================================================ -->
+  <details class="category">
+    <summary>
+      <div class="icon-badge" style="background:#7a3fd6">🌐</div>
+      <div class="cat-meta">
+        Sitios interactivos y OVAs
+        <span class="cat-desc">Sitios web y objetos virtuales de aprendizaje publicados por docentes y estudiantes.</span>
+      </div>
+      <span class="count-pill">6 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">🌐</span></div><div class="card-body"><h3>Sitio web: Textos Narrativos (Google Sites)</h3><div class="filename">textos-narrativos-3b</div><a class="open" href="https://sites.google.com/ensdbexcelencia.edu.co/textos-narrativos-3b/enganche?authuser=1" target="_blank">Visitar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🚀</span></div><div class="card-body"><h3>Proyecto web — Netlify 1</h3><div class="filename">elegant-marigold-afbff3.netlify.app</div><a class="open" href="https://elegant-marigold-afbff3.netlify.app/" target="_blank">Visitar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🚀</span></div><div class="card-body"><h3>Proyecto web — Netlify 2</h3><div class="filename">illustrious-faloodeh-2aec52.netlify.app</div><a class="open" href="https://illustrious-faloodeh-2aec52.netlify.app/" target="_blank">Visitar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🚀</span></div><div class="card-body"><h3>Proyecto web — Netlify 3</h3><div class="filename">famous-haupia-ce763e.netlify.app</div><a class="open" href="https://famous-haupia-ce763e.netlify.app/" target="_blank">Visitar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🚀</span></div><div class="card-body"><h3>Proyecto web — Netlify 4</h3><div class="filename">verdant-cajeta-7e7508.netlify.app</div><a class="open" href="https://verdant-cajeta-7e7508.netlify.app/" target="_blank">Visitar →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📦</span></div><div class="card-body"><h3>Repositorio institucional de OVAs (ENSDB)</h3><div class="filename">ensdbexcelencia.edu.co/publicaciones/ovas</div><a class="open" href="https://www.ensdbexcelencia.edu.co/en/pulicaciones/ovas" target="_blank">Visitar →</a></div></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 6 (colapsada): PENSAMIENTO COMPUTACIONAL / MICROBIT -->
+  <!-- ============================================================ -->
+  <details class="category">
+    <summary>
+      <div class="icon-badge" style="background:var(--navy)">🔧</div>
+      <div class="cat-meta">
+        Pensamiento Computacional — Guías, bitácoras y Micro:bit
+        <span class="cat-desc">Guías de referencia, repositorio de código y proyectos de programación con Micro:bit (MakeCode).</span>
+      </div>
+      <span class="count-pill">18 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">📓</span></div><div class="card-body"><h3>Guía / bitácora de pensamiento computacional</h3><div class="filename">guia_pc_pensamiento_computacional</div></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🌐</span></div><div class="card-body"><h3>Códigos "Maestro en Formación" (GitHub Pages)</h3><div class="filename">miprico.github.io/miccodes</div><a class="open" href="https://miprico.github.io/miccodes/maestroenformacion" target="_blank">Ver →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 1</h3><div class="filename">S36231-95764-07826-94231</div><a class="open" href="https://makecode.microbit.org/S36231-95764-07826-94231" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 2</h3><div class="filename">S58150-97717-69090-11244</div><a class="open" href="https://makecode.microbit.org/S58150-97717-69090-11244" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 3</h3><div class="filename">S17657-00883-64687-29568</div><a class="open" href="https://makecode.microbit.org/S17657-00883-64687-29568" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 4</h3><div class="filename">53459-83291-77778-44132</div><a class="open" href="https://makecode.microbit.org/53459-83291-77778-44132" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 5</h3><div class="filename">73815-78529-80521-41473</div><a class="open" href="https://makecode.microbit.org/73815-78529-80521-41473" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 6 (copia)</h3><div class="filename">73815-78529-80521-41473</div><a class="open" href="https://makecode.microbit.org/73815-78529-80521-41473" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 7</h3><div class="filename">S66662-90040-74740-11913</div><a class="open" href="https://makecode.microbit.org/S66662-90040-74740-11913" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 8</h3><div class="filename">71276-77560-26653-48220</div><a class="open" href="https://makecode.microbit.org/71276-77560-26653-48220" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 9</h3><div class="filename">09546-12492-84391-80096</div><a class="open" href="https://makecode.microbit.org/09546-12492-84391-80096" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 10</h3><div class="filename">05027-65957-60420-14420</div><a class="open" href="https://makecode.microbit.org/05027-65957-60420-14420" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 11</h3><div class="filename">S97864-79383-79219-06395</div><a class="open" href="https://makecode.microbit.org/S97864-79383-79219-06395" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 12</h3><div class="filename">28637-03127-48078-97132</div><a class="open" href="https://makecode.microbit.org/28637-03127-48078-97132" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 13</h3><div class="filename">S99993-49960-59533-86010</div><a class="open" href="https://makecode.microbit.org/S99993-49960-59533-86010" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 14</h3><div class="filename">66625-38346-71426-86912</div><a class="open" href="https://makecode.microbit.org/66625-38346-71426-86912" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 15</h3><div class="filename">14897-15670-33459-15691</div><a class="open" href="https://makecode.microbit.org/14897-15670-33459-15691" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">🔧</span></div><div class="card-body"><h3>Programa Micro:bit — Proyecto 16</h3><div class="filename">S37256-31305-32195-66864</div><a class="open" href="https://makecode.microbit.org/S37256-31305-32195-66864" target="_blank">Abrir →</a></div></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORÍA 7 (colapsada): RECURSOS BASE -->
+  <!-- ============================================================ -->
+  <details class="category">
+    <summary>
+      <div class="icon-badge" style="background:#5a6472">📚</div>
+      <div class="cat-meta">
+        Recursos base y plantillas
+        <span class="cat-desc">Documentos de referencia y plantillas metodológicas usadas como guía para diseñar las evidencias anteriores.</span>
+      </div>
+      <span class="count-pill">4 evidencias</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="cat-body">
+      <div class="grid">
+        <div class="card"><div class="thumb"><span class="icon">📝</span></div><div class="card-body"><h3>Plantilla oficial para elaborar WebQuests (Eduteka)</h3><div class="filename">GestorPlantillaWebquest (1) (1)</div><a class="open" href="https://docs.google.com/document/d/1CfDSrYHlG9aUAekYROEIgpL_7AlMYWT1AZl5z4ln7FA/edit" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📕</span></div><div class="card-body"><h3>Teorías del aprendizaje y su relación con las TIC</h3><div class="filename">04 TEORIAS DEL APRENDIZAJE Y TICs.pdf</div><a class="open" href="https://drive.google.com/file/d/1eOXiFPzLAqbCte6_0x5OfD68FDhAuk9j/view" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📘</span></div><div class="card-body"><h3>Guía educativa ENSDB — Materiales didácticos y tecnología</h3><div class="filename">GUÍA EDUCATIVA ENSDB...pdf</div><a class="open" href="https://drive.google.com/file/d/1ZL3YqTxnnIdlRhrLZFrYZagSsS0paTwE/view" target="_blank">Abrir →</a></div></div>
+        <div class="card"><div class="thumb"><span class="icon">📊</span></div><div class="card-body"><h3>Ficha de estado del arte (matriz de artículos investigativos)</h3><div class="filename">ficha estado del arte</div><a class="open" href="https://docs.google.com/spreadsheets/d/1aE1tX_raUWNuKwod7nuvI9trLzvcjWdqb9w08ZVOBqc/edit" target="_blank">Abrir →</a></div></div>
+      </div>
+    </div>
+  </details>
+
+</main>
+
+<footer>
+  Evidencias organizadas para la condición de investigación — Uso de TIC e Innovación · ENSDB
+</footer>
+
+</body>
+</html>
